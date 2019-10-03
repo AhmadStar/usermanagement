@@ -4,7 +4,7 @@ require APPPATH . '/libraries/BaseController.php';
 /**
  * Class : Manager (ManagerController)
  * Manager class to control to authenticate manager credentials and include manager functions.
- * @author : ahmad
+ * @author : Ahmad Alnajim
  * @version : 1.0
  * @since : 2.10.2019
  */

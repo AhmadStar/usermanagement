@@ -466,6 +466,49 @@ class User_model extends CI_Model
 
         return $query->row();
     }
+
+    public function get_day_logins($id , $date)
+	{
+        $this->db->select('id , userName , userId , createdDtm , process');
+		$this->db->where('userId', $id);		
+		$this->db->from('tbl_log');
+		$query = $this->db->get();
+		$list = $query->result();
+
+		foreach($list as $key => $employee) {
+			if(date('d', strtotime($date)).' '.date('F', strtotime($date))
+			!= date('d', strtotime($employee->createdDtm)).' '.date('F', strtotime($employee->createdDtm))){
+				// Remove duplicate instance from the list
+				unset($list[$key]);
+			}
+		}
+
+		$sum = 0;			
+		foreach($list as $key => $employee) {
+			if(isset($list[$key]) && isset($list[$key+1]))
+				$sum = $sum + round(abs(strtotime($list[$key]->createdDtm) - strtotime($list[$key + 1]->createdDtm)));			
+        }
+                
+        // for($i = 0 ; $i < count($list) ; $i++){
+        //     if(isset($list[$i]) && isset($list[$i+1]))
+        //         $sum = $sum + 
+        //         round(abs(strtotime($list[$i]->createdDtm) - strtotime($list[$i + 1]->createdDtm)));
+        //     $i++;
+        // }
+
+		$hours = floor($sum / 3600);
+		$minutes = floor(($sum / 60) % 60);
+		$seconds = $sum % 60;
+
+		$sum = "$hours:$minutes:$seconds";
+
+		$all_data = [];
+		$all_data[0] = $list;
+		$all_data[1] = $sum;
+		return $all_data;
+	}
+
+
 }
 
   

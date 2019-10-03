@@ -4,7 +4,7 @@ require APPPATH . '/libraries/BaseController.php';
 /**
  * Class : Admin (AdminController)
  * Admin class to control to authenticate admin credentials and include admin functions.
- * @author : ahmad
+ * @author : Ahmad Alnajim
  * @version : 1.0
  * @since : 2.10.2019
  */
@@ -18,6 +18,7 @@ class Admin extends BaseController
         parent::__construct();
         $this->load->model('login_model');
         $this->load->model('user_model');
+        $this->load->model('employee_model');
         // Datas -> libraries ->BaseController / This function used load user sessions
         $this->datas();
         // isLoggedIn / Login control function /  This function used login control
@@ -239,6 +240,14 @@ class Admin extends BaseController
                     $this->backupLogTable();
                 }
             }
+
+            // if(!$this->bitauth->has_role('admin')){
+            //     $session_data = $this->session->all_userdata();
+            //     $data['employee_list']=$this->_employee_list($session_data['ba_user_id']);
+            //   }else{                
+            //   }
+            $data['employee_list']=$this->_employee_list();
+
             $data['userRecords'] = $this->user_model->logHistory($userId);
 
             // $process = 'Log Views';
@@ -249,6 +258,64 @@ class Admin extends BaseController
             
             $this->loadViews("logHistory", $this->global, $data, NULL);
     }
+
+
+     /**
+     * This function used to show log history
+     * @param number $userId : This is user id
+     */
+     public function logs()
+    {
+        $date = $this->input->post('date');    
+        $id = $this->input->post('id');    
+        
+        $data = $this->user_model->get_day_logins($id, $date);
+        
+        //output to json format
+            echo json_encode($data);
+    }
+
+    public function employee_list()
+    {      
+          $list = $this->employee_model->get_datatables();
+          $data = array();
+          $no = $_POST['start'];        
+          foreach ($list as $employee){
+              $no++;
+        $actions = '';
+        $row = array();      
+        $row[] = $no;      
+        $row[] = $employee->userName;       
+        $row[] = $employee->userId;
+        $row[] = $employee->createdDtm;
+        $row[] = date('l', strtotime($employee->createdDtm));
+              $data[] = $row;
+          }
+  
+          $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->employee_model->count_all(),
+            "recordsFiltered" => $this->employee_model->count_filtered(),
+            "data" => $data,
+        );
+          //output to json format
+          echo json_encode($output);
+    }
+
+      /**
+   * _employee_list()
+   * returns a list of employee.
+   */ 
+  public function _employee_list($employee_id='')
+  {    
+    $employees = $this->employee_model->get_employees($employee_id);
+    $employee_list['']= 'Choose Employee';
+    foreach ($employees as $employee) 
+    {
+      $employee_list[$employee->userId]=  html_escape($employee->userName);
+    }
+    return $employee_list;
+  }
 
     /**
      * This function used to show specific user log history

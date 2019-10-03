@@ -54,42 +54,47 @@
               </div>
               <?php } ?>
               <div class="panel-body">
-                  <form id="form-filter" class="form-horizontal filter-body">                    
-                      <div class="form-group">
-                          <div class="col-md-3">                        
-                              <?php echo form_dropdown('userName',$employee_list,'',"id='userName' class='form-control'");?>
-                          </div>
-                          <div class="col-md-3">
-                              <input type="text" data-date-format="dd" autocomplete="off" name="day" id="day" class="form-control" placeholder="day" title='day' required />
-                          </div> 
-                          <div class="col-md-3">
-                              <input type="text" data-date-format="mm" autocomplete="off" name="month" id="month" class="form-control" placeholder="month" title='month' required />
-                          </div> 
-                          <div class="col-md-3">
-                              <input type="text" data-date-format="yyyy" autocomplete="off" name="year" id="year" class="form-control" placeholder="year" title='year' required />
-                          </div>                  
-                      </div>                                                           
-                      <div class="form-group">
-                          <div class="col-sm-12">
-                              <button type="button" id="btn-filter" class="btn btn-primary">filter</button>
-                              <button type="button" id="btn-reset" class="btn btn-default">Reset</button>
-                          </div>
-                      </div>
-                  </form>
+                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>User Name</th>
+                      <th>User ID</th>                      
+                      <th>Date and Time</th>
+                      <th>Day</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                      if(!empty($userRecords))
+                      {
+                          foreach($userRecords as $record)
+                          {
+                      ?>
+                      <tr>
+                        <td>
+                          <?php echo $record->id ?>
+                        </td>
+                        <td>
+                          <?php echo $record->userName ?>
+                        </td>
+                        <td>
+                          <?php echo $record->userId ?>
+                        </td>                    
+                        <td>
+                          <?php echo $record->createdDtm ?>
+                        </td>
+                        <td>
+                          <?php echo date('l', strtotime($record->createdDtm));?>
+                        </td>
+                      </tr>
+                      <?php
+                          }
+                      }
+                      ?>
+                  </tbody>
+                </table>
               </div>
-              <table id="employee_list_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-              <thead>
-                  <tr>                    
-                      <th>id</th>                      
-                      <th>user name</th>
-                      <th>user id </th>
-                      <th>date</th>
-                      <th>day</th>
-                  </tr>
-              </thead>
-              <tbody>
-              </tbody>
-          </table>
           </div>
           <!-- /.box-body -->
         </div>
@@ -126,47 +131,9 @@
 <!-- Full Height Modal -->
 
 <script>
-
-
-var table;
-
-$(document).ready(function() {
-
-    //datatables
-    table = $('#employee_list_table').DataTable({
-        "processing": true, //Feature control the processing indicator.
-        "serverSide": true, //Feature control DataTables' server-side processing mode.
-        "order": [], //Initial no order.
-        "searchable": true,
-        "searching": true,
-        "bPaginate": true,
-        "bSort" : true,
-        "bInfo" : true,
-
-        // Load data for the table's content from an Ajax source
-        "ajax": {
-            "url": "<?php echo site_url('employee_list')?>",
-            "type": "POST",
-            "data": function ( data ) {                
-                data.day = $('#day').datepicker({ dateFormat: 'dd' , viewMode: "days", minViewMode: "days" }).val();
-                data.month = $('#month').datepicker({ dateFormat: 'mm' , viewMode: "months", minViewMode: "months" }).val();                
-                data.year = $('#year').datepicker({ dateFormat: 'yy' ,viewMode: "years", minViewMode: "years"}).val();
-                data.userName = $("#userName  option:selected" ).text();                
-            },
-        },
-
-        //Set column definition initialisation properties.
-        "columnDefs": [
-        {
-            "targets": [ 2 ],
-            "visible": false,
-            "searchable": false            
-        },
-        ],
-
-    });
  // fetch logs of day.
- $('#employee_list_table tbody').on( 'click', 'tr', function () {            
+ $('#dataTables-example tbody').on( 'click', 'tr', function () {
+            var table = $('#dataTables-example').DataTable();
             var row_data = table.row( this ).data()
             var mydata  = {
                 name: row_data[1] ,                
@@ -203,16 +170,5 @@ $(document).ready(function() {
             $("#logs_date").text(row_data[3]);            
           }).modal('show');
     });
-
-    $('#btn-filter').click(function(){ //button filter event click
-        table.ajax.reload();  //just reload table
-        //loadTotal();
-        
-    });
-    $('#btn-reset').click(function(){ //button reset event click
-        $('#form-filter')[0].reset();
-        table.ajax.reload();  //just reload table
-    });
-  });
 
 </script>

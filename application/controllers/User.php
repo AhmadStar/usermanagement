@@ -5,7 +5,7 @@ require APPPATH . '/libraries/BaseController.php';
 /**
  * Class : User (UserController)
  * User Class to control all user related operations.
- * @author : ahmad
+ * @author : Ahmad Alnajim
  * @version : 1.0
  * @since : 2.10.2019
  */
@@ -18,7 +18,7 @@ class User extends BaseController
     {
         parent::__construct();
         $this->load->model('user_model');
-        $this->isLoggedIn();
+        $this->isLoggedIn();        
     }
     
     /**

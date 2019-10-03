@@ -4,7 +4,7 @@ require APPPATH . '/libraries/BaseController.php';
 /**
  * Class : Login (LoginController)
  * Admin class to control to authenticate admin credentials and include admin functions.
- * @author : ahmad
+ * @author : Ahmad Alnajim
  * @version : 1.0
  * @since : 2.10.2019
  */

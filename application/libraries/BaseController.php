@@ -1,7 +1,7 @@
 <?php defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' ); 
 /**
  * Class : BaseController (BaseController)
- * @author : ahmad
+ * @author : Ahmad Alnajim
  * @version : 1.0
  * @since : 27.02.2018
  */

@@ -30,6 +30,8 @@ $route['backupLogTable'] = "admin/backupLogTable";
 $route['backupLogTableDelete'] = "admin/backupLogTableDelete";
 $route['log-history-upload'] = "admin/logHistoryUpload";
 $route['logHistoryUploadFile'] = "admin/logHistoryUploadFile";
+$route['logs'] = "admin/logs";
+$route['employee_list'] = "admin/employee_list";
 
 /*********** MANAGER CONTROLLER ROUTES *******************/
 $route['tasks'] = "manager/tasks";
