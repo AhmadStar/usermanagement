@@ -17,6 +17,7 @@ class Login extends BaseController
     {
         parent::__construct();
         $this->load->model('login_model');
+        $this->load->model('user_model');
     }
 
     /**
@@ -122,6 +123,10 @@ class Login extends BaseController
                     unset($sessionArray['userId'], $sessionArray['isLoggedIn'], $sessionArray['lastLogin']);
                     
                     $this->logrecord($process,$processFunction);
+
+                    $userInfo = array('is_logged'=>1);
+        
+                    $this->user_model->editUser($userInfo, $res->userId);
 
                     redirect('/dashboard');
                 }

@@ -97,7 +97,11 @@ class BaseController extends CI_Controller {
 
 		$process = 'logout';
         $processFunction = 'BaseController/logout';
-        $this->logrecord($process,$processFunction);
+		$this->logrecord($process,$processFunction);
+				
+		$userInfo = array('is_logged'=>0);
+        
+        $this->user_model->editUser($userInfo, $this->session->userdata('userId'));
 
 		$this->session->sess_destroy ();
 		

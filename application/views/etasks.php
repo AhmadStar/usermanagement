@@ -8,7 +8,7 @@
   </section>
   <section class="content">
     <div class="col-xs-12">
-      <div class="box">
+      <div class="box box-primary">
         <div class="box-header">
           <div class="box-tools">
           </div>
@@ -47,6 +47,7 @@
                     <th>Priority</th>
                     <th>Created by User</th>
                     <th>User Role</th>
+                    <th>For Emloyee</th>
                     <th>Creation Date</th>
                     <th>End Date</th>
                     <th>End Task</th>
@@ -99,13 +100,24 @@
                         <?php echo $record->role ?>
                       </td>
                       <td>
+                        <?php 
+                        
+                        $employee_name = '';
+                        foreach($user_list as $employee){
+                            if ($employee->userId == $record->employee_id)
+                                $employee_name = $employee->name;
+                        }
+                        
+                        echo $employee_name ?>
+                      </td>
+                      <td>
                         <?php echo $record->createdDtm ?>
                       </td>
                       <td>
                         <?php echo $record->endDtm ?>
                       </td>
                       <td class="text-center">
-                        <a class="btn btn-sm btn-primary" href="<?= base_url().'endTask/'.$record->id; ?>" title="Görevi Bitir">
+                        <a class="btn btn-sm btn-primary" href="<?= base_url().'endTask/'.$record->id; ?>" title="End Task">
                           <i class="fa fa-check-circle"></i>
                         </a>
                       </td>

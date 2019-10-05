@@ -21,13 +21,13 @@
                     <form role="form" id="addNewTask" action="<?php echo base_url() ?>addNewTasks" method="post" role="form">
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="fname">Task Title</label>
                                         <input type="text" class="form-control required" value="<?php echo set_value('fname'); ?>" id="fname" name="fname">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="role">Priority</label>
                                         <select class="form-control required" id="priority" name="priority">
@@ -47,6 +47,12 @@
                                             ?>
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="employeename">Employee</label>
+                                        <?php echo form_dropdown('employee_id',$user_list,'',"employee_id='name' class='form-control'");?>
+                                    </div>                                    
                                 </div>
                             </div>
                             <div class="row">

@@ -2,8 +2,8 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      <i class="fa fa-users"></i> All Tasks
-      <small>All Tasks</small>
+      <i class="fa fa-users"></i> All Finished Tasks
+      <small>All Finished Tasks</small>
     </h1>
   </section>
   <section class="content">
@@ -54,8 +54,6 @@
                     <th>For Employee</th>
                     <th>Creation Date</th>
                     <th>End Date</th>                    
-                    <th>Edit / Delete</th>
-                    <th>Finish</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -120,20 +118,6 @@
                       </td>
                       <td>
                         <?php echo $record->endDtm ?>
-                      </td>
-                      <td class="text-center">
-                        <a class="btn btn-sm btn-info" href="<?php echo base_url().'editOldTask/'.$record->id; ?>" title="Edit">
-                          <i class="fa fa-pencil"></i>
-                        </a>
-                        <a class="btn btn-sm btn-danger deleteUser" href="<?php echo base_url().'deleteTask/'.$record->id; ?>" data-userid="<?php echo $record->id; ?>"
-                          title="Delete">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </td>
-                      <td class="text-center">
-                        <a class="btn btn-sm btn-primary" href="<?= base_url().'endTask/'.$record->id; ?>" title="End Task">
-                          <i class="fa fa-check-circle"></i>
-                        </a>
                       </td>
                     </tr>
                     <?php

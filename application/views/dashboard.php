@@ -38,7 +38,7 @@
           <div class="icon">
             <i class="ion ion-pie-graph"></i>
           </div>
-          <a href="<?php echo base_url(); ?><?php  if($role != ROLE_EMPLOYEE) {echo 'tasks';}else{echo 'etasks';} ?>" class="small-box-footer">More information
+          <a href="<?php echo base_url(); ?><?php  if($role != ROLE_EMPLOYEE) {echo 'finishedTasks';}else{echo 'etasks';} ?>" class="small-box-footer">More information
             <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>

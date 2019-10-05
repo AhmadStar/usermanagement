@@ -265,6 +265,25 @@ class User_model extends CI_Model
         $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = TaskTbl.statusId');
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
         $this->db->order_by('TaskTbl.statusId ASC, TaskTbl.priorityId');
+        $this->db->where('TaskTbl.statusId', 1);
+        $query = $this->db->get();
+        $result = $query->result();        
+        return $result;
+    }
+
+    /**
+     * This function is used to get tasks
+     */
+    function getFinishedTasks()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_task as TaskTbl');
+        $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
+        $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
+        $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = TaskTbl.statusId');
+        $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
+        $this->db->order_by('TaskTbl.statusId ASC, TaskTbl.priorityId');
+        $this->db->where('TaskTbl.statusId', 2);
         $query = $this->db->get();
         $result = $query->result();        
         return $result;
@@ -415,6 +434,7 @@ class User_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('tbl_task as BaseTbl');
+        $this->db->where('BaseTbl.statusId', 1);
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -436,10 +456,13 @@ class User_model extends CI_Model
      * This function is used to get the logs count
      * @return array $result : This is result
      */
-    function logsCount()
+    function logsCount($userId = '')
     {
         $this->db->select('*');
         $this->db->from('tbl_log as BaseTbl');
+        if($userId != '')
+            $this->db->where('userId', $userId);
+        $this->db->group_by('userId , userName , day(createdDtm)');        
         $query = $this->db->get();
         return $query->num_rows();
     }
@@ -506,6 +529,14 @@ class User_model extends CI_Model
 		$all_data[0] = $list;
 		$all_data[1] = $sum;
 		return $all_data;
+    }
+    
+    public function get_users(){
+		$this->db->select('*');		
+		$this->db->from('tbl_users');		
+        $this->db->where('roleId', 3);		
+		$query = $this->db->get();
+		return $query->result();
 	}
 
 

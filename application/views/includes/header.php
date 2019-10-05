@@ -138,6 +138,12 @@
               </a>
             </li>
             <li class="treeview">
+              <a href="<?php echo base_url(); ?>finishedTasks">
+                <i class="fa fa-tasks"></i>
+                <span>Finished Tasks</span>
+              </a>
+            </li>
+            <li class="treeview">
               <a href="<?php echo base_url(); ?>addNewTask">
                 <i class="fa fa-plus-circle"></i>
                 <span>Add Task</span>
@@ -159,13 +165,7 @@
                   <i class="fa fa-plus-circle"></i>
                   <span>Add User</span>
                 </a>
-              </li>
-              <li class="treeview">
-                <a href="<?php echo base_url(); ?>log-history">
-                  <i class="fa fa-archive"></i>
-                  <span>Log Records</span>
-                </a>
-              </li>
+              </li>              
               <li class="treeview">
                 <a href="<?php echo base_url(); ?>log-history-upload">
                   <i class="fa fa-upload"></i>
@@ -191,6 +191,13 @@
                   <?php
             }
             ?>
+
+            <li class="treeview">
+                <a href="<?php echo base_url(); ?>log-history">
+                  <i class="fa fa-archive"></i>
+                  <span>Log Records</span>
+                </a>
+              </li>
         </ul>
       </section>
       <!-- /.sidebar -->

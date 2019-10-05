@@ -9,7 +9,7 @@
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
-                <div class="box">
+                <div class="box box-primary">
                     <div class="box-header">
                         <h3 class="box-title">
                             <?= $userInfo->name." : ".$userInfo->email ?>
@@ -44,9 +44,8 @@
                                 <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                        <th>ID</th>
+                                        <th>User Id </th>
                                         <th>User Name</th>
-                                        <th>User ID</th>                                        
                                         <th>Date and Time</th>
                                         <th>Day</th>
                                         </tr>
@@ -60,14 +59,11 @@
                       ?>
                     <tr>
                         <td>
-                          <?php echo $record->id ?>
+                          <?php echo $record->userId ?>
                         </td>
                         <td>
                           <?php echo $record->userName ?>
-                        </td>
-                        <td>
-                          <?php echo $record->userId ?>
-                        </td>                                            
+                        </td>                        
                         <td>
                           <?php echo $record->createdDtm ?>
                         </td>
@@ -90,3 +86,74 @@
         </div>
     </section>
 </div>
+
+<!-- Full Height Modal -->
+<div class="modal fade" id="day_detail_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+
+  <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+  <div class="modal-dialog modal-full-height" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100" id="myModalLabel">logs of <span id="logs_user_name"></span> at <span id="logs_date"></span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div id="day-detail">        
+        <ul id="populate"></ul>
+      </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Full Height Modal -->
+
+<script>
+ // fetch logs of day.
+ $('#dataTables-example tbody').on( 'click', 'tr', function () {
+            var table = $('#dataTables-example').DataTable();
+            var row_data = table.row( this ).data()
+            var mydata  = {
+                id: row_data[0],
+                name: row_data[1] ,                
+                date: row_data[2] ,
+            }
+
+            console.log(mydata);
+
+            $.ajax({
+                type: "POST",
+                url: "<?php echo site_url('logs')?>",
+                dataType: "json",
+                data: mydata,
+                success: function(data){                    
+                    var items = [];                    
+                    $.each(data[0], function (id, page){
+                        var li = $("<li>");
+                        li.addClass("col-md-12");
+                        var par1 = $("<p>");
+                        par1.addClass("col-md-6");
+                        par1.text(page['createdDtm']);
+                        var par2 = $("<p>");
+                        par2.text(page['process']);
+                        par2.addClass("col-md-6");
+                        li.append(par1);
+                        li.append(par2);
+                        items.push(li);                        
+                    });
+                    $("#populate").html(items);
+                },
+            });
+
+        $("#day_detail_modal").on("shown.bs.modal", function () {
+            $("#logs_user_name").text(row_data[1]);
+            $("#logs_date").text(row_data[3]);            
+          }).modal('show');
+    });
+
+</script>

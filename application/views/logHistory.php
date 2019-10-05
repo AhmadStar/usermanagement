@@ -9,7 +9,7 @@
   <section class="content">
     <div class="row">
       <div class="col-xs-12">
-        <div class="box">
+        <div class="box box-primary">
           <div class="box-header">
             <h3 class="box-title"> log table size:
               <?php
@@ -151,7 +151,11 @@ $(document).ready(function() {
                 data.day = $('#day').datepicker({ dateFormat: 'dd' , viewMode: "days", minViewMode: "days" }).val();
                 data.month = $('#month').datepicker({ dateFormat: 'mm' , viewMode: "months", minViewMode: "months" }).val();                
                 data.year = $('#year').datepicker({ dateFormat: 'yy' ,viewMode: "years", minViewMode: "years"}).val();
-                data.userName = $("#userName  option:selected" ).text();                
+                data.userName = $("#userName  option:selected" ).text();
+                data.userId = "<?php                                        
+                    if($this->session->userdata('userId') === '1') echo '';
+                    else echo $this->session->userdata('userId')                    
+                    ?>";
             },
         },
 

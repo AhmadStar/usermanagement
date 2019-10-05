@@ -27,7 +27,7 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-      <p class="login-box-msg">Şifre Resetma</p>
+      <p class="login-box-msg">Password Reset</p>
       <?php $this->load->helper('form'); ?>
       <div class="row">
         <div class="col-md-12">
@@ -55,11 +55,11 @@
           </div>
           <hr>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Şifre" name="password" required />
+            <input type="password" class="form-control" placeholder="password" name="password" required />
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Şifreni Doğrula" name="cpassword" required />
+            <input type="password" class="form-control" placeholder="renter password" name="cpassword" required />
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">

@@ -25,6 +25,10 @@ class Employee_model extends CI_Model {
 		{
 			$this->db->like('userId', $this->input->post('userId'));
 		}
+		if($this->input->post('userId'))
+		{
+			$this->db->where('userId', $this->input->post('userId'));
+		}
 
 		$now = new \DateTime('now');
 		$month = $now->format('m');
@@ -156,7 +160,7 @@ class Employee_model extends CI_Model {
 	}
     
 
-	public function get_employees($employee_id){
+	public function get_employees($employee_id = ''){
 		$this->db->select('*');		
 		$this->db->from('tbl_log');
 		if($employee_id != '')

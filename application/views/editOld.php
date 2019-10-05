@@ -68,21 +68,21 @@ if(!empty($userInfo))
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="password">Şifre</label>
+                                            <label for="password">Password</label>
                                             <input type="password" class="form-control" id="password" placeholder="Password" name="password" maxlength="20">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="cpassword">Şifre Doğrula</label>
-                                            <input type="password" class="form-control" id="cpassword" placeholder="Şifrenizi Doğrulayın" name="cpassword" maxlength="20">
+                                            <label for="cpassword">Verify Password</label>
+                                            <input type="password" class="form-control" id="cpassword" placeholder="renter Password" name="cpassword" maxlength="20">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="mobile">Telefon Numarası</label>
+                                            <label for="mobile">Telephone Number</label>
                                             <input type="text" class="form-control" id="mobile" placeholder="Mobile Number" name="mobile" value="<?php echo $mobile; ?>"
                                                 maxlength="10">
                                         </div>

@@ -22,7 +22,7 @@ $route['editOld'] = "admin/editOld";
 $route['editOld/(:num)'] = "admin/editOld/$1";
 $route['editUser'] = "admin/editUser";
 $route['deleteUser'] = "admin/deleteUser";
-$route['log-history'] = "admin/logHistory";
+// $route['log-history'] = "admin/logHistory";
 $route['log-history-backup'] = "admin/logHistoryBackup";
 $route['log-history/(:num)'] = "admin/logHistorysingle/$1";
 $route['log-history/(:num)/(:num)'] = "admin/logHistorysingle/$1/$2";
@@ -30,11 +30,11 @@ $route['backupLogTable'] = "admin/backupLogTable";
 $route['backupLogTableDelete'] = "admin/backupLogTableDelete";
 $route['log-history-upload'] = "admin/logHistoryUpload";
 $route['logHistoryUploadFile'] = "admin/logHistoryUploadFile";
-$route['logs'] = "admin/logs";
-$route['employee_list'] = "admin/employee_list";
+
 
 /*********** MANAGER CONTROLLER ROUTES *******************/
 $route['tasks'] = "manager/tasks";
+$route['finishedTasks'] = "manager/finishedTasks";
 $route['addNewTask'] = "manager/addNewTask";
 $route['addNewTasks'] = "manager/addNewTasks";
 $route['editOldTask/(:num)'] = "manager/editOldTask/$1";
@@ -51,6 +51,10 @@ $route['etasks'] = "user/etasks";
 $route['userEdit'] = "user/loadUserEdit";
 $route['updateUser'] = "user/updateUser";
 
+
+$route['log-history'] = "user/logHistory";
+$route['logs'] = "user/logs";
+$route['employee_list'] = "user/employee_list";
 
 /*********** LOGIN CONTROLLER ROUTES *******************/
 $route['forgotPassword'] = "login/forgotPassword";
