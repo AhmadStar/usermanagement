@@ -8,7 +8,7 @@
   </section>
   <section class="content">
     <div class="col-xs-12">
-      <div class="text-right">
+      <div class="text-right form-group">
         <a class="btn btn-primary" href="<?php echo base_url(); ?>addNewTask">
           <i class="fa fa-plus"></i> Add Task</a>
       </div>

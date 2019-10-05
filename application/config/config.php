@@ -387,6 +387,7 @@ $end_time = strtotime("19:00:33");
 $start_time = strtotime(date("H:i:s"));
 $expire = $end_time - $start_time;
 
+
 $config['sess_expiration'] = $expire;
 $config['sess_save_path'] = 'ci_sessions';
 $config['sess_match_ip'] = FALSE;
