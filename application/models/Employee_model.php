@@ -106,6 +106,7 @@ class Employee_model extends CI_Model {
 		$query = $this->db->get();
 		$list = $query->result();
 
+		$array = [];
 		foreach($list as $key => $employee) {
 			if(date('d', strtotime($date)).' '.date('F', strtotime($date))
 			!= date('d', strtotime($employee->createdDtm)).' '.date('F', strtotime($employee->createdDtm))){
@@ -114,28 +115,27 @@ class Employee_model extends CI_Model {
 			}
 		}
 
-		// $sum = 0;			
-		// foreach($list as $key => $employee) {
-		// 	if(isset($list[$key]) && isset($list[$key+1]))
-		// 		$sum = $sum + round(abs(strtotime($list[$key + 1]->createdDtm) - strtotime($list[$key]->createdDtm)));
-		// }
-		
-		// for($i = 0 ; $i < count($list) ; $i++){
-		// 	// if(array_key_exists($i+1 , $list))
-		// 		$sum = $sum + round(strtotime($list[$i]['createdDtm']));
-		// 	$i++;
-		// }
+		$sum = 0;			
+		foreach($list as $key => $employee) {
+			$array[] = $employee;		
+		}
+
+		for($i = 0 ; $i < count($array) ; $i++){
+			if(array_key_exists($i+1 , $array))
+				$sum = $sum + strtotime($array[$i + 1]->createdDtm) - strtotime($array[$i]->createdDtm);
+			$i++;
+		}
 				
-		// $hours = floor($sum / 3600);
-		// $minutes = floor(($sum / 60) % 60);
-		// $seconds = $sum % 60;
+		$hours = floor($sum / 3600);
+		$minutes = floor(($sum / 60) % 60);
+		$seconds = $sum % 60;
 
-		// $sum = "$hours:$minutes:$seconds";
+		$sum = "$hours:$minutes:$seconds";
 
-		// $all_data = [];
-		// $all_data[0] = $list;
-		// $all_data[1] = $sum;
-		return $list;
+		$all_data = [];
+		$all_data[0] = $list;
+		$all_data[1] = $sum;
+		return $all_data;
 	}
 
 	public function count_filtered()

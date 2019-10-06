@@ -186,7 +186,8 @@ $(document).ready(function() {
                 data: mydata,
                 success: function(data){                    
                     var items = [];                    
-                    $.each(data, function (id, page){
+                    day_hours = data[1];
+                    $.each(data[0], function (id, page){
                         var li = $("<li>");
                         li.addClass("col-md-12");
                         var par1 = $("<p>");
@@ -200,7 +201,6 @@ $(document).ready(function() {
                         items.push(li);                        
                     });
                     $("#populate").html(items);
-                    console.log(data);
                 },
             });
 

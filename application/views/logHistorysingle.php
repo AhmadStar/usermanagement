@@ -96,7 +96,7 @@
 
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title w-100" id="myModalLabel">logs of <span id="logs_user_name"></span> at <span id="logs_date"></span></h4>
+        <h4 class="modal-title w-100" id="myModalLabel">logs of <span id="logs_user_name"></span> at <span id="logs_date"></span> <span id="day_hours"></span></h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -124,7 +124,7 @@
                 date: row_data[2] ,
             }
 
-            console.log(mydata);
+            var day_hours = 0;
 
             $.ajax({
                 type: "POST",
@@ -132,8 +132,9 @@
                 dataType: "json",
                 data: mydata,
                 success: function(data){                    
-                    var items = [];                    
-                    $.each(data, function (id, page){
+                    var items = [];
+                    day_hours = data[1];
+                    $.each(data[0], function (id, page){
                         var li = $("<li>");
                         li.addClass("col-md-12");
                         var par1 = $("<p>");
@@ -153,6 +154,7 @@
         $("#day_detail_modal").on("shown.bs.modal", function () {
             $("#logs_user_name").text(row_data[1]);
             $("#logs_date").text(row_data[3]);
+            $("#day_hours").text(day_hours);
           }).modal('show');
     });
 
