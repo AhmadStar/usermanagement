@@ -114,23 +114,28 @@ class Employee_model extends CI_Model {
 			}
 		}
 
-		$sum = 0;			
-		foreach($list as $key => $employee) {
-			if(isset($list[$key]) && isset($list[$key+1]))
-				$sum = $sum + round(abs(strtotime($list[$key]->createdDtm) - strtotime($list[$key + 1]->createdDtm)));			
-		}
+		// $sum = 0;			
+		// foreach($list as $key => $employee) {
+		// 	if(isset($list[$key]) && isset($list[$key+1]))
+		// 		$sum = $sum + round(abs(strtotime($list[$key + 1]->createdDtm) - strtotime($list[$key]->createdDtm)));
+		// }
+		
+		// for($i = 0 ; $i < count($list) ; $i++){
+		// 	// if(array_key_exists($i+1 , $list))
+		// 		$sum = $sum + round(strtotime($list[$i]['createdDtm']));
+		// 	$i++;
+		// }
+				
+		// $hours = floor($sum / 3600);
+		// $minutes = floor(($sum / 60) % 60);
+		// $seconds = $sum % 60;
 
-		$hours = floor($sum / 3600);
-		$minutes = floor(($sum / 60) % 60);
-		$seconds = $sum % 60;
+		// $sum = "$hours:$minutes:$seconds";
 
-		$sum = "$hours:$minutes:$seconds";
-
-		$all_data = [];
-		$all_data[0] = $list;
-		$all_data[1] = $sum;
-		return $all_data;			
-
+		// $all_data = [];
+		// $all_data[0] = $list;
+		// $all_data[1] = $sum;
+		return $list;
 	}
 
 	public function count_filtered()
@@ -159,7 +164,6 @@ class Employee_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
     
-
 	public function get_employees($employee_id = ''){
 		$this->db->select('*');		
 		$this->db->from('tbl_log');

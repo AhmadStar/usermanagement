@@ -8,14 +8,57 @@
 
   <section class="content">
     <div class="row">
-      <div class="col-lg-3 col-xs-6">
+    <?php
+    if($role == ROLE_EMPLOYEE)
+    {
+    ?>
+    <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-aqua">
           <div class="inner">
             <h3>
+              <?php if(isset($mytasksCount)) { echo $mytasksCount; } else { echo '0'; } ?>
+            </h3>
+            <p>My Tasks</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-tasks"></i>
+          </div>
+          <a href="<?php echo base_url(); ?><?php  echo 'etasks' ?>" class="small-box-footer">See all
+            <i class="fa fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+          <div class="inner">
+            <h3>
+              <?php if(isset($myfinishedTasksCount)) { echo $myfinishedTasksCount; } else { echo '0'; } ?>
+            </h3>
+            <p>My Finished Tasks</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-pie-graph"></i>
+          </div>
+          <a href="<?php echo base_url(); ?><?php  echo 'efinishedtasks' ?>" class="small-box-footer">More information
+            <i class="fa fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <?php
+          }
+          ?>
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-blue">
+          <div class="inner">
+            <h3>
               <?php if(isset($tasksCount)) { echo $tasksCount; } else { echo '0'; } ?>
             </h3>
-            <p>Tasks</p>
+            <p>All Tasks</p>
           </div>
           <div class="icon">
             <i class="fa fa-tasks"></i>
@@ -28,17 +71,17 @@
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-green">
+        <div class="small-box bg-lime">
           <div class="inner">
             <h3>
               <?php if(isset($finishedTasksCount)) { echo $finishedTasksCount; } else { echo '0'; } ?>
             </h3>
-            <p>Finished Tasks</p>
+            <p>All Finished Tasks</p>
           </div>
           <div class="icon">
             <i class="ion ion-pie-graph"></i>
           </div>
-          <a href="<?php echo base_url(); ?><?php  if($role != ROLE_EMPLOYEE) {echo 'finishedTasks';}else{echo 'etasks';} ?>" class="small-box-footer">More information
+          <a href="<?php echo base_url(); ?><?php echo 'finishedTasks' ?>" class="small-box-footer">More information
             <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>

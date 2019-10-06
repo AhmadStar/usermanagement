@@ -83,7 +83,7 @@ class Manager extends BaseController
             
             $this->form_validation->set_rules('fname','Task Title','required');
             $this->form_validation->set_rules('priority','priority','required');
-            $this->form_validation->set_rules('employee_id','employee_id','required');
+            $this->form_validation->set_rules('employee_id','employee name','required');
             
             if($this->form_validation->run() == FALSE)
             {
@@ -100,16 +100,12 @@ class Manager extends BaseController
                 $permalink = sef($title);
                 
                 $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 'statusId'=> $statusId,
-                                    'permalink'=>$permalink, 'createdBy'=>$this->vendorId, 'createdDtm'=>date('Y-m-d H:i:s'), 'employee_id' => $employee_id);
+                                    'permalink'=>$permalink, 'createdBy'=>$this->vendorId, 'employee_id' => $employee_id);
                                     
                 $result = $this->user_model->addNewTasks($taskInfo);
                 
                 if($result > 0)
                 {
-                    // $process = 'Adding a Task';
-                    // $processFunction = 'Manager/addNewTasks';
-                    // $this->logrecord($process,$processFunction);
-
                     $this->session->set_flashdata('success', 'Task created successfully');
                 }
                 else
@@ -134,6 +130,7 @@ class Manager extends BaseController
             $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);
             $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
             $data['tasks_situations'] = $this->user_model->getTasksSituations();
+            $data['user_list']=$this->_user_list();
             
             $this->global['pageTitle'] = 'DAS : Edit Task';
             
@@ -158,15 +155,17 @@ class Manager extends BaseController
         }
         else
         {
+            // var_dump($this->input->post());die();
             $taskId = $this->input->post('taskId');
             $title = $this->input->post('fname');
             $comment = $this->input->post('comment');
             $priorityId = $this->input->post('priority');
             $statusId = $this->input->post('status');
+            $employee_id = $this->input->post('employee_id');
             $permalink = sef($title);
             
             $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 'statusId'=> $statusId,
-                                'permalink'=>$permalink);
+                                'permalink'=>$permalink ,'employee_id' => $employee_id);
                                 
             $result = $this->user_model->editTask($taskInfo,$taskId);
             

@@ -133,7 +133,7 @@
                 data: mydata,
                 success: function(data){                    
                     var items = [];                    
-                    $.each(data[0], function (id, page){
+                    $.each(data, function (id, page){
                         var li = $("<li>");
                         li.addClass("col-md-12");
                         var par1 = $("<p>");
@@ -152,7 +152,7 @@
 
         $("#day_detail_modal").on("shown.bs.modal", function () {
             $("#logs_user_name").text(row_data[1]);
-            $("#logs_date").text(row_data[3]);            
+            $("#logs_date").text(row_data[3]);
           }).modal('show');
     });
 

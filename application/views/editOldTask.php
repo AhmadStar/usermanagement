@@ -16,6 +16,7 @@ if(!empty($taskInfo))
         $comment = $uf->comment;
         $priorityId = $uf->priorityId;
         $statusId = $uf->statusId;
+        $employee_id = $uf->employee_id;
     }
 }
 
@@ -45,7 +46,7 @@ if(!empty($taskInfo))
                         <form role="form" id="addNewTask" action="<?php echo base_url() ?>editTask" method="post" role="form">
                             <div class="box-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="fname">Task Title</label>
                                             <input type="hidden" name="taskId" id="taskId" value="<?php echo $id; ?>">
@@ -53,7 +54,7 @@ if(!empty($taskInfo))
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="role">Priority</label>
                                             <select class="form-control required" id="priority" name="priority">
@@ -73,6 +74,12 @@ if(!empty($taskInfo))
                                             ?>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="employeename">Employee</label>
+                                        <?php echo form_dropdown('employee_id',$user_list,set_value('employee_id',$employee_id) , "employee_id='name' class='form-control'");?>                                        
+                                        </div>                                    
                                     </div>
                                 </div>
                                 <div class="row">

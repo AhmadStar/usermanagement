@@ -256,9 +256,12 @@ class User_model extends CI_Model
     /**
      * This function is used to get tasks
      */
-    function getTasks()
+    function getTasks($employee_id = '')
     {
-        $this->db->select('*');
+        // $this->db->select('*');
+        $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
+        Prioritys.priorityId , Prioritys.priority , 
+        endDtm , TaskTbl.createdDtm , employee_id');
         $this->db->from('tbl_task as TaskTbl');
         $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
@@ -266,6 +269,8 @@ class User_model extends CI_Model
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
         $this->db->order_by('TaskTbl.statusId ASC, TaskTbl.priorityId');
         $this->db->where('TaskTbl.statusId', 1);
+        if($employee_id != '')
+            $this->db->where('employee_id', $employee_id);
         $query = $this->db->get();
         $result = $query->result();        
         return $result;
@@ -274,9 +279,12 @@ class User_model extends CI_Model
     /**
      * This function is used to get tasks
      */
-    function getFinishedTasks()
+    function getFinishedTasks($employee_id = '')
     {
-        $this->db->select('*');
+        // $this->db->select('*');
+        $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
+        Prioritys.priorityId , Prioritys.priority , 
+        endDtm , TaskTbl.createdDtm , employee_id');
         $this->db->from('tbl_task as TaskTbl');
         $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
@@ -284,6 +292,8 @@ class User_model extends CI_Model
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
         $this->db->order_by('TaskTbl.statusId ASC, TaskTbl.priorityId');
         $this->db->where('TaskTbl.statusId', 2);
+        if($employee_id != '')
+            $this->db->where('employee_id', $employee_id);
         $query = $this->db->get();
         $result = $query->result();        
         return $result;
@@ -430,10 +440,12 @@ class User_model extends CI_Model
      * This function is used to get the tasks count
      * @return array $result : This is result
      */
-    function tasksCount()
+    function tasksCount($userId = '')
     {
         $this->db->select('*');
         $this->db->from('tbl_task as BaseTbl');
+        if($userId != '')
+            $this->db->where('employee_id', $userId);
         $this->db->where('BaseTbl.statusId', 1);
         $query = $this->db->get();
         return $query->num_rows();
@@ -443,10 +455,12 @@ class User_model extends CI_Model
      * This function is used to get the finished tasks count
      * @return array $result : This is result
      */
-    function finishedTasksCount()
+    function finishedTasksCount($userId = '')
     {
         $this->db->select('*');
         $this->db->from('tbl_task as BaseTbl');
+        if($userId != '')
+        $this->db->where('employee_id', $userId);
         $this->db->where('BaseTbl.statusId', 2);
         $query = $this->db->get();
         return $query->num_rows();
@@ -488,48 +502,7 @@ class User_model extends CI_Model
         $query = $this->db->get('tbl_users as BaseTbl');
 
         return $query->row();
-    }
-
-    public function get_day_logins($id , $date)
-	{
-        $this->db->select('id , userName , userId , createdDtm , process');
-		$this->db->where('userId', $id);		
-		$this->db->from('tbl_log');
-		$query = $this->db->get();
-		$list = $query->result();
-
-		foreach($list as $key => $employee) {
-			if(date('d', strtotime($date)).' '.date('F', strtotime($date))
-			!= date('d', strtotime($employee->createdDtm)).' '.date('F', strtotime($employee->createdDtm))){
-				// Remove duplicate instance from the list
-				unset($list[$key]);
-			}
-		}
-
-		$sum = 0;			
-		foreach($list as $key => $employee) {
-			if(isset($list[$key]) && isset($list[$key+1]))
-				$sum = $sum + round(abs(strtotime($list[$key]->createdDtm) - strtotime($list[$key + 1]->createdDtm)));			
-        }
-                
-        // for($i = 0 ; $i < count($list) ; $i++){
-        //     if(isset($list[$i]) && isset($list[$i+1]))
-        //         $sum = $sum + 
-        //         round(abs(strtotime($list[$i]->createdDtm) - strtotime($list[$i + 1]->createdDtm)));
-        //     $i++;
-        // }
-
-		$hours = floor($sum / 3600);
-		$minutes = floor(($sum / 60) % 60);
-		$seconds = $sum % 60;
-
-		$sum = "$hours:$minutes:$seconds";
-
-		$all_data = [];
-		$all_data[0] = $list;
-		$all_data[1] = $sum;
-		return $all_data;
-    }
+    }    
     
     public function get_users(){
 		$this->db->select('*');		

@@ -30,7 +30,9 @@ class User extends BaseController
         $this->global['pageTitle'] = 'Home page';
 
 
-        if($this->role != ROLE_ADMIN){            
+        if($this->role === ROLE_EMPLOYEE){
+            $data['mytasksCount'] = $this->user_model->tasksCount($this->session->userdata('userId'));
+            $data['myfinishedTasksCount'] = $this->user_model->finishedTasksCount($this->session->userdata('userId'));
             $data['tasksCount'] = $this->user_model->tasksCount();
             $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();
             $data['logsCount'] = $this->user_model->logsCount($this->session->userdata('userId'));
@@ -260,11 +262,24 @@ class User extends BaseController
      */
     function etasks()
     {
-            $data['taskRecords'] = $this->user_model->getTasks();
-            $data['user_list']=$this->user_list();
-            $this->global['pageTitle'] = 'DAS : All Tasks';
-            
-            $this->loadViews("etasks", $this->global, $data, NULL);
+        $data['taskRecords'] = $this->user_model->getTasks($this->session->userdata('userId'));
+        $data['user_list']=$this->user_list();
+        $this->global['pageTitle'] = 'DAS : All Tasks';
+        
+        $this->loadViews("etasks", $this->global, $data, NULL);
+    }
+
+    /**
+     * This function is used to open the tasks page for users (no edit/delete etc)
+     */
+    function eFinishedTasks()
+    {
+        $data['taskRecords'] = $this->user_model->getFinishedTasks($this->session->userdata('userId'));
+        $data['user_list']=$this->user_list();
+
+        $this->global['pageTitle'] = 'DAS : All Finished Tasks';
+        
+        $this->loadViews("efinishedTasks", $this->global, $data, NULL);
     }
 
      /**
@@ -285,7 +300,7 @@ class User extends BaseController
                 $data['employee_list']=$this->_employee_list($this->session->userdata('userId'));
               }else{
                 $data['employee_list']=$this->_employee_list();
-              }            
+              }
 
             $data['userRecords'] = $this->user_model->logHistory($userId);
 
@@ -308,7 +323,7 @@ class User extends BaseController
         $date = $this->input->post('date');    
         $id = $this->input->post('id');    
         
-        $data = $this->user_model->get_day_logins($id, $date);
+        $data = $this->employee_model->get_day_logins($id, $date);
         
         //output to json format
             echo json_encode($data);

@@ -48,6 +48,7 @@ $route['pageNotFound'] = "user/pageNotFound";
 $route['checkEmailExists'] = "user/checkEmailExists";
 $route['endTask/(:num)'] = "user/endTask/$1";
 $route['etasks'] = "user/etasks";
+$route['efinishedtasks'] = "user/eFinishedTasks";
 $route['userEdit'] = "user/loadUserEdit";
 $route['updateUser'] = "user/updateUser";
 

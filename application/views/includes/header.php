@@ -43,7 +43,7 @@
     <![endif]-->
 </head>
 
-<body class="skin-blue sidebar-mini">
+<body class="skin-red sidebar-mini">
   <div class="wrapper">
 
     <header class="main-header">
@@ -188,7 +188,14 @@
                     <i class="fa fa-tasks"></i>
                     <span>Tasks</span>
                   </a>
-                  <?php
+                </li>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>efinishedtasks">
+                    <i class="fa fa-tasks"></i>
+                    <span>Finished Tasks</span>
+                  </a>
+                </li>
+            <?php
             }
             ?>
 
