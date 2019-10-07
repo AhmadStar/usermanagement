@@ -42,24 +42,22 @@ class Admin extends BaseController
      */
     function userListing()
     {   
-            $searchText = $this->security->xss_clean($this->input->post('searchText'));
-            $data['searchText'] = $searchText;
-            
-            $this->load->library('pagination');
-            
-            $count = $this->user_model->userListingCount($searchText);
+        $searchText = $this->security->xss_clean($this->input->post('searchText'));
+        $data['searchText'] = $searchText;
+        
+        $this->load->library('pagination');
+        
+        $count = $this->user_model->userListingCount($searchText);
 
-			$returns = $this->paginationCompress ( "userListing/", $count, 10 );
-            
-            $data['userRecords'] = $this->user_model->userListing($searchText, $returns["page"], $returns["segment"]);
-            
-            // $process = 'User Listeleme';
-            // $processFunction = 'Admin/userListing';
-            // $this->logrecord($process,$processFunction);
+        $returns = $this->paginationCompress ( "userListing/", $count, 10 );
+        
+        $data['userRecords'] = $this->user_model->userListing($searchText, $returns["page"], $returns["segment"]);
 
-            $this->global['pageTitle'] = 'DAS : User List';
-            
-            $this->loadViews("users", $this->global, $data, NULL);
+        // $data['userRecords'] = $this->user_model->userListing();
+
+        $this->global['pageTitle'] = 'DAS : User List';
+        
+        $this->loadViews("users", $this->global, $data, NULL);
     }
 
     /**
@@ -67,11 +65,9 @@ class Admin extends BaseController
      */
     function addNew()
     {
-            $data['roles'] = $this->user_model->getUserRoles();
-
-            $this->global['pageTitle'] = 'DAS : Add User';
-
-            $this->loadViews("addNew", $this->global, $data, NULL);
+        $data['roles'] = $this->user_model->getUserRoles();
+        $this->global['pageTitle'] = 'DAS : Add User';
+        $this->loadViews("addNew", $this->global, $data, NULL);
     }
 
 
@@ -80,47 +76,43 @@ class Admin extends BaseController
      */
     function addNewUser()
     {
-            $this->load->library('form_validation');
+        $this->load->library('form_validation');
+        
+        $this->form_validation->set_rules('fname','Full Name','trim|required|max_length[128]');
+        $this->form_validation->set_rules('email','Email','trim|required|valid_email|max_length[128]');
+        $this->form_validation->set_rules('password','Password','required|max_length[20]');
+        $this->form_validation->set_rules('cpassword','Confirm Password','trim|required|matches[password]|max_length[20]');
+        $this->form_validation->set_rules('role','Role','trim|required|numeric');
+        $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]');
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $this->addNew();
+        }
+        else
+        {
+            $name = ucwords(strtolower($this->security->xss_clean($this->input->post('fname'))));
+            $email = $this->security->xss_clean($this->input->post('email'));
+            $password = $this->input->post('password');
+            $roleId = $this->input->post('role');
+            $mobile = $this->security->xss_clean($this->input->post('mobile'));
             
-            $this->form_validation->set_rules('fname','Full Name','trim|required|max_length[128]');
-            $this->form_validation->set_rules('email','Email','trim|required|valid_email|max_length[128]');
-            $this->form_validation->set_rules('password','Password','required|max_length[20]');
-            $this->form_validation->set_rules('cpassword','Confirm Password','trim|required|matches[password]|max_length[20]');
-            $this->form_validation->set_rules('role','Role','trim|required|numeric');
-            $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]');
+            $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId, 'name'=> $name,
+                                'mobile'=>$mobile, 'createdBy'=>$this->vendorId, 'createdDtm'=>date('Y-m-d H:i:s'));
+                                
+            $result = $this->user_model->addNewUser($userInfo);
             
-            if($this->form_validation->run() == FALSE)
+            if($result > 0)
             {
-                $this->addNew();
+                $this->session->set_flashdata('success', 'User created successfully');
             }
             else
             {
-                $name = ucwords(strtolower($this->security->xss_clean($this->input->post('fname'))));
-                $email = $this->security->xss_clean($this->input->post('email'));
-                $password = $this->input->post('password');
-                $roleId = $this->input->post('role');
-                $mobile = $this->security->xss_clean($this->input->post('mobile'));
-                
-                $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId, 'name'=> $name,
-                                    'mobile'=>$mobile, 'createdBy'=>$this->vendorId, 'createdDtm'=>date('Y-m-d H:i:s'));
-                                    
-                $result = $this->user_model->addNewUser($userInfo);
-                
-                if($result > 0)
-                {
-                    // $process = 'Adding Users';
-                    // $processFunction = 'Admin/addNewUser';
-                    // $this->logrecord($process,$processFunction);
-
-                    $this->session->set_flashdata('success', 'User created successfully');
-                }
-                else
-                {
-                    $this->session->set_flashdata('error', 'User creation failed');
-                }
-                
-                redirect('userListing');
+                $this->session->set_flashdata('error', 'User creation failed');
             }
+            
+            redirect('userListing');
+        }
         }
 
      /**
@@ -129,17 +121,17 @@ class Admin extends BaseController
      */
     function editOld($userId = NULL)
     {
-            if($userId == null)
-            {
-                redirect('userListing');
-            }
-            
-            $data['roles'] = $this->user_model->getUserRoles();
-            $data['userInfo'] = $this->user_model->getUserInfo($userId);
+        if($userId == null)
+        {
+            redirect('userListing');
+        }
+        
+        $data['roles'] = $this->user_model->getUserRoles();
+        $data['userInfo'] = $this->user_model->getUserInfo($userId);
 
-            $this->global['pageTitle'] = 'DAS : Edit User';
-            
-            $this->loadViews("editOld", $this->global, $data, NULL);
+        $this->global['pageTitle'] = 'DAS : Edit User';
+        
+        $this->loadViews("editOld", $this->global, $data, NULL);
     }
 
 
@@ -148,60 +140,56 @@ class Admin extends BaseController
      */
     function editUser()
     {
-            $this->load->library('form_validation');
+        $this->load->library('form_validation');
+        
+        $userId = $this->input->post('userId');
+        
+        $this->form_validation->set_rules('fname','Full Name','trim|required|max_length[128]');
+        $this->form_validation->set_rules('email','Email','trim|required|valid_email|max_length[128]');
+        $this->form_validation->set_rules('password','Password','matches[cpassword]|max_length[20]');
+        $this->form_validation->set_rules('cpassword','Confirm Password','matches[password]|max_length[20]');
+        $this->form_validation->set_rules('role','Role','trim|required|numeric');
+        $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]');
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $this->editOld($userId);
+        }
+        else
+        {
+            $name = ucwords(strtolower($this->security->xss_clean($this->input->post('fname'))));
+            $email = $this->security->xss_clean($this->input->post('email'));
+            $password = $this->input->post('password');
+            $roleId = $this->input->post('role');
+            $mobile = $this->security->xss_clean($this->input->post('mobile'));
             
-            $userId = $this->input->post('userId');
+            $userInfo = array();
             
-            $this->form_validation->set_rules('fname','Full Name','trim|required|max_length[128]');
-            $this->form_validation->set_rules('email','Email','trim|required|valid_email|max_length[128]');
-            $this->form_validation->set_rules('password','Password','matches[cpassword]|max_length[20]');
-            $this->form_validation->set_rules('cpassword','Confirm Password','matches[password]|max_length[20]');
-            $this->form_validation->set_rules('role','Role','trim|required|numeric');
-            $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]');
-            
-            if($this->form_validation->run() == FALSE)
+            if(empty($password))
             {
-                $this->editOld($userId);
+                $userInfo = array('email'=>$email, 'roleId'=>$roleId, 'name'=>$name,
+                                'mobile'=>$mobile, 'status'=>0, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'));
             }
             else
             {
-                $name = ucwords(strtolower($this->security->xss_clean($this->input->post('fname'))));
-                $email = $this->security->xss_clean($this->input->post('email'));
-                $password = $this->input->post('password');
-                $roleId = $this->input->post('role');
-                $mobile = $this->security->xss_clean($this->input->post('mobile'));
-                
-                $userInfo = array();
-                
-                if(empty($password))
-                {
-                    $userInfo = array('email'=>$email, 'roleId'=>$roleId, 'name'=>$name,
-                                    'mobile'=>$mobile, 'status'=>0, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'));
-                }
-                else
-                {
-                    $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId,
-                        'name'=>ucwords($name), 'mobile'=>$mobile,'status'=>0, 'updatedBy'=>$this->vendorId, 
-                        'updatedDtm'=>date('Y-m-d H:i:s'));
-                }
-                
-                $result = $this->user_model->editUser($userInfo, $userId);
-                
-                if($result == true)
-                {
-                    // $process = 'User Güncelleme';
-                    // $processFunction = 'Admin/editUser';
-                    // $this->logrecord($process,$processFunction);
-
-                    $this->session->set_flashdata('success', 'User successfully updated');
-                }
-                else
-                {
-                    $this->session->set_flashdata('error', 'User update failed');
-                }
-                
-                redirect('userListing');
+                $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId,
+                    'name'=>ucwords($name), 'mobile'=>$mobile,'status'=>0, 'updatedBy'=>$this->vendorId, 
+                    'updatedDtm'=>date('Y-m-d H:i:s'));
             }
+            
+            $result = $this->user_model->editUser($userInfo, $userId);
+            
+            if($result == true)
+            {
+                $this->session->set_flashdata('success', 'User successfully updated');
+            }
+            else
+            {
+                $this->session->set_flashdata('error', 'User update failed');
+            }
+            
+            redirect('userListing');
+        }
     }
 
      /**
@@ -210,20 +198,31 @@ class Admin extends BaseController
      */
     function deleteUser()
     {
-            $userId = $this->input->post('userId');
-            $userInfo = array('isDeleted'=>1,'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'));
-            
-            $result = $this->user_model->deleteUser($userId, $userInfo);
-            
-            if ($result > 0) {
-                 echo(json_encode(array('status'=>TRUE)));
+        $userId = $this->input->post('userId');
+        $userInfo = array('isDeleted'=>1,'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'));
+        
+        $result = $this->user_model->deleteUser($userId, $userInfo);
+        
+        if ($result > 0) {
+                echo(json_encode(array('status'=>TRUE)));
+            }
+        else { echo(json_encode(array('status'=>FALSE))); }
+    }
 
-                //  $process = 'User Silme';
-                //  $processFunction = 'Admin/deleteUser';
-                //  $this->logrecord($process,$processFunction);
 
-                }
-            else { echo(json_encode(array('status'=>FALSE))); }
+     /**
+     * This function is used to add Bonus the user using userId
+     * @return boolean $result : TRUE / FALSE
+     */
+    function addBonus()
+    {
+        $userId = $this->input->post('userId');        
+        $result = $this->user_model->addBonus($userId);
+        
+        if ($result > 0) {
+                echo(json_encode(array('status'=>TRUE)));
+            }
+        else { echo(json_encode(array('status'=>FALSE))); }
     }
 
     
@@ -234,17 +233,13 @@ class Admin extends BaseController
      */
     function logHistorysingle($userId = NULL)
     {       
-            $userId = ($userId == NULL ? $this->session->userdata("userId") : $userId);
-            $data["userInfo"] = $this->user_model->getUserInfoById($userId);
-            $data['userRecords'] = $this->user_model->logHistory($userId);
-            
-            // $process = 'View Single Log';
-            // $processFunction = 'Admin/logHistorysingle';
-            // $this->logrecord($process,$processFunction);
+        $userId = ($userId == NULL ? $this->session->userdata("userId") : $userId);
+        $data["userInfo"] = $this->user_model->getUserInfoById($userId);
+        $data['userRecords'] = $this->user_model->logHistory($userId);        
 
-            $this->global['pageTitle'] = 'DAS : User Login History';
-            
-            $this->loadViews("logHistorysingle", $this->global, $data, NULL);      
+        $this->global['pageTitle'] = 'DAS : User Login History';
+        
+        $this->loadViews("logHistorysingle", $this->global, $data, NULL);      
     }
     
     /**
@@ -256,11 +251,8 @@ class Admin extends BaseController
         $prefs = array(
             'tables'=>array('tbl_log')
         );
-        $backup=$this->dbutil->backup($prefs) ;
-
-        date_default_timezone_set('Europe/Istanbul');
+        $backup=$this->dbutil->backup($prefs) ;        
         $date = date('d-m-Y H-i');
-
         $filename = './backup/'.$date.'.sql.gz';
         $this->load->helper('file');
         write_file($filename,$backup);
@@ -284,22 +276,18 @@ class Admin extends BaseController
      */
     function logHistoryBackup()
     {
-            $data['dbinfo'] = $this->user_model->gettablemb('tbl_log_backup','cias');
-            if(isset($data['dbinfo']->total_size))
-            {
-            if(($data['dbinfo']->total_size)>1000){
-                $this->backupLogTable();
-            }
-            }
-            $data['userRecords'] = $this->user_model->logHistoryBackup();
+        $data['dbinfo'] = $this->user_model->gettablemb('tbl_log_backup','monitor');
+        if(isset($data['dbinfo']->total_size))
+        {
+        if(($data['dbinfo']->total_size)>1000){
+            $this->backupLogTable();
+        }
+        }
+        $data['userRecords'] = $this->user_model->logHistoryBackup();
 
-            // $process = 'Backup Log Display';
-            // $processFunction = 'Admin/logHistoryBackup';
-            // $this->logrecord($process,$processFunction);
-
-            $this->global['pageTitle'] = 'DAS : User Backup Entry History';
-            
-            $this->loadViews("logHistoryBackup", $this->global, $data, NULL);
+        $this->global['pageTitle'] = 'DAS : User Backup Entry History';
+        
+        $this->loadViews("logHistoryBackup", $this->global, $data, NULL);
     }
 
     /**
@@ -330,10 +318,6 @@ class Admin extends BaseController
             $map = directory_map('./backup/', FALSE, TRUE);
         
             $data['backups']=$map;
-
-            // $process = 'Backup Log Installation';
-            // $processFunction = 'Admin/logHistoryUpload';
-            // $this->logrecord($process,$processFunction);
 
             $this->global['pageTitle'] = 'DAS : User Log Download';
             

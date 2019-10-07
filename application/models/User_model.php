@@ -33,9 +33,11 @@ class User_model extends CI_Model
      */
     function userListing($searchText = '', $page, $segment)
     {
-        $this->db->select('BaseTbl.userId, BaseTbl.email, BaseTbl.name, BaseTbl.mobile, Role.role');
+        $this->db->select('BaseTbl.userId, BaseTbl.email, BaseTbl.name, BaseTbl.mobile, Role.role , COUNT(bonus.user_id) as stars');
         $this->db->from('tbl_users as BaseTbl');
         $this->db->join('tbl_roles as Role', 'Role.roleId = BaseTbl.roleId','left');
+        $this->db->join('bonus', 'bonus.user_id = BaseTbl.userId','left');        
+        $this->db->group_by('BaseTbl.userId');
         if(!empty($searchText)) {
             $likeCriteria = "(BaseTbl.email  LIKE '%".$searchText."%'
                             OR  BaseTbl.name  LIKE '%".$searchText."%'
@@ -43,6 +45,9 @@ class User_model extends CI_Model
             $this->db->where($likeCriteria);
         }
         $this->db->where('BaseTbl.isDeleted', 0);
+        // $now = new \DateTime('now');
+		// $month = $now->format('m');		
+        // $this->db->where('month(bonus.date)', $month);
         $this->db->limit($page, $segment);
         $query = $this->db->get();
         
@@ -143,6 +148,24 @@ class User_model extends CI_Model
         $this->db->update('tbl_users', $userInfo);
         
         return $this->db->affected_rows();
+    }
+
+    /**
+     * This function is used to addBonus the user
+     * @param number $userId : This is user id
+     * @return boolean $result : TRUE / FALSE
+     */
+    function addBonus($userId)
+    {
+        $userInfo = array('user_id'=>$userId);
+        $this->db->trans_start();
+        $this->db->insert('bonus', $userInfo);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
     }
 
 

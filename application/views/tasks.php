@@ -45,17 +45,18 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Task Title</th>
+                    <th>Title</th>
                     <th>Explanation</th>
                     <th>Availability</th>
                     <th>Priority</th>
-                    <th>Created by User</th>
-                    <th>User Role</th>
+                    <th>Created by</th>
+                    <!-- <th>User Role</th> -->
                     <th>For Employee</th>
                     <th>Creation Date</th>
                     <th>End Date</th>                    
-                    <th>Edit / Delete</th>
-                    <th>Finish</th>
+                    <th>Edit / Delete / Show / Finish</th>
+                    <!-- <th>Show</th>
+                    <th>Finish</th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -101,9 +102,9 @@
                       <td>
                         <?php echo $record->name ?>
                       </td>
-                      <td>
+                      <!-- <td>
                         <?php echo $record->role ?>
-                      </td>
+                      </td> -->
                       <td>
                         <?php 
                         
@@ -122,16 +123,18 @@
                         <?php echo $record->endDtm ?>
                       </td>
                       <td class="text-center">
-                        <a class="btn btn-sm btn-info" href="<?php echo base_url().'editOldTask/'.$record->id; ?>" title="Edit">
+                        <a class="btn btn-sm btn-primary" href="<?php echo base_url().'editOldTask/'.$record->id; ?>" title="Edit">
                           <i class="fa fa-pencil"></i>
                         </a>
                         <a class="btn btn-sm btn-danger deleteUser" href="<?php echo base_url().'deleteTask/'.$record->id; ?>" data-userid="<?php echo $record->id; ?>"
                           title="Delete">
                           <i class="fa fa-trash"></i>
+                        </a>                                            
+                        <a class="btn btn-sm btn-info showtask" href="<?php echo base_url().'showTask/'.$record->id; ?>" data-userid="<?php echo $record->id; ?>"
+                          title="Show">
+                          <i class="fa fa-eye"></i>
                         </a>
-                      </td>
-                      <td class="text-center">
-                        <a class="btn btn-sm btn-primary" href="<?= base_url().'endTask/'.$record->id; ?>" title="End Task">
+                      <a class="btn btn-sm btn-success" href="<?= base_url().'endTask/'.$record->id; ?>" title="End Task">
                           <i class="fa fa-check-circle"></i>
                         </a>
                       </td>

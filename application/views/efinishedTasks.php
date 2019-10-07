@@ -49,8 +49,8 @@
                     <th>Explanation</th>
                     <th>Availability</th>
                     <th>Priority</th>
-                    <th>Created by User</th>
-                    <th>User Role</th>
+                    <th>Created by</th>
+                    <!-- <th>User Role</th> -->
                     <th>For Employee</th>
                     <th>Creation Date</th>
                     <th>End Date</th>                    
@@ -99,9 +99,9 @@
                       <td>
                         <?php echo $record->name ?>
                       </td>
-                      <td>
+                      <!-- <td>
                         <?php echo $record->role ?>
-                      </td>
+                      </td> -->
                       <td>
                         <?php 
                         

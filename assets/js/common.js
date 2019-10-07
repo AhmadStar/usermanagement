@@ -28,7 +28,35 @@ jQuery(document).ready(function(){
 			});
 		}
 	});
+
+
+	jQuery(document).on("click", ".addbonus", function(){
+		var userId = $(this).data("userid"),
+			hitURL = baseURL + "addbonus",
+			currentRow = $(this);
+		
+		var confirmation = confirm("Are you sure to add bonus to user ?");
+		
+		if(confirmation)
+		{
+			jQuery.ajax({
+			type : "POST",
+			dataType : "json",
+			url : hitURL,
+			data : { userId : userId } 
+			}).done(function(data){
+				console.log(data);				
+				if(data.status = true) { alert("successfully bonus added"); }
+				else if(data.status = false) { alert("Failed add bonus"); }
+				else { alert("Access denied..!"); }
+				location.reload(true);
+			});
+		}
+	});
 	
+	$(".favourite_icon").click(function(){
+		$(this).css({"color": "yellow"});
+	   });
 	
 	jQuery(document).on("click", ".searchList", function(){
 		

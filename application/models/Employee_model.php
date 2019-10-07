@@ -20,11 +20,7 @@ class Employee_model extends CI_Model {
 		if($this->input->post('userName') && $this->input->post('userName') != 'Choose Employee')
 		{
 			$this->db->like('userName', $this->input->post('userName'));
-		}
-		if($this->input->post('userId'))
-		{
-			$this->db->like('userId', $this->input->post('userId'));
-		}
+		}		
 		if($this->input->post('userId'))
 		{
 			$this->db->where('userId', $this->input->post('userId'));
@@ -172,4 +168,127 @@ class Employee_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result();
 	}
+
+	public function get_day_hours($id , $date)
+	{
+		$this->db->where('userId', $id);		
+		$this->db->from($this->table);
+		$query = $this->db->get();
+		$list = $query->result();
+
+		$array = [];
+		foreach($list as $key => $employee) {
+			if(date('d', strtotime($date)).' '.date('F', strtotime($date))
+			!= date('d', strtotime($employee->createdDtm)).' '.date('F', strtotime($employee->createdDtm))){
+				// Remove duplicate instance from the list
+				unset($list[$key]);
+			}
+		}
+
+		$sum = 0;			
+		foreach($list as $key => $employee) {
+			$array[] = $employee;		
+		}
+
+		for($i = 0 ; $i < count($array) ; $i++){
+			if(array_key_exists($i+1 , $array))
+				$sum = $sum + strtotime($array[$i + 1]->createdDtm) - strtotime($array[$i]->createdDtm);
+			$i++;
+		}						
+
+		return $sum;
+	}
+
+	public function get_total($userName = '', $month = '' , $year = ''){
+		if($userName != 'Choose Employee'){
+
+		$this->db->select('userId, userName , createdDtm');
+		$this->db->group_by('userId , userName , day(createdDtm)');
+		$this->db->from('tbl_log');
+		$this->db->where('userName', $userName);
+
+		$now = new \DateTime('now');
+		$current_month = $now->format('m');
+		$current_year = $now->format('Y');
+
+		if($month != '')
+		{
+			$this->db->where('month(createdDtm)', $month);
+		}else{
+			$this->db->where('month(createdDtm)', $current_month);
+		}
+
+		if($year != '')
+		{
+			$this->db->where('year(createdDtm)', $year);
+		}else{
+			$this->db->where('year(createdDtm)', $current_year);
+		}
+
+		$query = $this->db->get();
+		$list = $query->result();
+
+		$sum = 0 ;
+		foreach($list as $key1 => $employee) {
+			$sum = $sum +  $this->get_day_hours($employee->userId , $employee->createdDtm );
+		}
+
+		// Create a temporary list of page numbers
+		// $temp_pageno = array();
+		// foreach($list as $key => $employee) {
+		// 	$pageno = $employee->user_id.'day '.date('d', strtotime($employee->time)).' month '.date('F', strtotime($employee->time));
+		// 	if (in_array($pageno, $temp_pageno)) {
+		// 		// Remove duplicate instance from the list
+		// 		unset($list[$key]);
+		// 	}
+		// 	else{
+		// 		// Add to temporary list
+		// 		$temp_pageno[] = $pageno;				
+		// 	}
+		// }
+
+		// foreach($list as $key1 => $employee) {
+		// 	$temp_array = array();
+		// 	foreach($alllist as $key2 => $emp2) {
+		// 		if($employee->user_id.''.date('d', strtotime($employee->time)).''.date('F', strtotime($employee->time))
+		// 			== $emp2->user_id.''.date('d', strtotime($emp2->time)).''.date('F', strtotime($emp2->time))){
+		// 			$temp_array[] = $alllist[$key2];
+		// 		}
+		// 	}
+
+		// 	$sum_like = 0;
+		// 	for($i = 0 ; $i < count($temp_array) ; $i++){
+		// 		if(isset($temp_array[$i]) && isset($temp_array[$i+1]))
+		// 			$sum_like = $sum_like + round(abs(strtotime($temp_array[$i]->time) - strtotime($temp_array[$i + 1]->time)));
+		// 		$i++;				
+		// 	}
+		// 	$hours = floor($sum_like / 3600);
+		// 	$minutes = floor(($sum_like / 60) % 60);
+		// 	$seconds = $sum_like % 60;
+
+		// 	$sum_like = "$hours:$minutes:$seconds";
+
+		// 	$item = new stdClass();
+		// 	$item->user_name = $employee->user_name;
+		// 	$item->user_id = $employee->user_id;			
+		// 	// $item->time = $employee->time;
+		// 	$item->time = date('d', strtotime($employee->time)).' '.date('F', strtotime($employee->time));
+		// 	$item->period = $sum_like ;
+		// 	$item->type = $employee->type;
+		// 	$list[$key1] = $item;
+		// }
+
+		$hours = floor($sum / 3600);
+		$minutes = floor(($sum / 60) % 60);
+		$seconds = $sum % 60;
+
+		$sum = "$hours:$minutes:$seconds";
+
+		$all_data = [];
+		$all_data[0] = $list;
+		$all_data[1] = $sum;
+		return $all_data;
+		}
+		return 'please select a user';
+	}	
 }

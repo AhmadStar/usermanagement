@@ -52,7 +52,8 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Telephone number</th>
-                                <th>Role</th>
+                                <th>Month Stars</th>
+                                <th>Role</th>                                
                                 <th>Action</th>
                             </tr>
                   </thead>
@@ -77,6 +78,12 @@
                                         <?php echo $record->mobile ?>
                                     </td>
                                     <td>
+                                        <?php 
+                                        while($record->stars > 0){?>
+                                             <i class="fa fa-star" style="color:yellow"></i>                                             
+                                        <?php $record->stars--;}?>                                        
+                                    </td>
+                                    <td>
                                         <?php echo $record->role ?>
                                     </td>
                                     <td class="text-center">
@@ -88,6 +95,9 @@
                                         </a>
                                         <a class="btn btn-sm btn-danger deleteUser" href="#" data-userid="<?php echo $record->userId; ?>" title="Delete">
                                             <i class="fa fa-trash"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-success favourite_icon addbonus" href="#" data-userid="<?php echo $record->userId; ?>" title="Add Bonus">
+                                            <i class="fa fa-star"></i>
                                         </a>
                                     </td>
                                 </tr>

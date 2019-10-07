@@ -28,8 +28,6 @@ class User extends BaseController
     public function index()
     {
         $this->global['pageTitle'] = 'Home page';
-
-
         if($this->role === ROLE_EMPLOYEE){
             $data['mytasksCount'] = $this->user_model->tasksCount($this->session->userdata('userId'));
             $data['myfinishedTasksCount'] = $this->user_model->finishedTasksCount($this->session->userdata('userId'));
@@ -139,10 +137,6 @@ class User extends BaseController
             
             if($result == true)
             {
-                // $process = 'Account Settings Update';
-                // $processFunction = 'User/updateUser';
-                // $this->logrecord($process,$processFunction);
-
                 $this->session->set_flashdata('success', 'Your Account Settings were updated successfully');
             }
             else
@@ -202,11 +196,6 @@ class User extends BaseController
                 $result = $this->user_model->changePassword($this->vendorId, $usersData);
                 
                 if($result > 0) {
-
-                    // $process = 'Change Password';
-                    // $processFunction = 'User/changePassword';
-                    // $this->logrecord($process,$processFunction);
-
                      $this->session->set_flashdata('success', 'Password change successful');
                      }
                 else {
@@ -223,7 +212,7 @@ class User extends BaseController
      */
     function pageNotFound()
     {
-        $this->global['pageTitle'] = 'DAS : 404 - Sayfa Bulunamadı';
+        $this->global['pageTitle'] = 'DAS : 404 - Page Not Found';
         
         $this->loadViews("404", $this->global, NULL, NULL);
     }
@@ -233,28 +222,48 @@ class User extends BaseController
      */
     function endTask($taskId)
     {
-            $taskInfo = array('statusId'=>2,'endDtm'=>date('Y-m-d H:i:s'));
-            
-            $result = $this->user_model->endTask($taskId, $taskInfo);
-            
-            if ($result > 0) {
-                 $this->session->set_flashdata('success', 'Task completed successfully');
-                 if ($this->role != ROLE_EMPLOYEE){
-                    redirect('tasks');
-                 }
-                 else{
-                    redirect('etasks');
-                 }
-                }
-            else {
-                $this->session->set_flashdata('error', 'Task completion failed');
+        $taskInfo = array('statusId'=>2,'endDtm'=>date('Y-m-d H:i:s'));
+        
+        $result = $this->user_model->endTask($taskId, $taskInfo);
+        
+        if ($result > 0) {
+                $this->session->set_flashdata('success', 'Task completed successfully');
                 if ($this->role != ROLE_EMPLOYEE){
-                    redirect('tasks');
-                 }
-                 else{
-                    redirect('etasks');
-                 }
+                redirect('tasks');
+                }
+                else{
+                redirect('etasks');
+                }
             }
+        else {
+            $this->session->set_flashdata('error', 'Task completion failed');
+            if ($this->role != ROLE_EMPLOYEE){
+                redirect('tasks');
+                }
+                else{
+                redirect('etasks');
+                }
+        }
+    }
+
+    /**
+     * This function is used to show task
+     */
+    function showTask($taskId = NULL)
+    {
+        if($taskId == null)
+        {
+            redirect('tasks');
+        }
+        
+        $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);
+        $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
+        $data['tasks_situations'] = $this->user_model->getTasksSituations();
+        $data['user_list']=$this->_employee_list();
+        
+        $this->global['pageTitle'] = 'DAS : Edit Task';
+        
+        $this->loadViews("showTask", $this->global, $data, NULL);
     }
 
     /**
@@ -288,29 +297,25 @@ class User extends BaseController
      */
     function logHistory($userId = NULL)
     {
-            $data['dbinfo'] = $this->user_model->gettablemb('tbl_log','cias');
-            if(isset($data['dbinfo']->total_size))
-            {
-                if(($data['dbinfo']->total_size)>1000){
-                    $this->backupLogTable();
-                }
-            }            
+        $data['dbinfo'] = $this->user_model->gettablemb('tbl_log','monitor');
+        if(isset($data['dbinfo']->total_size))
+        {
+            if(($data['dbinfo']->total_size)>1000){
+                $this->backupLogTable();
+            }
+        }            
 
-            if($this->role != ROLE_ADMIN){                
-                $data['employee_list']=$this->_employee_list($this->session->userdata('userId'));
-              }else{
-                $data['employee_list']=$this->_employee_list();
-              }
+        if($this->role != ROLE_ADMIN){                
+            $data['employee_list']=$this->_employee_list($this->session->userdata('userId'));
+            }else{
+            $data['employee_list']=$this->_employee_list();
+            }
 
-            $data['userRecords'] = $this->user_model->logHistory($userId);
+        $data['userRecords'] = $this->user_model->logHistory($userId);
 
-            // $process = 'Log Views';
-            // $processFunction = 'Admin/logHistory';
-            // $this->logrecord($process,$processFunction);
-
-            $this->global['pageTitle'] = 'DAS : User Login History';
-            
-            $this->loadViews("logHistory", $this->global, $data, NULL);
+        $this->global['pageTitle'] = 'DAS : User Login History';
+        
+        $this->loadViews("logHistory", $this->global, $data, NULL);
     }
 
 
@@ -318,12 +323,28 @@ class User extends BaseController
      * This function used to show log history
      * @param number $userId : This is user id
      */
-     public function logs()
+    public function logs()
     {
         $date = $this->input->post('date');    
         $id = $this->input->post('id');    
         
         $data = $this->employee_model->get_day_logins($id, $date);
+        
+        //output to json format
+            echo json_encode($data);
+    }
+
+    /**
+     * This function used to show log history
+     * @param number $userId : This is user id
+     */
+    public function total()
+    {
+        $userName = $this->input->post('userName');    
+        $month = $this->input->post('month');
+        $year = $this->input->post('year');    
+        
+        $data = $this->employee_model->get_total($userName, $month , $year);
         
         //output to json format
             echo json_encode($data);

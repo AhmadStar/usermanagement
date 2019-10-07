@@ -12,7 +12,7 @@ class Preclass
 			$host     = "localhost";
 			$user     = "root";
 			$password = "";
-			$database = "cias2";
+			$database = "monitor";
 			$conn   = mysqli_connect($host, $user, $password, $database);
 			if (mysqli_connect_errno($conn)) {
 			

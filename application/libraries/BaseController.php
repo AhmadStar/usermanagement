@@ -83,10 +83,6 @@ class BaseController extends CI_Controller {
 	 */
 	public function accesslogincontrol()
     {
-            // $process = 'No Access';
-            // $processFunction = 'Admin/accesslogincontrol';
-            // $this->logrecord($process,$processFunction);
-
             redirect(noaccess);
     }
 	
@@ -95,12 +91,12 @@ class BaseController extends CI_Controller {
 	 */
 	function logout() {
 
+		//insert log out in logs table.
 		$process = 'logout';
         $processFunction = 'BaseController/logout';
 		$this->logrecord($process,$processFunction);
 				
-		$userInfo = array('is_logged'=>0);
-        
+		$userInfo = array('is_logged'=>0);        
         $this->user_model->editUser($userInfo, $this->session->userdata('userId'));
 
 		$this->session->sess_destroy ();
@@ -195,10 +191,11 @@ class BaseController extends CI_Controller {
 		$this->datas();
 		$logInfo = array("userId"=>$this->vendorId,
 		"userName"=>$this->name,
-		"process"=>$process,
-		//"processFunction"=>$processFunction,
+		"process"=>$process,		
 		"userRoleId"=>$this->role,
 		"userRoleText"=>$this->roleText,
+		//extra information for logs
+		//"processFunction"=>$processFunction,
 		// "userIp"=>$_SERVER['REMOTE_ADDR'],
 		// "userAgent"=>getBrowserAgent(),
 		// "agentString"=>$this->agent->agent_string(),

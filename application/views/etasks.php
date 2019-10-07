@@ -45,8 +45,8 @@
                     <th>Explanation</th>
                     <th>Availability</th>
                     <th>Priority</th>
-                    <th>Created by User</th>
-                    <th>User Role</th>
+                    <th>Created by</th>
+                    <!-- <th>User Role</th> -->
                     <th>For Emloyee</th>
                     <th>Creation Date</th>
                     <th>End Date</th>
@@ -96,9 +96,9 @@
                       <td>
                         <?php echo $record->name ?>
                       </td>
-                      <td>
+                      <!-- <td>
                         <?php echo $record->role ?>
-                      </td>
+                      </td> -->
                       <td>
                         <?php 
                         
@@ -119,6 +119,10 @@
                       <td class="text-center">
                         <a class="btn btn-sm btn-primary" href="<?= base_url().'endTask/'.$record->id; ?>" title="End Task">
                           <i class="fa fa-check-circle"></i>
+                        </a>
+                        <a class="btn btn-sm btn-info showtask" href="<?php echo base_url().'showTask/'.$record->id; ?>" data-userid="<?php echo $record->id; ?>"
+                          title="Show">
+                          <i class="fa fa-eye"></i>
                         </a>
                       </td>
                     </tr>

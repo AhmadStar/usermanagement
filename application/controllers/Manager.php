@@ -40,12 +40,12 @@ class Manager extends BaseController
      */
     function tasks()
     {
-            $data['taskRecords'] = $this->user_model->getTasks();
-            $data['user_list']=$this->employee_list();
+        $data['taskRecords'] = $this->user_model->getTasks();
+        $data['user_list']=$this->employee_list();
 
-            $this->global['pageTitle'] = 'DAS : All Tasks';
-            
-            $this->loadViews("tasks", $this->global, $data, NULL);
+        $this->global['pageTitle'] = 'DAS : All Tasks';
+        
+        $this->loadViews("tasks", $this->global, $data, NULL);
     }
 
      /**
@@ -53,12 +53,12 @@ class Manager extends BaseController
      */
     function finishedTasks()
     {
-            $data['taskRecords'] = $this->user_model->getFinishedTasks();
-            $data['user_list']=$this->employee_list();
+        $data['taskRecords'] = $this->user_model->getFinishedTasks();
+        $data['user_list']=$this->employee_list();
 
-            $this->global['pageTitle'] = 'DAS : All Finished Tasks';
-            
-            $this->loadViews("finishedTasks", $this->global, $data, NULL);
+        $this->global['pageTitle'] = 'DAS : All Finished Tasks';
+        
+        $this->loadViews("finishedTasks", $this->global, $data, NULL);
     }
 
     /**
@@ -66,12 +66,12 @@ class Manager extends BaseController
      */
     function addNewTask()
     {
-            $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();            
-            $data['user_list']=$this->_user_list();
+        $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();            
+        $data['user_list']=$this->_user_list();
 
-            $this->global['pageTitle'] = 'DAS : Add Task';
+        $this->global['pageTitle'] = 'DAS : Add Task';
 
-            $this->loadViews("addNewTask", $this->global, $data, NULL);
+        $this->loadViews("addNewTask", $this->global, $data, NULL);
     }
 
      /**
@@ -79,62 +79,62 @@ class Manager extends BaseController
      */
     function addNewTasks()
     {
-            $this->load->library('form_validation');
+        $this->load->library('form_validation');
+        
+        $this->form_validation->set_rules('fname','Task Title','required');
+        $this->form_validation->set_rules('priority','priority','required');
+        $this->form_validation->set_rules('employee_id','employee name','required');
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $this->addNewTask();
+        }
+        else
+        {                
+            $title = $this->input->post('fname');
+            $comment = $this->input->post('comment');
+            $priorityId = $this->input->post('priority');
+            $employee_id = $this->input->post('employee_id');
             
-            $this->form_validation->set_rules('fname','Task Title','required');
-            $this->form_validation->set_rules('priority','priority','required');
-            $this->form_validation->set_rules('employee_id','employee name','required');
+            $statusId = 1;
+            $permalink = sef($title);
             
-            if($this->form_validation->run() == FALSE)
+            $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 'statusId'=> $statusId,
+                                'permalink'=>$permalink, 'createdBy'=>$this->vendorId, 'employee_id' => $employee_id);
+                                
+            $result = $this->user_model->addNewTasks($taskInfo);
+            
+            if($result > 0)
             {
-                $this->addNewTask();
+                $this->session->set_flashdata('success', 'Task created successfully');
             }
             else
-            {                
-                $title = $this->input->post('fname');
-                $comment = $this->input->post('comment');
-                $priorityId = $this->input->post('priority');
-                $employee_id = $this->input->post('employee_id');
-                
-                $statusId = 1;
-                $permalink = sef($title);
-                
-                $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 'statusId'=> $statusId,
-                                    'permalink'=>$permalink, 'createdBy'=>$this->vendorId, 'employee_id' => $employee_id);
-                                    
-                $result = $this->user_model->addNewTasks($taskInfo);
-                
-                if($result > 0)
-                {
-                    $this->session->set_flashdata('success', 'Task created successfully');
-                }
-                else
-                {
-                    $this->session->set_flashdata('error', 'Task creation failed');
-                }
-                
-                redirect('addNewTask');
+            {
+                $this->session->set_flashdata('error', 'Task creation failed');
             }
+            
+            redirect('addNewTask');
         }
+    }
 
     /**
      * This function is used to open edit tasks view
      */
     function editOldTask($taskId = NULL)
     {
-            if($taskId == null)
-            {
-                redirect('tasks');
-            }
-            
-            $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);
-            $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
-            $data['tasks_situations'] = $this->user_model->getTasksSituations();
-            $data['user_list']=$this->_user_list();
-            
-            $this->global['pageTitle'] = 'DAS : Edit Task';
-            
-            $this->loadViews("editOldTask", $this->global, $data, NULL);
+        if($taskId == null)
+        {
+            redirect('tasks');
+        }
+        
+        $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);
+        $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
+        $data['tasks_situations'] = $this->user_model->getTasksSituations();
+        $data['user_list']=$this->_user_list();
+        
+        $this->global['pageTitle'] = 'DAS : Edit Task';
+        
+        $this->loadViews("editOldTask", $this->global, $data, NULL);
     }
 
     /**
@@ -182,7 +182,7 @@ class Manager extends BaseController
             }
             redirect('tasks');
 
-            }
+        }
     }
 
     /**
@@ -191,24 +191,20 @@ class Manager extends BaseController
     function deleteTask($taskId = NULL)
     {
         if($taskId == null)
-            {
-                redirect('tasks');
-            }
-
-            $result = $this->user_model->deleteTask($taskId);
-            
-            if ($result == TRUE) {
-                //  $process = 'Delete Task';
-                //  $processFunction = 'Manager/deleteTask';
-                //  $this->logrecord($process,$processFunction);
-
-                 $this->session->set_flashdata('success', 'Görev silme başarılı');
-                }
-            else
-            {
-                $this->session->set_flashdata('error', 'Görev silme başarısız');
-            }
+        {
             redirect('tasks');
+        }
+
+        $result = $this->user_model->deleteTask($taskId);
+        
+        if ($result == TRUE) {
+            $this->session->set_flashdata('success', 'Task deleted successful');
+        }
+        else
+        {
+            $this->session->set_flashdata('error', 'Task deletion failed');
+        }
+        redirect('tasks');
     }
 
     /**

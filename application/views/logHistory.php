@@ -24,6 +24,7 @@
                   
                   ?>
                 MB</h3>
+                <h3 id='total'></h3>
             <div class="pull-right">
               <a class="btn btn-danger" href="<?php echo base_url(); ?>backupLogTable">Backup and Delete</a>
             </div>
@@ -215,13 +216,35 @@ $(document).ready(function() {
 
     $('#btn-filter').click(function(){ //button filter event click
         table.ajax.reload();  //just reload table
-        //loadTotal();
+        loadTotal();
         
     });
     $('#btn-reset').click(function(){ //button reset event click
         $('#form-filter')[0].reset();
         table.ajax.reload();  //just reload table
     });
+
+    function loadTotal(){
+
+      var mydata  = {
+          userName : $("#userName  option:selected" ).text(),
+          month : $('#month').datepicker({ dateFormat: 'mm' , viewMode: "months", minViewMode: "months" }).val(),
+          year : $('#year').datepicker({ dateFormat: 'yy' ,viewMode: "years", minViewMode: "years"}).val()               
+            }
+
+            console.log(mydata);
+
+		$.ajax({
+        url: '<?php echo site_url('total')?>',
+        type: 'POST',
+        data: mydata,
+        dataType: 'json',
+        success: function(data) {			  
+            $("#total").html('total work hours : '+data[1]);            
+        }
+    });
+  }
+  
   });
 
 </script>

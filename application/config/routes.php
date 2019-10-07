@@ -22,6 +22,7 @@ $route['editOld'] = "admin/editOld";
 $route['editOld/(:num)'] = "admin/editOld/$1";
 $route['editUser'] = "admin/editUser";
 $route['deleteUser'] = "admin/deleteUser";
+$route['addbonus'] = "admin/addBonus";
 // $route['log-history'] = "admin/logHistory";
 $route['log-history-backup'] = "admin/logHistoryBackup";
 $route['log-history/(:num)'] = "admin/logHistorysingle/$1";
@@ -47,6 +48,7 @@ $route['changePassword'] = "user/changePassword";
 $route['pageNotFound'] = "user/pageNotFound";
 $route['checkEmailExists'] = "user/checkEmailExists";
 $route['endTask/(:num)'] = "user/endTask/$1";
+$route['showTask/(:num)'] = "user/showTask/$1";
 $route['etasks'] = "user/etasks";
 $route['efinishedtasks'] = "user/eFinishedTasks";
 $route['userEdit'] = "user/loadUserEdit";
@@ -55,6 +57,7 @@ $route['updateUser'] = "user/updateUser";
 
 $route['log-history'] = "user/logHistory";
 $route['logs'] = "user/logs";
+$route['total'] = "user/total";
 $route['employee_list'] = "user/employee_list";
 
 /*********** LOGIN CONTROLLER ROUTES *******************/
