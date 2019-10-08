@@ -106,7 +106,7 @@ $(document).ready(function(){
                $.ajax({
                       type: "POST",
                       url: post_url_check_username,
-                      data: {username : value},
+                      data: {fname : value},
                       dataType: "json",
                       async: false
                }).done(function(result){

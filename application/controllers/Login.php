@@ -113,7 +113,7 @@ class Login extends BaseController
                                             'role'=>$res->roleId,
                                             'roleText'=>$res->role,
                                             'name'=>$res->name,
-                                            'lastLogin'=> $lastLogin->createdDtm,
+                                            'lastLogin'=> isset($lastLogin) ? $lastLogin->createdDtm : 'first ',
                                             'status'=> $res->status,
                                             'isLoggedIn' => TRUE
                                     );

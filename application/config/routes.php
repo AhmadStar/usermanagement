@@ -47,6 +47,7 @@ $route['loadChangePass'] = "user/loadChangePass";
 $route['changePassword'] = "user/changePassword";
 $route['pageNotFound'] = "user/pageNotFound";
 $route['checkEmailExists'] = "user/checkEmailExists";
+$route['checkUsernameExists'] = "user/checkUsernameExists";
 $route['endTask/(:num)'] = "user/endTask/$1";
 $route['showTask/(:num)'] = "user/showTask/$1";
 $route['etasks'] = "user/etasks";

@@ -83,7 +83,7 @@ class BaseController extends CI_Controller {
 	 */
 	public function accesslogincontrol()
     {
-            redirect(noaccess);
+            redirect('noaccess');
     }
 	
 	/**

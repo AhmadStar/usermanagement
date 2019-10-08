@@ -15,7 +15,7 @@ $(document).ready(function(){
 	var validator = addUserForm.validate({
 		
 		rules:{
-			fname :{ required : true },
+			fname :{ required : true ,remote : { url : baseURL + "checkUsernameExists", type :"post"}},
 			email : { required : true, email : true, remote : { url : baseURL + "checkEmailExists", type :"post"} },
 			password : { required : true },
 			cpassword : {required : true, equalTo: "#password"},
@@ -23,7 +23,7 @@ $(document).ready(function(){
 			role : { required : true, selected : true}
 		},
 		messages:{
-			fname :{ required : "This field is required" },
+			fname :{ required : "This field is required", remote : "fname already taken" },
 			email : { required : "This field is required", email : "Please enter valid email address", remote : "Email already taken" },
 			password : { required : "This field is required" },
 			cpassword : {required : "This field is required", equalTo: "Please enter same password" },

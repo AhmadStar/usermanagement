@@ -115,6 +115,13 @@
           </a>
         </div>
       </div>
+      <?php          
+      }
+      ?>
+      <?php          
+      if($role == ROLE_ADMIN)
+      {
+      ?>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
@@ -133,9 +140,8 @@
           </a>
         </div>
       </div>
-
-      <?php          
-      }
+      <?php
+          }
       ?>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">

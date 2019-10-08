@@ -71,6 +71,24 @@ class User extends BaseController
     }
 
     /**
+     * This function is used to check whether email already exist or not
+     */
+    function checkUsernameExists()
+    {
+        $userId = $this->input->post("userId");
+        $fname = $this->input->post("fname");
+
+        if(empty($userId)){
+            $result = $this->user_model->checkUsernameExists($fname);
+        } else {
+            $result = $this->user_model->checkUsernameExists($fname, $userId);
+        }
+
+        if(empty($result)){ echo("true"); }
+        else { echo("false"); }
+    }
+
+    /**
      * This function is used to load edit user view
      */
     function loadUserEdit()
