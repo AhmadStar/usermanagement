@@ -12,7 +12,7 @@
     if($role == ROLE_EMPLOYEE)
     {
     ?>
-    <div class="col-lg-3 col-xs-6">
+     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-aqua">
           <div class="inner">
@@ -48,9 +48,38 @@
         </div>
       </div>
       <!-- ./col -->
+
+      <!-- ./col -->
+      <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-maroon">
+          <div class="inner">
+            <h3>
+              <?php
+              if(isset($userStars)) {
+                if($userStars == 0) echo $userStars;
+                while($userStars > 0){?>
+                     <i class="fa fa-star" style="color:yellow"></i>                                             
+                <?php  $userStars--;}
+              }
+              ?>
+            </h3>
+            <p>My Bonus</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-ios-star-outline"></i>
+          </div>
+          <a href="<?php echo base_url(); ?><?php  echo '' ?>" class="small-box-footer">More information
+            <i class="fa fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- ./col -->
       <?php
           }
-          ?>
+      if($role != ROLE_EMPLOYEE)
+      {
+      ?>
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-blue">
@@ -71,7 +100,7 @@
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
-        <div class="small-box bg-lime">
+        <div class="small-box bg-green">
           <div class="inner">
             <h3>
               <?php if(isset($finishedTasksCount)) { echo $finishedTasksCount; } else { echo '0'; } ?>
@@ -104,6 +133,10 @@
           </a>
         </div>
       </div>
+
+      <?php          
+      }
+      ?>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->

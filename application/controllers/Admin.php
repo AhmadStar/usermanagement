@@ -49,7 +49,7 @@ class Admin extends BaseController
         
         $count = $this->user_model->userListingCount($searchText);
 
-        $returns = $this->paginationCompress ( "userListing/", $count, 10 );
+        $returns = $this->paginationCompress ( "userListing/", $count, 100 );
         
         $data['userRecords'] = $this->user_model->userListing($searchText, $returns["page"], $returns["segment"]);
 
@@ -280,7 +280,7 @@ class Admin extends BaseController
         if(isset($data['dbinfo']->total_size))
         {
         if(($data['dbinfo']->total_size)>1000){
-            $this->backupLogTable();
+            // $this->backupLogTable();
         }
         }
         $data['userRecords'] = $this->user_model->logHistoryBackup();

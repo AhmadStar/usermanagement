@@ -3,7 +3,7 @@
         <b>DAS</b> Management panel | V1.0
     </div>
     <strong>Copyright &copy; 2019
-        <a href="<?php echo base_url(); ?>">DAS</a>
+        <a href="<?php echo 'http://das-360.net'; ?>">DAS</a>
     </strong> All Rights Reserved.
 </footer>
 

@@ -38,6 +38,7 @@ class User_model extends CI_Model
         $this->db->join('tbl_roles as Role', 'Role.roleId = BaseTbl.roleId','left');
         $this->db->join('bonus', 'bonus.user_id = BaseTbl.userId','left');        
         $this->db->group_by('BaseTbl.userId');
+        $this->db->HAVING('stars >= 0');
         if(!empty($searchText)) {
             $likeCriteria = "(BaseTbl.email  LIKE '%".$searchText."%'
                             OR  BaseTbl.name  LIKE '%".$searchText."%'
@@ -51,7 +52,10 @@ class User_model extends CI_Model
         $this->db->limit($page, $segment);
         $query = $this->db->get();
         
-        $result = $query->result();        
+        $result = $query->result();
+
+        // var_dump($result);die();
+
         return $result;
     }
     
@@ -442,6 +446,7 @@ class User_model extends CI_Model
     {
         $this->db->select('*');        
         $this->db->from('tbl_log_backup as BaseTbl');
+        $this->db->group_by('userId , userName , day(createdDtm)');
         $this->db->order_by('BaseTbl.createdDtm', 'DESC');
         $query = $this->db->get();
         $result = $query->result();        
@@ -499,7 +504,24 @@ class User_model extends CI_Model
         $this->db->from('tbl_log as BaseTbl');
         if($userId != '')
             $this->db->where('userId', $userId);
-        $this->db->group_by('userId , userName , day(createdDtm)');        
+        $this->db->group_by('userId , userName , day(createdDtm)');
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    /**
+     * This function is used to get the logs count
+     * @return array $result : This is result
+     */
+    function userStars($userId = '')
+    {
+        $this->db->select('*');
+        $this->db->from('bonus');
+        if($userId != '')
+            $this->db->where('user_id', $userId);
+        $now = new \DateTime('now');
+		$month = $now->format('m');		
+        $this->db->where('month(bonus.date)', $month);
         $query = $this->db->get();
         return $query->num_rows();
     }

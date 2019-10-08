@@ -25,9 +25,12 @@
                   ?>
                 MB</h3>
                 <h3 id='total'></h3>
+            
+            <?php if($role == ROLE_ADMIN){ ?>
             <div class="pull-right">
               <a class="btn btn-danger" href="<?php echo base_url(); ?>backupLogTable">Backup and Delete</a>
             </div>
+            <?php }?>
             <div class="box-tools">
             </div>
           </div>
@@ -171,7 +174,7 @@ $(document).ready(function() {
 
     });
  // fetch logs of day.
- $('#employee_list_table tbody').on( 'click', 'tr', function () {            
+ $('#employee_list_table tbody').on( 'click', 'tr', function () {
             var row_data = table.row( this ).data()
             var mydata  = {
                 name: row_data[1] ,                
@@ -209,23 +212,20 @@ $(document).ready(function() {
             $("#logs_user_name").text(row_data[1]);
             $("#logs_date").text(row_data[4]);
             $("#day_hours").text(day_hours);
-          }).modal('show');
-
-          // console.log(row_data);
+          }).modal('show');          
     });
 
     $('#btn-filter').click(function(){ //button filter event click
         table.ajax.reload();  //just reload table
-        loadTotal();
-        
+        loadTotal();        
     });
+
     $('#btn-reset').click(function(){ //button reset event click
         $('#form-filter')[0].reset();
         table.ajax.reload();  //just reload table
     });
 
     function loadTotal(){
-
       var mydata  = {
           userName : $("#userName  option:selected" ).text(),
           month : $('#month').datepicker({ dateFormat: 'mm' , viewMode: "months", minViewMode: "months" }).val(),
@@ -239,8 +239,11 @@ $(document).ready(function() {
         type: 'POST',
         data: mydata,
         dataType: 'json',
-        success: function(data) {			  
-            $("#total").html('total work hours : '+data[1]);            
+        success: function(data) {
+            if(data === 'empty')
+              $("#total").html('Please Select a user');
+            else
+              $("#total").html('Total work hours of '+ $("#userName  option:selected" ).text() +' : '+data[1]);
         }
     });
   }
