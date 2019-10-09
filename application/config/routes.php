@@ -57,6 +57,7 @@ $route['updateUser'] = "user/updateUser";
 
 
 $route['log-history'] = "user/logHistory";
+$route['general'] = "user/general";
 $route['logs'] = "user/logs";
 $route['total'] = "user/total";
 $route['employee_list'] = "user/employee_list";

@@ -43,7 +43,8 @@
     <![endif]-->
 </head>
 
-<body class="skin-red sidebar-mini">
+<?php $theme = $this->user_model->get_general();?>
+<body class="<?php echo $theme->name?> sidebar-mini">
   <div class="wrapper">
 
     <header class="main-header">
@@ -200,11 +201,17 @@
             ?>
 
             <li class="treeview">
-                <a href="<?php echo base_url(); ?>log-history">
-                  <i class="fa fa-archive"></i>
-                  <span>Log Records</span>
-                </a>
-              </li>
+              <a href="<?php echo base_url(); ?>log-history">
+                <i class="fa fa-archive"></i>
+                <span>Log Records</span>
+              </a>
+            </li>
+            <li class="treeview">
+              <a href="<?php echo base_url(); ?>general">
+                <i class="fa fa-archive"></i>
+                <span>Genearal Settings</span>
+              </a>
+            </li>
         </ul>
       </section>
       <!-- /.sidebar -->

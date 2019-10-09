@@ -31,4 +31,17 @@ $(document).ready(function(){
 			role : { required : "This field is required", selected : "Please select atleast one option" }			
 		}
 	});
+
+
+	var addgeneralForm = $("#addgeneral");
+	
+	var validator = addgeneralForm.validate({
+		
+		rules:{
+			theme_name : { required : true, selected : true}
+		},
+		messages:{
+			theme_name : { required : "This field is required", selected : "Please select atleast one option" }			
+		}
+	});
 });

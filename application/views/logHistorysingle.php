@@ -148,14 +148,13 @@
                         items.push(li);                        
                     });
                     $("#populate").html(items);
+                    $("#day_detail_modal").on("shown.bs.modal", function () {
+                    $("#logs_user_name").text(row_data[1]);
+                    $("#logs_date").text(row_data[3]);
+                    $("#day_hours").text(data[1]);
+                }).modal('show');
                 },
-            });
-
-        $("#day_detail_modal").on("shown.bs.modal", function () {
-            $("#logs_user_name").text(row_data[1]);
-            $("#logs_date").text(row_data[3]);
-            $("#day_hours").text(day_hours);
-          }).modal('show');
+            });        
     });
 
 </script>

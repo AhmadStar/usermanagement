@@ -36,6 +36,7 @@ class User extends BaseController
             $data['logsCount'] = $this->user_model->logsCount($this->session->userdata('userId'));
             $data['usersCount'] = $this->user_model->usersCount();
             $data['userStars'] = $this->user_model->userStars($this->session->userdata('userId'));
+            
           }else{
             $data['tasksCount'] = $this->user_model->tasksCount();
             $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();
@@ -280,7 +281,7 @@ class User extends BaseController
         $data['tasks_situations'] = $this->user_model->getTasksSituations();
         $data['user_list']=$this->_employee_list();
         
-        $this->global['pageTitle'] = 'DAS : Edit Task';
+        $this->global['pageTitle'] = 'DAS : Show Task';
         
         $this->loadViews("showTask", $this->global, $data, NULL);
     }
@@ -324,7 +325,7 @@ class User extends BaseController
             }
         }            
 
-        if($this->role != ROLE_ADMIN){                
+        if($this->role != ROLE_ADMIN){
             $data['employee_list']=$this->_employee_list($this->session->userdata('userId'));
             }else{
             $data['employee_list']=$this->_employee_list();
@@ -335,6 +336,52 @@ class User extends BaseController
         $this->global['pageTitle'] = 'DAS : User Login History';
         
         $this->loadViews("logHistory", $this->global, $data, NULL);
+    }
+
+
+    /**
+     * This function used to show general settings
+     *
+     */
+    function general()
+    {
+        if($this->input->post())
+        {
+            $this->load->library('form_validation');    
+            $this->form_validation->set_rules('theme_name','theme_name','trim|required|numeric');            
+            
+            if($this->form_validation->run() == FALSE)
+            {
+                redirect('general');
+            }
+            else
+            {
+                $theme_id = $this->input->post('theme_name');                
+
+                $general_info = array('theme_id'=>$theme_id);
+                                    
+                $result = $this->user_model->update_general($general_info);
+                
+                // echo $result; die();
+
+                if($result)
+                {
+                    $this->session->set_flashdata('success', 'settings updated successfully');
+                }
+                else
+                {
+                    $this->session->set_flashdata('error', 'update general failed');
+                }
+                
+                redirect('general');
+            }
+        }
+        $data['themes'] = $this->user_model->getThemes();
+        $data['general_info'] = $this->user_model->get_general();
+
+        $this->global['pageTitle'] = 'DAS : General Settings';
+        
+        $this->loadViews("general", $this->global, $data, NULL);
     }
 
 
@@ -403,10 +450,11 @@ class User extends BaseController
   public function _employee_list($employee_id='')
   {    
     $employees = $this->employee_model->get_employees($employee_id);
-    $employee_list['']= 'Choose Employee';
+    if($employee_id == '')
+        $employee_list['']= 'Choose Employee';
     foreach ($employees as $employee) 
     {
-      $employee_list[$employee->userId]=  html_escape($employee->userName);
+      $employee_list[$employee->userId]=  html_escape($employee->name);
     }
     return $employee_list;
   }

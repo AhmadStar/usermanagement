@@ -72,6 +72,44 @@ class User_model extends CI_Model
         return $query->result();
     }
 
+
+    /**
+     * This function is used to get the getThemes
+     * @return array $result : This is result of the query
+     */
+    function getThemes()
+    {
+        $this->db->select('id, name');
+        $this->db->from('themes');
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+
+    /**
+     * This function is used to update general table
+     * @return array $result : This is result of the query
+     */
+    function update_general($general_info)
+    {        
+        $this->db->update('general', $general_info);        
+        return TRUE;
+    }
+
+    /**
+     * This function is used to get general table
+     * @return array $result : This is result of the query
+     */
+    function get_general()
+    {        
+        $this->db->select('themes.name');
+        $this->db->from('general');
+        $this->db->join('themes','general.theme_id = themes.id');
+        $query = $this->db->get();
+        $res = $query->result();
+        return $res[0];
+    }
+
     /**
      * This function is used to check whether email id is already exist or not
      * @param {string} $email : This is email id
@@ -137,7 +175,7 @@ class User_model extends CI_Model
      */
     function getUserInfo($userId)
     {
-        $this->db->select('userId, name, email, mobile, roleId');
+        $this->db->select('userId, name, email, mobile, roleId , picture');
         $this->db->from('tbl_users');
         $this->db->where('isDeleted', 0);
         $this->db->where('userId', $userId);

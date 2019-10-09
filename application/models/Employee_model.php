@@ -162,7 +162,7 @@ class Employee_model extends CI_Model {
     
 	public function get_employees($employee_id = ''){
 		$this->db->select('*');		
-		$this->db->from('tbl_log');
+		$this->db->from('tbl_users');
 		if($employee_id != '')
 			$this->db->where('userId', $employee_id);		
 		$query = $this->db->get();
@@ -238,10 +238,10 @@ class Employee_model extends CI_Model {
 
 			$sum = "$hours:$minutes:$seconds";
 
-			$all_data = [];
-			$all_data[0] = $list;
-			$all_data[1] = $sum;
-			return $all_data;
+			// $all_data = [];
+			// $all_data[0] = $list;
+			// $all_data[1] = $sum;
+			return $sum;
 		}		
 		$all_data = 'empty';		
 		return $all_data;

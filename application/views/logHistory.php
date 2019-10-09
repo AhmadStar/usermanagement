@@ -190,7 +190,6 @@ $(document).ready(function() {
                 data: mydata,
                 success: function(data){                    
                     var items = [];                    
-                    day_hours = data[1];
                     $.each(data[0], function (id, page){
                         var li = $("<li>");
                         li.addClass("col-md-12");
@@ -205,14 +204,13 @@ $(document).ready(function() {
                         items.push(li);                        
                     });
                     $("#populate").html(items);
+                    $("#day_detail_modal").on("shown.bs.modal", function () {
+                    $("#logs_user_name").text(row_data[1]);
+                    $("#logs_date").text(row_data[4]);
+                    $("#day_hours").text(data[1]);
+                  }).modal('show');
                 },
             });
-
-        $("#day_detail_modal").on("shown.bs.modal", function () {
-            $("#logs_user_name").text(row_data[1]);
-            $("#logs_date").text(row_data[4]);
-            $("#day_hours").text(day_hours);
-          }).modal('show');          
     });
 
     $('#btn-filter').click(function(){ //button filter event click
@@ -243,7 +241,7 @@ $(document).ready(function() {
             if(data === 'empty')
               $("#total").html('Please Select a user');
             else
-              $("#total").html('Total work hours of '+ $("#userName  option:selected" ).text() +' : '+data[1]);
+            $("#total").html('Total work hours of '+ $("#userName  option:selected" ).text() +' : '+data);
         }
     });
   }
