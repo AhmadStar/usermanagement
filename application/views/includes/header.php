@@ -43,7 +43,11 @@
     <![endif]-->
 </head>
 
-<?php $theme = $this->user_model->get_general();?>
+<?php 
+$theme = $this->user_model->get_general();
+$picture = $this->user_model->get_picture($this->session->userdata('userId'));
+$picture = $picture->picture;
+?>
 <body class="<?php echo $theme->name?> sidebar-mini">
   <div class="wrapper">
 
@@ -75,11 +79,11 @@
                   <?= empty($last_login) ? "First Login" : $last_login; ?>
                 </li>
               </ul>
-            </li>
+            </li>            
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="<?php echo base_url(); ?>assets/dist/img/avatar.jpg" class="user-image" alt="User Image" />
+                <img src="<?php echo base_url().$picture;?>" class="user-image" alt="User Image" />
                 <span class="hidden-xs">
                   <?php echo $name; ?>
                 </span>
@@ -87,7 +91,7 @@
               <ul class="dropdown-menu">
                 <!-- User image -->
                 <li class="user-header">
-                  <img src="<?php echo base_url(); ?>assets/dist/img/avatar.jpg" class="img-circle" alt="User Image" />
+                  <img src="<?php echo base_url().$picture; ?>" class="img-circle" alt="User Image" />
                   <p>
                     <?php echo $name; ?>
                     <small>

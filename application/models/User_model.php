@@ -111,6 +111,20 @@ class User_model extends CI_Model
     }
 
     /**
+     * This function is used to get general table
+     * @return array $result : This is result of the query
+     */
+    function get_picture($userId)
+    {        
+        $this->db->select('picture');
+        $this->db->from('tbl_users');
+        $this->db->where("userId", $userId);
+        $query = $this->db->get();
+        $res = $query->result();
+        return $res[0];
+    }
+
+    /**
      * This function is used to check whether email id is already exist or not
      * @param {string} $email : This is email id
      * @param {number} $userId : This is user id
@@ -120,7 +134,7 @@ class User_model extends CI_Model
     {
         $this->db->select("email");
         $this->db->from("tbl_users");
-        $this->db->where("email", $email);   
+        $this->db->where("email", $email);
         $this->db->where("isDeleted", 0);
         if($userId != 0){
             $this->db->where("userId !=", $userId);

@@ -133,8 +133,32 @@ class User extends BaseController
 
             if(empty($password))
             {
+                if($_FILES['picture']['tmp_name']){
+                    $path='uploads/';
+                    $config['upload_path']          = './uploads/';
+                    $config['file_name']            = $userId.'_profile_picture';
+                    $config['allowed_types']        = 'gif|jpg|png|pdf|doc';
+                    $config['overwrite']            =TRUE;
+                    $config['max_size']             = 100;
+                    $config['max_width']            = 1024;
+                    $config['max_height']           = 768;
+                    $this->load->library('upload', $config);
+                    if ( ! $this->upload->do_upload('picture'))
+                    {                            
+                        $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
+                        $error = array('error' => $this->upload->display_errors());                        
+                    }
+                    else
+                    {
+                        $data = array('upload_data' => $this->upload->data());
+                        $picture = $path.''.$data['upload_data']['file_name'];
+                        $userInfo = array('email'=>$email,'name'=>$name,
+                            'mobile'=>$mobile, 'status'=>1, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $picture);                      
+                    }
+                }else{
             $userInfo = array('email'=>$email,'name'=>$name,
                             'mobile'=>$mobile, 'status'=>1, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'));
+                }
             }
             else
             {
@@ -147,9 +171,35 @@ class User extends BaseController
                 }
                 else
                 {
-                $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password),
-                    'name'=>ucwords($name), 'mobile'=>$mobile,'status'=>1, 'updatedBy'=>$this->vendorId, 
-                    'updatedDtm'=>date('Y-m-d H:i:s'));
+                //upload picture
+                if($_FILES['picture']['tmp_name']){
+                    $path='uploads/';
+                    $config['upload_path']          = './uploads/';
+                    $config['file_name']            = $userId.'_profile_picture';
+                    $config['allowed_types']        = 'gif|jpg|png|pdf|doc';
+                    $config['overwrite']            =TRUE;
+                    $config['max_size']             = 100;
+                    $config['max_width']            = 1024;
+                    $config['max_height']           = 768;
+                    $this->load->library('upload', $config);
+                    if ( ! $this->upload->do_upload('picture'))
+                    {                            
+                        $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
+                        $error = array('error' => $this->upload->display_errors());                        
+                    }
+                    else
+                    {
+                        $data = array('upload_data' => $this->upload->data());
+                        $picture = $path.''.$data['upload_data']['file_name'];
+                        $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password),
+                        'name'=>ucwords($name), 'mobile'=>$mobile,'status'=>1, 'updatedBy'=>$this->vendorId, 
+                        'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $picture);                        
+                    }
+                }else{
+                    $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password),
+                        'name'=>ucwords($name), 'mobile'=>$mobile,'status'=>1, 'updatedBy'=>$this->vendorId, 
+                        'updatedDtm'=>date('Y-m-d H:i:s'));
+                }
                 }
             }
             

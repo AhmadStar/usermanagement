@@ -100,6 +100,8 @@ class Login extends BaseController
             
             $result = $this->login_model->loginMe($email, $password);
             
+            // var_dump($result);die();
+
             if(count($result) > 0)
             {
                 foreach ($result as $res)
@@ -113,6 +115,7 @@ class Login extends BaseController
                                             'role'=>$res->roleId,
                                             'roleText'=>$res->role,
                                             'name'=>$res->name,
+                                            'picture'=>$res->picture,
                                             'lastLogin'=> isset($lastLogin) ? $lastLogin->createdDtm : 'first ',
                                             'status'=> $res->status,
                                             'isLoggedIn' => TRUE

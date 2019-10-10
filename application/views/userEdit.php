@@ -4,6 +4,7 @@ $userId = '';
 $name = '';
 $email = '';
 $mobile = '';
+$picture = '';
 
 if(!empty($userInfo))
 {
@@ -13,6 +14,7 @@ if(!empty($userInfo))
         $name = $uf->name;
         $email = $uf->email;
         $mobile = $uf->mobile;
+        $picture = $uf->picture;
     }
 }
 
@@ -38,7 +40,7 @@ if(!empty($userInfo))
                     <!-- /.box-header -->
                     <!-- form start -->
                     <?php $this->load->helper("form"); ?>
-                    <form role="form" id="updateUser" action="<?php echo base_url() ?>updateUser" method="post" role="form">
+                    <form enctype='multipart/form-data' role="form" id="updateUser" action="<?php echo base_url() ?>updateUser" method="post" role="form">
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -85,6 +87,18 @@ if(!empty($userInfo))
                                             maxlength="10">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
+                                    <div class="form-group">                                        
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="fileupload-preview thumbnail" style="width: 120px; height: 140px;"><img src="<?php echo base_url().$picture;?>" /></div>
+                                            <div class="">
+                                                <span class="btn btn-file btn-default"><span class="fileupload-new"><?php 'Select image'?></span><span class="fileupload-exists">Change</span>
+                                                <input type="file" name="picture" id="picture" /></span>
+                                                <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none" title="Remove the selected picture">&times;</a>
+                                            </div>  
+                                        </div>
+                                    </div>                                
                             </div>
                         </div>
                         <!-- /.box-body -->
