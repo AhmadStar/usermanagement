@@ -46,23 +46,25 @@ if(!empty($taskInfo))
                 <h4 class=""><span >Task Description :</span><?php echo $comment; ?></h4>
                 <h4 class=""><span >Employee Name :</span><?php echo $user_list[$employee_id]?></h4>
                 <h4 class=""><span >Task Proiotity :</span>
-                        <?php 
-                        foreach ($tasks_prioritys as $rl)
-                        { 
-                            if($rl->priorityId == $priorityId)                                    
-                                echo $rl->priority;                                
-                        }
-                        ?>
-                    </h4>
+                    <?php 
+                    foreach ($tasks_prioritys as $rl)
+                    { 
+                        if($rl->priorityId == $priorityId)                                    
+                            echo $rl->priority;                                
+                    }
+                    ?>
+                </h4>
+                <h4 class=""><span >Task Status :</span>
+                    <?php 
+                    foreach ($tasks_situations as $rl)
+                    { 
+                        if($rl->statusId == $statusId)                                    
+                            echo $rl->status;                                
+                    }
+                    ?>
+                </h4>
                 </div>                        
         </div>
     </div>
 </section>
-
-<?php var_dump($user_list);?>
-<?php echo '------' ;
-var_dump($employee_id);?>
-<?php echo '------' ;
-var_dump($taskInfo);?>
-
 </div>

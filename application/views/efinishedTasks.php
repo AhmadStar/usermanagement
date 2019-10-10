@@ -53,7 +53,8 @@
                     <!-- <th>User Role</th> -->
                     <th>For Employee</th>
                     <th>Creation Date</th>
-                    <th>End Date</th>                    
+                    <th>End Date</th>
+                    <th>Show Task</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -118,6 +119,12 @@
                       </td>
                       <td>
                         <?php echo $record->endDtm ?>
+                      </td>
+                      <td class="text-center">
+                        <a class="btn btn-sm btn-info showtask" href="<?php echo base_url().'showTask/'.$record->id; ?>" data-userid="<?php echo $record->id; ?>"
+                          title="Show">
+                          <i class="fa fa-eye"></i>
+                        </a>
                       </td>
                     </tr>
                     <?php
