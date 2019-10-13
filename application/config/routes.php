@@ -23,7 +23,6 @@ $route['editOld/(:num)'] = "admin/editOld/$1";
 $route['editUser'] = "admin/editUser";
 $route['deleteUser'] = "admin/deleteUser";
 $route['addbonus'] = "admin/addBonus";
-// $route['log-history'] = "admin/logHistory";
 $route['log-history-backup'] = "admin/logHistoryBackup";
 $route['log-history/(:num)'] = "admin/logHistorysingle/$1";
 $route['log-history/(:num)/(:num)'] = "admin/logHistorysingle/$1/$2";
@@ -34,8 +33,6 @@ $route['logHistoryUploadFile'] = "admin/logHistoryUploadFile";
 
 
 /*********** MANAGER CONTROLLER ROUTES *******************/
-$route['tasks'] = "manager/tasks";
-$route['finishedTasks'] = "manager/finishedTasks";
 $route['addNewTask'] = "manager/addNewTask";
 $route['addNewTasks'] = "manager/addNewTasks";
 $route['editOldTask/(:num)'] = "manager/editOldTask/$1";
@@ -43,15 +40,14 @@ $route['editTask'] = "manager/editTask";
 $route['deleteTask/(:num)'] = "manager/deleteTask/$1";
 
 /*********** USER CONTROLLER ROUTES *******************/
-$route['loadChangePass'] = "user/loadChangePass";
 $route['changePassword'] = "user/changePassword";
 $route['pageNotFound'] = "user/pageNotFound";
 $route['checkEmailExists'] = "user/checkEmailExists";
 $route['checkUsernameExists'] = "user/checkUsernameExists";
 $route['endTask/(:num)'] = "user/endTask/$1";
 $route['showTask/(:num)'] = "user/showTask/$1";
-$route['etasks'] = "user/etasks";
-$route['efinishedtasks'] = "user/eFinishedTasks";
+$route['tasks'] = "user/tasks";
+$route['finishedtasks'] = "user/finishedtasks";
 $route['userEdit'] = "user/loadUserEdit";
 $route['updateUser'] = "user/updateUser";
 

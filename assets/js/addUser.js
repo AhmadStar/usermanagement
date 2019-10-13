@@ -23,7 +23,7 @@ $(document).ready(function(){
 			role : { required : true, selected : true}
 		},
 		messages:{
-			fname :{ required : "This field is required", remote : "fname already taken" },
+			fname :{ required : "This field is required", remote : "name already taken" },
 			email : { required : "This field is required", email : "Please enter valid email address", remote : "Email already taken" },
 			password : { required : "This field is required" },
 			cpassword : {required : "This field is required", equalTo: "Please enter same password" },

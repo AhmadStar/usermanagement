@@ -47,7 +47,7 @@ class User extends BaseController
         if ($this->getUserStatus() == TRUE)
         {
             $this->session->set_flashdata('error', 'Please change your password first for your security.');
-            redirect('loadChangePass');
+            redirect('changePassword');
         }
 
         $this->loadViews("dashboard", $this->global, $data , NULL);
@@ -138,7 +138,7 @@ class User extends BaseController
                     $config['upload_path']          = './uploads/';
                     $config['file_name']            = $userId.'_profile_picture';
                     $config['allowed_types']        = 'gif|jpg|png|pdf|doc';
-                    // $config['overwrite']            =TRUE;
+                    $config['overwrite']            =TRUE;
                     $config['max_size']             = 500;
                     $config['max_width']            = 1024;
                     $config['max_height']           = 768;
@@ -180,14 +180,16 @@ class User extends BaseController
                     $config['file_name']            = $userId.'_profile_picture';
                     $config['allowed_types']        = 'gif|jpg|png|pdf|doc';
                     $config['overwrite']            =TRUE;
-                    $config['max_size']             = 100;
+                    $config['max_size']             = 500;
                     $config['max_width']            = 1024;
                     $config['max_height']           = 768;
                     $this->load->library('upload', $config);
                     if ( ! $this->upload->do_upload('picture'))
                     {                            
                         $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
-                        $error = array('error' => $this->upload->display_errors());                        
+                        $error = array('error' => $this->upload->display_errors());
+                        $this->session->set_flashdata('error',$error['error']);
+                        redirect('userEdit');
                     }
                     else
                     {
@@ -219,64 +221,57 @@ class User extends BaseController
             redirect('userEdit');
         }
     }
-
-
-    
-    /**
-     * This function is used to load the change password view
-     */
-    function loadChangePass()
-    {
-        $this->global['pageTitle'] = 'DAS : Change Password';
-        
-        $this->loadViews("changePassword", $this->global, NULL, NULL);
-    }
-    
     
     /**
      * This function is used to change the password of the user
      */
     function changePassword()
     {
-        $this->load->library('form_validation');
-        
-        $this->form_validation->set_rules('oldPassword','Old password','required|max_length[20]');
-        $this->form_validation->set_rules('newPassword','New password','required|max_length[20]');
-        $this->form_validation->set_rules('cNewPassword','Confirm new password','required|matches[newPassword]|max_length[20]');
-        
-        if($this->form_validation->run() == FALSE)
+        if($this->input->post())
         {
-            $this->loadChangePass();
-        }
-        else
-        {
-            $oldPassword = $this->input->post('oldPassword');
-            $newPassword = $this->input->post('newPassword');
+            $this->load->library('form_validation');
             
-            $resultPas = $this->user_model->matchOldPassword($this->vendorId, $oldPassword);
+            $this->form_validation->set_rules('oldPassword','Old password','required|max_length[20]');
+            $this->form_validation->set_rules('newPassword','New password','required|max_length[20]');
+            $this->form_validation->set_rules('cNewPassword','Confirm new password','required|matches[newPassword]|max_length[20]');
             
-            if(empty($resultPas))
+            if($this->form_validation->run() == FALSE)
             {
-                $this->session->set_flashdata('nomatch', 'Your old password is not correct');
-                redirect('loadChangePass');
+                $this->changePassword();
             }
             else
             {
-                $usersData = array('password'=>getHashedPassword($newPassword),'status'=>1, 'updatedBy'=>$this->vendorId,
-                                'updatedDtm'=>date('Y-m-d H:i:s'));
+                $oldPassword = $this->input->post('oldPassword');
+                $newPassword = $this->input->post('newPassword');
                 
-                $result = $this->user_model->changePassword($this->vendorId, $usersData);
+                $resultPas = $this->user_model->matchOldPassword($this->vendorId, $oldPassword);
                 
-                if($result > 0) {
-                     $this->session->set_flashdata('success', 'Password change successful');
-                     }
-                else {
-                     $this->session->set_flashdata('error', 'Password change failed'); 
-                    }
-                
-                redirect('loadChangePass');
+                if(empty($resultPas))
+                {
+                    $this->session->set_flashdata('nomatch', 'Your old password is not correct');
+                    redirect('changePassword');
+                }
+                else
+                {
+                    $usersData = array('password'=>getHashedPassword($newPassword),'status'=>1, 'updatedBy'=>$this->vendorId,
+                                    'updatedDtm'=>date('Y-m-d H:i:s'));
+                    
+                    $result = $this->user_model->changePassword($this->vendorId, $usersData);
+                    
+                    if($result > 0) {
+                        $this->session->set_flashdata('success', 'Password change successful');
+                        }
+                    else {
+                        $this->session->set_flashdata('error', 'Password change failed'); 
+                        }
+                    
+                    redirect('changePassword');
+                }
             }
         }
+
+        $this->global['pageTitle'] = 'DAS : Change Password';        
+        $this->loadViews("changePassword", $this->global, NULL, NULL);
     }
 
     /**
@@ -341,26 +336,32 @@ class User extends BaseController
     /**
      * This function is used to open the tasks page for users (no edit/delete etc)
      */
-    function etasks()
+    function tasks()
     {
-        $data['taskRecords'] = $this->user_model->getTasks($this->session->userdata('userId'));
+        if($this->role === ROLE_EMPLOYEE){
+            $data['taskRecords'] = $this->user_model->getTasks($this->session->userdata('userId'));
+        }
+        $data['taskRecords'] = $this->user_model->getTasks();
         $data['user_list']=$this->user_list();
         $this->global['pageTitle'] = 'DAS : All Tasks';
         
-        $this->loadViews("etasks", $this->global, $data, NULL);
+        $this->loadViews("tasks", $this->global, $data, NULL);
     }
 
     /**
      * This function is used to open the tasks page for users (no edit/delete etc)
      */
-    function eFinishedTasks()
+    function finishedtasks()
     {
-        $data['taskRecords'] = $this->user_model->getFinishedTasks($this->session->userdata('userId'));
+        if($this->role === ROLE_EMPLOYEE){
+            $data['taskRecords'] = $this->user_model->getFinishedTasks($this->session->userdata('userId'));
+        }
+        $data['taskRecords'] = $this->user_model->getFinishedTasks();
         $data['user_list']=$this->user_list();
 
         $this->global['pageTitle'] = 'DAS : All Finished Tasks';
         
-        $this->loadViews("efinishedTasks", $this->global, $data, NULL);
+        $this->loadViews("finishedTasks", $this->global, $data, NULL);
     }
 
      /**
@@ -400,30 +401,46 @@ class User extends BaseController
         if($this->input->post())
         {
             $this->load->library('form_validation');    
-            $this->form_validation->set_rules('theme_name','theme_name','trim|required|numeric');            
+            $this->form_validation->set_rules('theme_name','theme_name','trim|required');            
             
             if($this->form_validation->run() == FALSE)
             {
+                $this->session->set_flashdata('error', 'theme_name required');
                 redirect('general');
             }
             else
             {
-                $theme_id = $this->input->post('theme_name');                
+                $theme_name = $this->input->post('theme_name');
 
-                $general_info = array('theme_id'=>$theme_id);
+
+                $session_id = sha1(mt_rand(0, PHP_INT_MAX).time());
+                    // set cookie 
+                    $cookie = array(
+                        'name'   => 'theme',
+                        'value' => $theme_name."\n".$session_id,
+                        'expire' => time()+86500,
+                        'domain' => 'localhost',
+                        'path'   => '/',
+                        'prefix' => 'site_',
+                        );
+
+                    $this->input->set_cookie($cookie);
+
+
+                // $general_info = array('theme_id'=>$theme_id);
                                     
-                $result = $this->user_model->update_general($general_info);
+                // $result = $this->user_model->update_general($general_info);
                 
-                // echo $result; die();
+                // var_dump($cookie); die();
 
-                if($result)
-                {
+                // if($result)
+                // {
                     $this->session->set_flashdata('success', 'settings updated successfully');
-                }
-                else
-                {
-                    $this->session->set_flashdata('error', 'update general failed');
-                }
+                // }
+                // else
+                // {
+                //     $this->session->set_flashdata('error', 'update general failed');
+                // }
                 
                 redirect('general');
             }

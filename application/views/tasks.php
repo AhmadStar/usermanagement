@@ -54,7 +54,11 @@
                     <th>For Employee</th>
                     <th>Creation Date</th>
                     <th>End Date</th>                    
-                    <th>Edit / Delete / Show / Finish</th>
+                    <th>
+                    <?php if($role !== ROLE_EMPLOYEE){?>
+                    Edit / Delete / 
+                    <?php }?>
+                    Show / Finish</th>
                     <!-- <th>Show</th>
                     <th>Finish</th> -->
                   </tr>
@@ -123,13 +127,15 @@
                         <?php echo $record->endDtm ?>
                       </td>
                       <td class="text-center">
+                      <?php if($role !== ROLE_EMPLOYEE){?>
                         <a class="btn btn-sm btn-primary" href="<?php echo base_url().'editOldTask/'.$record->id; ?>" title="Edit">
                           <i class="fa fa-pencil"></i>
                         </a>
                         <a class="btn btn-sm btn-danger deleteUser" href="<?php echo base_url().'deleteTask/'.$record->id; ?>" data-userid="<?php echo $record->id; ?>"
                           title="Delete">
                           <i class="fa fa-trash"></i>
-                        </a>                                            
+                        </a> 
+                      <?php }?>                                           
                         <a class="btn btn-sm btn-info showtask" href="<?php echo base_url().'showTask/'.$record->id; ?>" data-userid="<?php echo $record->id; ?>"
                           title="Show">
                           <i class="fa fa-eye"></i>

@@ -29,12 +29,19 @@
                                         <select class="form-control required" id="theme_name" name="theme_name">
                                             <option value="0">Select Theme</option>
                                             <?php
+
+                                            if(($token = $this->input->cookie('site_theme')))
+                                            {
+                                            $token = explode("\n", $token);
+                                            $theme = $token[0];  
+                                            }
+
                                             if(!empty($themes))
                                             {
                                                 foreach ($themes as $rl)
                                                 {
                                                     ?>
-                                                <option value="<?php echo $rl->id ?>" <?php if($rl->name == $general_info->name) {echo "selected=selected";} ?>>
+                                                <option value="<?php echo $rl->name ?>" <?php if($rl->name == $theme) {echo "selected=selected";} ?>>
                                                     <?php echo $rl->name ?>
                                                 </option>
                                                 <?php

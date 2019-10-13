@@ -111,6 +111,24 @@ class Login extends BaseController
                     $process = 'Login';
                     $processFunction = 'Login/loginMe';
 
+
+                    if(!($token = $this->input->cookie('site_theme')))
+                    {
+                        $session_id = sha1(mt_rand(0, PHP_INT_MAX).time());
+                        // set cookie 
+                        $cookie = array(
+                            'name'   => 'theme',
+                            'value' => 'skin-blue'."\n".$session_id,
+                            'expire' => time()+86500,
+                            'domain' => 'localhost',
+                            'path'   => '/',
+                            'prefix' => 'site_',
+                            );
+
+                        $this->input->set_cookie($cookie);
+                    }
+
+
                     $sessionArray = array('userId'=>$res->userId,                    
                                             'role'=>$res->roleId,
                                             'roleText'=>$res->role,

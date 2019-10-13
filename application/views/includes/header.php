@@ -47,8 +47,18 @@
 $theme = $this->user_model->get_general();
 $picture = $this->user_model->get_picture($this->session->userdata('userId'));
 $picture = $picture->picture;
+$theme = '';
+
+if(($token = $this->input->cookie('site_theme')))
+{
+  $token = explode("\n", $token);
+  $theme = $token[0];  
+}
+
+
+
 ?>
-<body class="<?php echo $theme->name?> sidebar-mini">
+<body class="<?php echo $theme?> sidebar-mini">
   <div class="wrapper">
 
     <header class="main-header">
@@ -102,7 +112,7 @@ $picture = $picture->picture;
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">
-                    <a href="<?php echo base_url(); ?>userEdit" class="btn btn-default btn-flat">
+                    <a href="<?php echo base_url(); ?>updateUser" class="btn btn-default btn-flat">
                       <i class="fa fa-key"></i> Account settings </a>
                   </div>
                   <div class="pull-right">
@@ -143,7 +153,7 @@ $picture = $picture->picture;
               </a>
             </li>
             <li class="treeview">
-              <a href="<?php echo base_url(); ?>finishedTasks">
+              <a href="<?php echo base_url(); ?>finishedtasks">
                 <i class="fa fa-tasks"></i>
                 <span>Finished Tasks</span>
               </a>
@@ -189,13 +199,13 @@ $picture = $picture->picture;
             {
             ?>
                 <li class="treeview">
-                  <a href="<?php echo base_url(); ?>etasks">
+                  <a href="<?php echo base_url(); ?>tasks">
                     <i class="fa fa-tasks"></i>
                     <span>Tasks</span>
                   </a>
                 </li>
                 <li class="treeview">
-                  <a href="<?php echo base_url(); ?>efinishedtasks">
+                  <a href="<?php echo base_url(); ?>finishedtasks">
                     <i class="fa fa-tasks"></i>
                     <span>Finished Tasks</span>
                   </a>
