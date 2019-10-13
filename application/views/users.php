@@ -87,8 +87,11 @@
                                         <?php echo $record->role ?>
                                     </td>
                                     <td class="text-center">
-                                        <a class="btn btn-sm btn-primary" href="<?= base_url().'log-history/'.$record->userId; ?>" title="Log History">
+                                    <a class="btn btn-sm btn-primary" href="<?= base_url().'log-history/'.$record->userId; ?>" title="Log History">
                                             <i class="fa fa-history"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-warning" href="<?= base_url().'user-bonus/'.$record->userId; ?>" title="User Bonus">
+                                            <i class="fa fa-star"></i>
                                         </a> |
                                         <a class="btn btn-sm btn-info" href="<?php echo base_url().'editOld/'.$record->userId; ?>" title="Edit">
                                             <i class="fa fa-pencil"></i>
@@ -96,7 +99,7 @@
                                         <a class="btn btn-sm btn-danger deleteUser" href="#" data-userid="<?php echo $record->userId; ?>" title="Delete">
                                             <i class="fa fa-trash"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-success favourite_icon addbonus" href="#" data-userid="<?php echo $record->userId; ?>" title="Add Bonus">
+                                        <a class="btn btn-sm btn-success favourite_icon addbonus" href="#" data-userid="<?php echo $record->userId; ?>" data-name="<?php echo $record->name; ?>" title="Add Bonus">
                                             <i class="fa fa-star"></i>
                                         </a>
                                     </td>
@@ -116,4 +119,39 @@
         </div>
     </section>
 </div>
+<!-- Full Height Modal -->
+<div class="modal fade" id="add_bonus_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+
+  <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+  <div class="modal-dialog modal-full-height" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100" id="myModalLabel">ADD Bonus for <span id="bonus_user_name"></span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="md-form">
+            <input type="hidden" class="form-control" id="userId">
+          </div>
+          <div class="md-form">
+            <input type="text" class="form-control" id="bonus-title">
+          </div>
+          <div class="md-form">
+            <textarea type="text" id="bonus-desc" class="form-control md-textarea" rows="3"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="savebonus" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Full Height Modal -->
+
+
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>

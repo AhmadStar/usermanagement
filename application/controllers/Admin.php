@@ -216,8 +216,43 @@ class Admin extends BaseController
      */
     function addBonus()
     {
-        $userId = $this->input->post('userId');        
-        $result = $this->user_model->addBonus($userId);
+        $userId = $this->input->post('userId');
+        $title = $this->input->post('title');
+        $desc = $this->input->post('desc');
+        $result = $this->user_model->addBonus($userId , $title, $desc);
+        
+        if ($result > 0) {
+            echo(json_encode(array('status'=>TRUE)));
+            }
+        else {
+            echo(json_encode(array('status'=>FALSE)));
+        }
+    }
+
+    /**
+     * This function used to show specific user Bonus
+     * @param number $userId : This is user id
+     */
+    function userBonus($userId = NULL)
+    {
+        $userId = ($userId == NULL ? $this->session->userdata("userId") : $userId);
+        $data["userInfo"] = $this->user_model->getUserInfoById($userId);
+        $data['userRecords'] = $this->user_model->userBonus($userId);        
+
+        $this->global['pageTitle'] = 'DAS : User Bonus';
+        
+        $this->loadViews("userBonus", $this->global, $data, NULL);      
+    }
+
+    /**
+     * This function is used to delete user bonus
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteBonus()
+    {
+        $bonusid = $this->input->post('bonusid');        
+        
+        $result = $this->user_model->deleteBonus($bonusid);
         
         if ($result > 0) {
                 echo(json_encode(array('status'=>TRUE)));
@@ -225,6 +260,53 @@ class Admin extends BaseController
         else { echo(json_encode(array('status'=>FALSE))); }
     }
 
+    function editBonus($bonusId = NULL)
+    {
+        if($this->input->post()){
+            $this->load->library('form_validation');
+            
+            $bonusId = $this->input->post('bonusId');
+            
+            // $this->form_validation->set_rules('title','title','trim|required|max_length[128]');        
+            
+            // if($this->form_validation->run() == FALSE)
+            // {
+            //     $this->editBonus($userId);
+            // }
+            // else
+            // {
+                $title = ucwords(strtolower($this->security->xss_clean($this->input->post('title'))));
+                $description = ucwords(strtolower($this->security->xss_clean($this->input->post('description'))));
+                
+                $bonusInfo = array();
+                
+                $bonusInfo = array('title'=>$title, 'description'=>$description,'date'=>date('Y-m-d H:i:s'));
+                
+                // var_dump('come with post');die();
+
+                $result = $this->user_model->editBonus($bonusInfo, $bonusId);
+                
+                if($result == true)
+                {
+                    $this->session->set_flashdata('success', 'Bonus successfully updated');
+                }
+                else
+                {
+                    $this->session->set_flashdata('error', 'Bonus update failed');
+                }
+                
+                redirect('editBonus/'.$bonusId);
+            // }
+        }
+
+        // var_dump('come withot post ');die();
+                
+        $data['bonusInfo'] = $this->user_model->getBonusInfo($bonusId);
+
+        $this->global['pageTitle'] = 'DAS : Edit Bonus';
+        
+        $this->loadViews("editBonus", $this->global, $data, NULL);
+    }
     
 
     /**
@@ -232,7 +314,7 @@ class Admin extends BaseController
      * @param number $userId : This is user id
      */
     function logHistorysingle($userId = NULL)
-    {       
+    {
         $userId = ($userId == NULL ? $this->session->userdata("userId") : $userId);
         $data["userInfo"] = $this->user_model->getUserInfoById($userId);
         $data['userRecords'] = $this->user_model->logHistory($userId);        

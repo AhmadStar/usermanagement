@@ -31,11 +31,44 @@ jQuery(document).ready(function(){
 
 
 	jQuery(document).on("click", ".addbonus", function(){
-		var userId = $(this).data("userid"),
-			hitURL = baseURL + "addbonus",
+			var userId = $(this).data("userid"),
+			userName = $(this).data("name")
+		
+		$("#add_bonus_modal").on("shown.bs.modal", function () {
+			$("#bonus_user_name").text(userName);
+			$("#userId").val(userId);
+			}).modal('show');
+	});
+
+
+	jQuery(document).on("click", "#savebonus", function(){
+		var title = $('#bonus-title').val(),
+		userId = $('#userId').val(),
+		desc = $('#bonus-desc').val();
+
+		console.log(title+' '+userId +' '+ desc);
+		
+		hitURL = baseURL + "addbonus",
+		jQuery.ajax({
+		type : "POST",
+		dataType : "json",
+		url : hitURL,
+		data : { title : title , userId : userId , desc : desc } 
+		}).done(function(data){
+			console.log(data);				
+			if(data.status = true) { alert("successfully bonus added"); }
+			else if(data.status = false) { alert("Failed add bonus"); }
+			else { alert("Access denied..!"); }
+			location.reload(true);
+		});
+	});
+
+	jQuery(document).on("click", "#deleteBonus", function(){
+		var bonusid = $(this).data("bonusid"),
+			hitURL = baseURL + "deleteBonus",
 			currentRow = $(this);
 		
-		var confirmation = confirm("Are you sure to add bonus to user ?");
+		var confirmation = confirm("Are you sure to delete this Bonus ?");
 		
 		if(confirmation)
 		{
@@ -43,13 +76,13 @@ jQuery(document).ready(function(){
 			type : "POST",
 			dataType : "json",
 			url : hitURL,
-			data : { userId : userId } 
+			data : { bonusid : bonusid } 
 			}).done(function(data){
-				console.log(data);				
-				if(data.status = true) { alert("successfully bonus added"); }
-				else if(data.status = false) { alert("Failed add bonus"); }
+				console.log(data);
+				currentRow.parents('tr').remove();
+				if(data.status = true) { alert("Bonus successfully deleted"); }
+				else if(data.status = false) { alert("Bonus deletion failed"); }
 				else { alert("Access denied..!"); }
-				location.reload(true);
 			});
 		}
 	});

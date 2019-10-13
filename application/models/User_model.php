@@ -228,13 +228,26 @@ class User_model extends CI_Model
     }
 
     /**
+     * This function is used to delete the user information
+     * @param number $userId : This is user id
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteBonus($bonusid)
+    {
+        $this->db->where('id', $bonusid);
+        $this->db->delete('bonus');
+        
+        return $this->db->affected_rows();
+    }
+
+    /**
      * This function is used to addBonus the user
      * @param number $userId : This is user id
      * @return boolean $result : TRUE / FALSE
      */
-    function addBonus($userId)
+    function addBonus($userId , $title , $desc)
     {
-        $userInfo = array('user_id'=>$userId);
+        $userInfo = array('user_id'=>$userId , 'title' => $title , 'description' => $desc);
         $this->db->trans_start();
         $this->db->insert('bonus', $userInfo);
         
@@ -243,6 +256,34 @@ class User_model extends CI_Model
         $this->db->trans_complete();
         
         return $insert_id;
+    }
+
+    /**
+     * This function used to get user information by id
+     * @param number $userId : This is user id
+     * @return array $result : This is user information
+     */
+    function getBonusInfo($bonusId)
+    {
+        $this->db->select('id, title, description, date');
+        $this->db->from('bonus');        
+        $this->db->where('id', $bonusId);
+        $query = $this->db->get();
+        
+        return $query->row();
+    }
+
+    /**
+     * This function is used to update the user information
+     * @param array $userInfo : This is users updated information
+     * @param number $userId : This is user id
+     */
+    function editBonus($bonusInfo, $bonusId)
+    {
+        $this->db->where('id', $bonusId);
+        $this->db->update('bonus', $bonusInfo);
+        
+        return TRUE;
     }
 
 
@@ -306,6 +347,33 @@ class User_model extends CI_Model
             $this->db->where('BaseTbl.userId', $userId);
             $query = $this->db->get();
             return $query->num_rows();
+        }
+    }
+
+/**
+     * This function is used to get user log history
+     * @param number $userId : This is user id
+     * @return array $result : This is result
+     */
+    function userBonus($userId)
+    {
+        $this->db->select('*');        
+        $this->db->from('bonus as BaseTbl');
+
+        if ($userId == NULL)
+        {
+            $this->db->order_by('BaseTbl.date', 'DESC');
+            $query = $this->db->get();
+            $result = $query->result();        
+            return $result;
+        }
+        else
+        {
+            $this->db->where('BaseTbl.user_id', $userId);
+            $this->db->order_by('BaseTbl.date', 'DESC');
+            $query = $this->db->get();
+            $result = $query->result();
+            return $result;
         }
     }
 
