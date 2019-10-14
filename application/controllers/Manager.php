@@ -128,6 +128,7 @@ class Manager extends BaseController
         }
         
         $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);
+        // var_dump($data['taskInfo']);die();
         $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
         $data['tasks_situations'] = $this->user_model->getTasksSituations();
         $data['user_list']=$this->_user_list();

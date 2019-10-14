@@ -10,9 +10,9 @@ if(!empty($bonusInfo))
 {
     foreach ($bonusInfo as $uf)
     {
-        $id = $bonusInfo->id;
-        $title = $bonusInfo->title;
-        $description = $bonusInfo->description;
+        $id = $uf->id;
+        $title = $uf->title;
+        $description = $uf->description;
     }
 }
 

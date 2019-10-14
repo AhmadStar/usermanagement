@@ -48,6 +48,7 @@
                                         <th>User Name</th>
                                         <th>Date and Time</th>
                                         <th>Day</th>
+                                        <th>Day work Hours</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,6 +70,9 @@
                         </td>
                         <td>
                           <?php echo date('l', strtotime($record->createdDtm));?>
+                        </td>
+                        <td>
+                        <?php echo $record->total ?>
                         </td>
                       </tr>
                                             <?php

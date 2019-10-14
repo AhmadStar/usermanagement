@@ -392,18 +392,62 @@ class User_model extends CI_Model
         {
             $this->db->order_by('BaseTbl.createdDtm', 'DESC');
             $query = $this->db->get();
-            $result = $query->result();        
-            return $result;
+            $result = $query->result();            
         }
         else
         {
             $this->db->where('BaseTbl.userId', $userId);
             $this->db->order_by('BaseTbl.createdDtm', 'DESC');
             $query = $this->db->get();
-            $result = $query->result();
-            return $result;
+            $result = $query->result();            
         }
+
+        foreach ($result as $key => $employee) {
+			$item = new stdClass();
+			$item->userName = $employee->userName;
+			$item->userId = $employee->userId;
+			$item->createdDtm = $employee->createdDtm;
+			$sum = $this->get_day_hours($employee->userId , $employee->createdDtm);
+			$hours = floor($sum / 3600);
+			$minutes = floor(($sum / 60) % 60);
+			$seconds = $sum % 60;
+			$sum = "$hours:$minutes:$seconds";
+			$item->total = $sum;
+			$result[$key] = $item;
+        }
+        
+        return $result;
     }
+
+    public function get_day_hours($id , $date)
+	{
+		$this->db->where('userId', $id);		
+		$this->db->from('tbl_log');
+		$query = $this->db->get();
+		$list = $query->result();
+
+		$array = [];
+		foreach($list as $key => $employee) {
+			if(date('d', strtotime($date)).' '.date('F', strtotime($date))
+			!= date('d', strtotime($employee->createdDtm)).' '.date('F', strtotime($employee->createdDtm))){
+				// Remove duplicate instance from the list
+				unset($list[$key]);
+			}
+		}
+
+		$sum = 0;			
+		foreach($list as $key => $employee) {
+			$array[] = $employee;		
+		}
+
+		for($i = 0 ; $i < count($array) ; $i++){
+			if(array_key_exists($i+1 , $array))
+				$sum = $sum + strtotime($array[$i + 1]->createdDtm) - strtotime($array[$i]->createdDtm);
+			$i++;
+		}						
+
+		return $sum;
+	}
 
     /**
      * This function used to get user information by id

@@ -20,8 +20,7 @@
                   else
                   {
                     echo '0';
-                  }
-                  
+                  }                  
                   ?>
                 MB</h3>
                 <h3 id='total'></h3>
@@ -229,9 +228,9 @@ $(document).ready(function() {
           userName : $("#userName  option:selected" ).text(),
           month : $('#month').datepicker({ dateFormat: 'mm' , viewMode: "months", minViewMode: "months" }).val(),
           year : $('#year').datepicker({ dateFormat: 'yy' ,viewMode: "years", minViewMode: "years"}).val()               
-            }
+            }            
 
-            console.log(mydata);
+            // console.log(mydata.month);
 
 		$.ajax({
         url: '<?php echo site_url('total')?>',
@@ -241,8 +240,19 @@ $(document).ready(function() {
         success: function(data) {
             if(data === 'empty')
               $("#total").html('Please Select a user');
-            else
-            $("#total").html('Total work hours of '+ $("#userName  option:selected" ).text() +' : '+data);
+            else{
+              // now = Date.now();
+              current_month = new Date().getMonth();
+              current_year = new Date().getFullYear();
+              if(mydata.month != '')
+                current_month = mydata.month;
+              if(mydata.year != '')
+                current_year = mydata.year;
+
+
+              $("#total").html('Total work hours of '+ 
+              $("#userName  option:selected" ).text() +'  '+data+' at '+current_month+' '+ current_year);                            
+            }
         }
     });
   }

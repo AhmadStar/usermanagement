@@ -303,6 +303,8 @@ class Admin extends BaseController
                 
         $data['bonusInfo'] = $this->user_model->getBonusInfo($bonusId);
 
+        // var_dump($data['bonusInfo']);die();
+
         $this->global['pageTitle'] = 'DAS : Edit Bonus';
         
         $this->loadViews("editBonus", $this->global, $data, NULL);
