@@ -431,54 +431,23 @@ class User extends BaseController
     {
         if($this->input->post())
         {
-            $this->load->library('form_validation');    
-            $this->form_validation->set_rules('theme_name','theme_name','trim|required');            
-            
-            if($this->form_validation->run() == FALSE)
-            {
-                $this->session->set_flashdata('error', 'theme_name required');
-                redirect('general');
-            }
-            else
-            {
-                $theme_name = $this->input->post('theme_name');
+            $theme_name = $this->input->post('theme_name');
 
+            $session_id = sha1(mt_rand(0, PHP_INT_MAX).time());
+                // set cookie 
+                $cookie = array(
+                    'name'   => 'theme',
+                    'value' => $theme_name."\n".$session_id,
+                    'expire' => time()+86500,
+                    'domain' => 'localhost',
+                    'path'   => '/',
+                    'prefix' => 'site_',
+                    );
 
-                $session_id = sha1(mt_rand(0, PHP_INT_MAX).time());
-                    // set cookie 
-                    $cookie = array(
-                        'name'   => 'theme',
-                        'value' => $theme_name."\n".$session_id,
-                        'expire' => time()+86500,
-                        'domain' => 'localhost',
-                        'path'   => '/',
-                        'prefix' => 'site_',
-                        );
-
-                    $this->input->set_cookie($cookie);
-
-
-                // $general_info = array('theme_id'=>$theme_id);
-                                    
-                // $result = $this->user_model->update_general($general_info);
-                
-                // var_dump($cookie); die();
-
-                // if($result)
-                // {
-                    $this->session->set_flashdata('success', 'settings updated successfully');
-                // }
-                // else
-                // {
-                //     $this->session->set_flashdata('error', 'update general failed');
-                // }
-                
-                redirect('general');
-            }
+            $this->input->set_cookie($cookie);
         }
-        $data['themes'] = $this->user_model->getThemes();
-        $data['general_info'] = $this->user_model->get_general();
-
+        
+        $data['themes'] = '';
         $this->global['pageTitle'] = 'DAS : General Settings';
         
         $this->loadViews("general", $this->global, $data, NULL);
