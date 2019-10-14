@@ -15,7 +15,7 @@
 
                 <div class="box box-primary">
                     <div class="box-header">
-                        <h3 class="box-title">Enter information</h3>
+                        <h3 class="box-title">Choose Theme</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
