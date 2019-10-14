@@ -52,6 +52,8 @@ $route['endTask/(:num)'] = "user/endTask/$1";
 $route['showTask/(:num)'] = "user/showTask/$1";
 $route['tasks'] = "user/tasks";
 $route['finishedtasks'] = "user/finishedtasks";
+$route['userStars'] = "user/userStars";
+$route['showBonus/(:num)'] = "user/showBonus/$1";
 $route['userEdit'] = "user/loadUserEdit";
 $route['updateUser'] = "user/updateUser";
 

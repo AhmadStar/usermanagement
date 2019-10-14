@@ -30,19 +30,21 @@ class User extends BaseController
         $this->global['pageTitle'] = 'Home page';
         if($this->role === ROLE_EMPLOYEE){
             $data['mytasksCount'] = $this->user_model->tasksCount($this->session->userdata('userId'));
-            $data['myfinishedTasksCount'] = $this->user_model->finishedTasksCount($this->session->userdata('userId'));
-            $data['tasksCount'] = $this->user_model->tasksCount();
+            $data['myfinishedTasksCount'] = $this->user_model->finishedTasksCount($this->session->userdata('userId'));            
             $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();
             $data['logsCount'] = $this->user_model->logsCount($this->session->userdata('userId'));
             $data['usersCount'] = $this->user_model->usersCount();
-            $data['userStars'] = $this->user_model->userStars($this->session->userdata('userId'));
-            
+            $data['latestTask'] = $this->user_model->getLatestTasks($this->session->userdata('userId'));
           }else{
             $data['tasksCount'] = $this->user_model->tasksCount();
             $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();
             $data['logsCount'] = $this->user_model->logsCount();
             $data['usersCount'] = $this->user_model->usersCount();
-          }        
+            $data['connectedUsers'] = $this->user_model->connectedUsers();
+            $data['connectedUsersCount'] = $this->user_model->connectedUsersCount();
+            $data['latestTask'] = $this->user_model->getLatestTasks();
+          }
+          $data['userStars'] = $this->user_model->userStars($this->session->userdata('userId'));
 
         if ($this->getUserStatus() == TRUE)
         {
@@ -334,14 +336,32 @@ class User extends BaseController
     }
 
     /**
+     * This function is used to show task
+     */
+    function showBonus($bonusId = NULL)
+    {
+        if($bonusId == null)
+        {
+            redirect('tasks');
+        }
+        
+        $data['bonusInfo'] = $this->user_model->getBonusInfo($bonusId);        
+        
+        $this->global['pageTitle'] = 'DAS : Show Bonus';
+        
+        $this->loadViews("showBonus", $this->global, $data, NULL);
+    }
+
+    /**
      * This function is used to open the tasks page for users (no edit/delete etc)
      */
     function tasks()
     {
         if($this->role === ROLE_EMPLOYEE){
             $data['taskRecords'] = $this->user_model->getTasks($this->session->userdata('userId'));
+        }else{
+            $data['taskRecords'] = $this->user_model->getTasks();
         }
-        $data['taskRecords'] = $this->user_model->getTasks();
         $data['user_list']=$this->user_list();
         $this->global['pageTitle'] = 'DAS : All Tasks';
         
@@ -355,13 +375,24 @@ class User extends BaseController
     {
         if($this->role === ROLE_EMPLOYEE){
             $data['taskRecords'] = $this->user_model->getFinishedTasks($this->session->userdata('userId'));
+        }else{
+            $data['taskRecords'] = $this->user_model->getFinishedTasks();
         }
-        $data['taskRecords'] = $this->user_model->getFinishedTasks();
         $data['user_list']=$this->user_list();
 
         $this->global['pageTitle'] = 'DAS : All Finished Tasks';
         
         $this->loadViews("finishedTasks", $this->global, $data, NULL);
+    }
+
+    /**
+     * This function is used to get bonus of user
+     */
+    function userStars()
+    {
+        $data['bonusRecords'] = $this->user_model->getUserStars($this->session->userdata('userId'));
+        $this->global['pageTitle'] = 'DAS : All User Bonus';
+        $this->loadViews("userStars", $this->global, $data, NULL);
     }
 
      /**
@@ -497,8 +528,9 @@ class User extends BaseController
         $row[] = $no;      
         $row[] = $employee->userName;       
         $row[] = $employee->userId;
-        $row[] = $employee->createdDtm;
+        $row[] = $employee->createdDtm;        
         $row[] = date('l', strtotime($employee->createdDtm));
+        $row[] = $employee->total;
               $data[] = $row;
           }
   

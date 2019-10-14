@@ -23,6 +23,8 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
   <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+
+  <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />
   <style>
     .error {
       color: red;
@@ -164,6 +166,17 @@ if(($token = $this->input->cookie('site_theme')))
                 <span>Add Task</span>
               </a>
             </li>
+            <?php
+            }
+            if($role != ROLE_ADMIN)
+            {
+            ?>
+              <li class="treeview">
+                <a href="<?php echo base_url(); ?>userStars">
+                  <i class="fa fa-star"></i>
+                  <span>My Bonus</span>
+                </a>
+              </li>
             <?php
             }
             if($role == ROLE_ADMIN)

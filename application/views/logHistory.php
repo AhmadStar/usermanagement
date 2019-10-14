@@ -89,6 +89,7 @@
                       <th>user id </th>
                       <th>date</th>
                       <th>day</th>
+                      <th>Total</th>
                   </tr>
               </thead>
               <tbody>

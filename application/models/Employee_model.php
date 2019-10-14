@@ -92,6 +92,22 @@ class Employee_model extends CI_Model {
 		$this->db->group_by('userId , userName , day(createdDtm)');
 		$query = $this->db->get();
 		$list = $query->result();
+
+
+		foreach ($list as $key => $employee) {
+			$item = new stdClass();
+			$item->userName = $employee->userName;
+			$item->userId = $employee->userId;
+			$item->createdDtm = $employee->createdDtm;
+			$sum = $this->get_day_hours($employee->userId , $employee->createdDtm);
+			$hours = floor($sum / 3600);
+			$minutes = floor(($sum / 60) % 60);
+			$seconds = $sum % 60;
+			$sum = "$hours:$minutes:$seconds";
+			$item->total = $sum;
+			$list[$key] = $item;
+		}
+
 		return $list;
 	}
 

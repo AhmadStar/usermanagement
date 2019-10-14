@@ -263,7 +263,7 @@ class User_model extends CI_Model
      * @param number $userId : This is user id
      * @return array $result : This is user information
      */
-    function getBonusInfo($bonusId)
+    function getUserBonus($bonusId)
     {
         $this->db->select('id, title, description, date');
         $this->db->from('bonus');        
@@ -468,6 +468,19 @@ class User_model extends CI_Model
     }
 
     /**
+     * This function is used to get tasks
+     */
+    function getUserStars($user_id)
+    {        
+        $this->db->select('id , title , description , date');
+        $this->db->from('bonus');
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get();
+        $result = $query->result();        
+        return $result;
+    }
+
+    /**
      * This function is used to get task prioritys
      */
     function getTasksPrioritys()
@@ -518,6 +531,21 @@ class User_model extends CI_Model
         $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = tbl_task.statusId');
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = tbl_task.priorityId');
         $this->db->where('id', $taskId);
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+
+    /**
+     * This function used to get task information by id
+     * @param number $taskId : This is task id
+     * @return array $result : This is task information
+     */
+    function getBonusInfo($bonusId)
+    {
+        $this->db->select('*');
+        $this->db->from('bonus');
+        $this->db->where('id', $bonusId);
         $query = $this->db->get();
         
         return $query->result();
@@ -680,6 +708,20 @@ class User_model extends CI_Model
         return $query->num_rows();
     }
 
+    /**
+     * This function is used to get the connected users count
+     * @return array $result : This is result
+     */
+    function connectedUsersCount()
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_users as BaseTbl');
+        $this->db->where('isDeleted', 0);
+        $this->db->where('is_logged', 1);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
     function getUserStatus($userId)
     {
         $this->db->select('BaseTbl.status');
@@ -696,7 +738,38 @@ class User_model extends CI_Model
         $this->db->where('roleId', 3);		
 		$query = $this->db->get();
 		return $query->result();
-	}
+    }
+    
+    public function connectedUsers(){
+        $this->db->select('userId , name , role , picture , updatedDtm');
+        $this->db->from('tbl_users');
+        $this->db->join('tbl_roles as Roles','Roles.roleId = tbl_users.roleId');		
+        $this->db->where('is_logged', 1);
+		$query = $this->db->get();
+		return $query->result();
+    }
+    
+    /**
+     * This function is used to get tasks
+     */
+    function getLatestTasks($userId = '')
+    {        
+        $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
+        Prioritys.priorityId , Prioritys.priority , endDtm , TaskTbl.createdDtm , employee_id , Users.picture ');
+        $this->db->from('tbl_task as TaskTbl');
+        $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
+        $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
+        $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = TaskTbl.statusId');
+        $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
+        $this->db->order_by('TaskTbl.statusId ASC, TaskTbl.priorityId');
+        $this->db->where('TaskTbl.statusId', 1);
+        if($userId != '')
+            $this->db->where('employee_id', $userId);
+        $this->db->limit(4);
+        $query = $this->db->get();
+        $result = $query->result();        
+        return $result;
+    }
 
 
 }
