@@ -815,6 +815,23 @@ class User_model extends CI_Model
         return $result;
     }
 
+    /**
+     * This function is used to get user log history
+     * @param number $userId : This is user id
+     * @return array $result : This is result
+     */
+    function get_browse_data()
+    {
+        $this->db->select('userAgent , COUNT(userAgent) as count');
+        $this->db->from('tbl_log as BaseTbl');
+        $this->db->group_by('userAgent');        
+        $query = $this->db->get();
+        $result = $query->result();
+        
+        return $result;
+    }
+
+
 
 }
 

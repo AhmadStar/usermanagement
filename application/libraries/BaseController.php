@@ -196,12 +196,12 @@ class BaseController extends CI_Controller {
 		"process"=>$process,		
 		"userRoleId"=>$this->role,
 		"userRoleText"=>$this->roleText,
-		//extra information for logs
-		//"processFunction"=>$processFunction,
-		// "userIp"=>$_SERVER['REMOTE_ADDR'],
-		// "userAgent"=>getBrowserAgent(),
-		// "agentString"=>$this->agent->agent_string(),
-		// "platform"=>$this->agent->platform()
+		// extra information for logs
+		"processFunction"=>$processFunction,
+		"userIp"=>$_SERVER['REMOTE_ADDR'],
+		"userAgent"=> preg_replace("/[^a-zA-Z]+/", "", getBrowserAgent()),
+		"agentString"=>$this->agent->agent_string(),
+		"platform"=>$this->agent->platform()
 		);
 		
 		$this->load->model('login_model');

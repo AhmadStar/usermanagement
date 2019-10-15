@@ -495,4 +495,19 @@ class Admin extends BaseController
                 redirect('log-history-upload');
             }
     }
+
+
+    /**
+     * This function used to show log history
+     * @param number $userId : This is user id
+     */
+    public function getBrowseData()
+    {        
+        $data = $this->user_model->get_browse_data();
+        
+        //output to json format
+            echo json_encode($data);
+    }
+
 }
+

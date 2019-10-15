@@ -8,20 +8,24 @@
  * @author Kishor Mali
  */
 
-$(document).ready(function(){
+// $(document).ready(function(){
 
-	jQuery(document).on("click", "#site_theme li a", function(){
-		var theme_name = $(this).attr("data-skin"),
-			hitURL = baseURL + "general",
-			currentRow = $(this);				
-				
-			jQuery.ajax({
-			type : "POST",
-			dataType : "json",
-			url : hitURL,
-			data : { theme_name : theme_name } 
-			}).done(function(data){
-				window.location.reload();
-			});		
-	});
-});
+//     jQuery(document).on("click", "#site_theme li a", function(){
+//             var theme_name = $(this).attr("data-skin");                                                   
+            
+//                 session_id = 'dsadasdasdasdasqweqw';
+//                 //     // set cookie 
+//                 //     $cookie = array(
+//                 //         'name'   => 'theme',
+//                 //         'value' => $theme_name."\n".$session_id,
+//                 //         'expire' => time()+86500,
+//                 //         'domain' => 'localhost',
+//                 //         'path'   => '/',
+//                 //         'prefix' => 'site_',
+//                 //         );
+
+//                 // $this->input->set_cookie($cookie);
+
+//                 $.cookie("site_theme", theme_name+"\n"+session_id , {path: "/", domain: "localhost" , expires: 86500});
+//     });
+// });

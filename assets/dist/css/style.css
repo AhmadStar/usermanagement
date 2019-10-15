@@ -2,3 +2,11 @@ table.table-bordered.dataTable tbody tr:hover {
     background-color: cadetblue;
     cursor: pointer;
 }
+
+.datepicker-inline{
+    width: 100%;
+}
+
+.table-condensed{
+    width: 100%;
+}
