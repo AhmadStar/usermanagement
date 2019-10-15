@@ -17,7 +17,10 @@ class Admin extends BaseController
     {
         parent::__construct();
         $this->load->model('login_model');
-        $this->load->model('user_model');        
+        $this->load->model('user_model');
+        $this->load->model('employee_model');
+        
+        
         // Datas -> libraries ->BaseController / This function used load user sessions
         $this->datas();
         // isLoggedIn / Login control function /  This function used login control
@@ -504,6 +507,19 @@ class Admin extends BaseController
     public function getBrowseData()
     {        
         $data = $this->user_model->get_browse_data();
+        
+        //output to json format
+            echo json_encode($data);
+    }
+
+    /**
+     * This function used to show log history
+     * @param number $userId : This is user id
+     */
+    public function getMonthHours()
+    {        
+        $now = new \DateTime('now');
+        $data = $this->employee_model->get_month_hours($now->format('m') , $now->format('y'));
         
         //output to json format
             echo json_encode($data);

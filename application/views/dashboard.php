@@ -14,7 +14,15 @@
       <div class="row">
         <div class="col-md-8">
           <p class="text-center">
-            <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+            <!-- <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong> -->
+            <strong>Work Hours at:
+            <?php 
+                $now = new \DateTime('now');
+                echo $month = $now->format('m');
+                echo ' , ';
+                echo $year = $now->format('Y');
+            ?>
+            </strong>
           </p>
 
           <div class="chart">

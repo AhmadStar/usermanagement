@@ -215,6 +215,33 @@ class Employee_model extends CI_Model {
 		return $sum;
 	}
 
+
+	//return array all hours of every day
+    public function get_month_hours($month , $year)
+	{
+        $this->db->select('BaseTbl.userId');
+        $this->db->from('tbl_users as BaseTbl');
+        $this->db->where('BaseTbl.isDeleted', 0);
+        $query = $this->db->get();
+        
+        $list = $query->result();
+		
+		$array= [];
+		
+		if(!$year){
+			$year=date('Y');
+		}
+		$num = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
+		for($day=1;$day<=$num;$day++){
+			$sum = 0 ;
+			foreach($list as $key => $employee) {				
+				$sum = $sum + $this->get_total_as_sum($employee->userId , $day);
+			}
+			$array[] = $sum;
+		}
+		return $array;
+    }
+
 	public function get_total($userName = '', $month = '' , $year = ''){
 		if($userName != 'Choose Employee'){
 			$this->db->select('userId, userName , createdDtm');
@@ -261,5 +288,34 @@ class Employee_model extends CI_Model {
 		}		
 		$all_data = 'empty';		
 		return $all_data;
-	}	
+	}
+	
+	
+	public function get_total_as_sum($userId = '' , $day){		
+		$this->db->select('userId, userName , createdDtm');
+		$this->db->group_by('userId , userName , day(createdDtm)');
+		$this->db->from('tbl_log');
+		$this->db->where('userId', $userId);
+
+		$now = new \DateTime('now');
+		$current_month = $now->format('m');
+		$current_year = $now->format('Y');		
+
+		
+		$this->db->where('month(createdDtm)', $current_month);
+	
+		$this->db->where('day(createdDtm)', $day);
+	
+		$this->db->where('year(createdDtm)', $current_year);
+		
+
+		$query = $this->db->get();
+		$list = $query->result();
+
+		$sum = 0 ;
+		foreach($list as $key1 => $employee) {
+			$sum = $sum +  $this->get_day_hours($employee->userId , $employee->createdDtm );
+		}
+		return $sum;		
+	}
 }
