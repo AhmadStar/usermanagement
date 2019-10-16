@@ -35,7 +35,6 @@ $route['backupLogTableDelete'] = "admin/backupLogTableDelete";
 $route['log-history-upload'] = "admin/logHistoryUpload";
 $route['logHistoryUploadFile'] = "admin/logHistoryUploadFile";
 $route['getBrowseData'] = "admin/getBrowseData";
-$route['getMonthHours'] = "admin/getMonthHours";
 
 
 /*********** MANAGER CONTROLLER ROUTES *******************/
@@ -65,6 +64,7 @@ $route['general'] = "user/general";
 $route['logs'] = "user/logs";
 $route['total'] = "user/total";
 $route['employee_list'] = "user/employee_list";
+$route['getMonthHours'] = "user/getMonthHours";
 
 /*********** LOGIN CONTROLLER ROUTES *******************/
 $route['forgotPassword'] = "login/forgotPassword";

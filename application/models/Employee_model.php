@@ -217,11 +217,13 @@ class Employee_model extends CI_Model {
 
 
 	//return array all hours of every day
-    public function get_month_hours($month , $year)
+    public function get_month_hours($month , $year , $userId = '')
 	{
         $this->db->select('BaseTbl.userId');
         $this->db->from('tbl_users as BaseTbl');
-        $this->db->where('BaseTbl.isDeleted', 0);
+		$this->db->where('BaseTbl.isDeleted', 0);
+		if($userId != '')
+			$this->db->where('userId', $userId);
         $query = $this->db->get();
         
         $list = $query->result();

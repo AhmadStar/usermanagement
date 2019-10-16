@@ -510,20 +510,7 @@ class Admin extends BaseController
         
         //output to json format
             echo json_encode($data);
-    }
-
-    /**
-     * This function used to show log history
-     * @param number $userId : This is user id
-     */
-    public function getMonthHours()
-    {        
-        $now = new \DateTime('now');
-        $data = $this->employee_model->get_month_hours($now->format('m') , $now->format('y'));
-        
-        //output to json format
-            echo json_encode($data);
-    }
+    }    
 
 }
 

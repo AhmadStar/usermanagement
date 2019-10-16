@@ -10,6 +10,7 @@ $(function () {
   //- MONTHLY SALES CHART -
   //-----------------------
 
+  if($("#salesChart").length==1){
   // // Get context with jQuery - using jQuery's .get() method.
   var salesChartCanvas = $("#salesChart").get(0).getContext("2d");
   // This will get the first returned node in the jQuery collection.
@@ -42,7 +43,7 @@ $(function () {
     dataType: 'json',
     success: function(data) {
       $.each( data, function( key, var1 ){
-        labels.push(key);
+        labels.push(key+1);
         value.push(var1);
       });
     }
@@ -94,6 +95,8 @@ $(function () {
 
   //Create the line chart
   salesChart.Line(salesChartData, salesChartOptions);
+
+}
 
   //---------------------------
   //- END MONTHLY SALES CHART -

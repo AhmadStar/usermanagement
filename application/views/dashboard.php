@@ -8,9 +8,6 @@
 
   <section class="content">
 
-    <?php
-    if ($role === ROLE_ADMIN) {
-      ?>
       <div class="row">
         <div class="col-md-8">
           <p class="text-center">
@@ -76,9 +73,6 @@
         </div>
         <!-- /.col -->
       </div>
-    <?php
-    }
-    ?>
 
 
 

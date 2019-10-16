@@ -540,6 +540,24 @@ class User extends BaseController
   }
 
 
+  /**
+     * This function used to show log history
+     * @param number $userId : This is user id
+     */
+    public function getMonthHours()
+    {        
+        $now = new \DateTime('now');
+        if($this->role === ROLE_ADMIN){            
+            $data = $this->employee_model->get_month_hours($now->format('m') , $now->format('y'));
+        }else{
+            $data = $this->employee_model->get_month_hours($now->format('m') , $now->format('y') , $this->session->userdata('userId'));
+        }
+        
+        
+        //output to json format
+            echo json_encode($data);
+    }
+
 }
 
 ?>

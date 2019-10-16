@@ -1,5 +1,5 @@
 table.table-bordered.dataTable tbody tr:hover {
-    background-color: cadetblue;
+    background-color: #dddddd;
     cursor: pointer;
 }
 
