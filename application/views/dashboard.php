@@ -8,10 +8,17 @@
 
   <section class="content">
 
-    <div class="col-md-12">
-      <div class="box">
+    <div class="">
+      <div class="box box-danger">
         <div class="box-header with-border">
-          <h3 class="box-title">Monthly Employee Work Hour Report</h3>
+          <h3 class="box-title">
+              <?php
+                  if ($role !== ROLE_ADMIN)
+                    echo $name;
+                  else
+                    echo 'Employees';
+              ?>
+               Work Hours Report</h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -227,8 +234,8 @@
             <div class="col-sm-3 col-xs-6">
               <div class="description-block border-right">
                 <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                <h5 class="description-header">$35,210.43</h5>
-                <span class="description-text">TOTAL REVENUE</span>
+                <h5 class="description-header" id="monthly_work_hours"></h5>
+                <span class="description-text">TOTAL WORK HOURS</span>
               </div>
               <!-- /.description-block -->
             </div>

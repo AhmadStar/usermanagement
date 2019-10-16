@@ -240,9 +240,8 @@ $(document).ready(function() {
         success: function(data) {
             if(data === 'empty')
               $("#total").html('Please Select a user');
-            else{
-              // now = Date.now();
-              current_month = new Date().getMonth();
+            else{              
+              current_month = new Date().getMonth()+1;
               current_year = new Date().getFullYear();
               if(mydata.month != '')
                 current_month = mydata.month;

@@ -6,6 +6,7 @@
   <title>
     <?php echo $pageTitle; ?>
   </title>
+  <link rel="shortcut icon" type="image/png" href="<?php echo base_url()."uploads/favicon.png"; ?>"/>
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   <!-- Bootstrap 3.3.4 -->
   <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -35,7 +36,7 @@
     }
   </style>
   <!-- jQuery 2.1.4 -->
-  <script src="<?php echo base_url(); ?>assets/js/jQuery-2.1.4.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript">
     var baseURL = "<?php echo base_url(); ?>";
   </script>
@@ -60,6 +61,15 @@ if(($token = $this->input->cookie('site_theme')))
   $theme = $token[0];  
 }
 
+if($role === ROLE_EMPLOYEE){
+  $mytasksCount = $this->user_model->tasksCount($this->session->userdata('userId'));
+  $myfinishedTasksCount = $this->user_model->finishedTasksCount($this->session->userdata('userId'));
+}else{
+  $tasksCount = $this->user_model->tasksCount();
+  $finishedTasksCount = $this->user_model->finishedTasksCount();
+}
+$AllTasksCount = $this->user_model->AllTasksCount();
+$myBonus = $this->user_model->userStars($this->session->userdata('userId'));
 
 
 ?>
@@ -135,9 +145,21 @@ if(($token = $this->input->cookie('site_theme')))
     <aside class="main-sidebar">
       <!-- sidebar: style can be found in sidebar.less -->
       <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+          <div class="pull-left image">
+            <img src="<?php echo base_url().$picture;?>" class="img-circle" alt="User Image">
+          </div>
+          <div class="pull-left info">
+            <p><?php echo $name; ?></p>
+            <a href="<?php echo base_url(); ?>updateUser"><i class="fa fa-circle text-success"></i> Online</a>
+          </div>
+        </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-          <li class="header">
+          <li class="header">            
+            <span>MAIN NAVIGATION</span>
+          </i>
           </li>
           <li class="treeview">
             <a href="<?php echo base_url(); ?>dashboard">
@@ -155,18 +177,39 @@ if(($token = $this->input->cookie('site_theme')))
               <a href="<?php echo base_url(); ?>tasks">
                 <i class="fa fa-tasks"></i>
                 <span>Tasks</span>
+                <span class="pull-right-container">                  
+                  <small class="label pull-right bg-green">
+                        <?php if (isset($tasksCount)) {
+                            echo $tasksCount;
+                          } else {
+                            echo '0';
+                          } ?>
+                  </small>
+                </span>
               </a>
             </li>
             <li class="treeview">
               <a href="<?php echo base_url(); ?>finishedtasks">
                 <i class="fa fa-tasks"></i>
                 <span>Finished Tasks</span>
+                <span class="pull-right-container">                  
+                  <small class="label pull-right bg-red">
+                        <?php if (isset($finishedTasksCount)) {
+                            echo $finishedTasksCount;
+                          } else {
+                            echo '0';
+                          } ?>
+                  </small>
+                </span>
               </a>
             </li>
             <li class="treeview">
               <a href="<?php echo base_url(); ?>addNewTask">
                 <i class="fa fa-plus-circle"></i>
                 <span>Add Task</span>
+                <span class="pull-right-container">
+                  <small class="label pull-right bg-green">new</small>
+                </span>
               </a>
             </li>
             <?php
@@ -178,6 +221,13 @@ if(($token = $this->input->cookie('site_theme')))
                 <a href="<?php echo base_url(); ?>userStars">
                   <i class="fa fa-star"></i>
                   <span>My Bonus</span>
+                  <small class="label pull-right bg-yellow">
+                        <?php if (isset($myBonus)) {
+                            echo $myBonus;
+                          } else {
+                            echo '0';
+                          } ?>
+                  </small>
                 </a>
               </li>
             <?php
@@ -218,12 +268,26 @@ if(($token = $this->input->cookie('site_theme')))
                   <a href="<?php echo base_url(); ?>tasks">
                     <i class="fa fa-tasks"></i>
                     <span>Tasks</span>
+                    <small class="label pull-right bg-green">
+                        <?php if (isset($mytasksCount)) {
+                            echo $mytasksCount;
+                          } else {
+                            echo '0';
+                          } ?>
+                  </small>
                   </a>
                 </li>
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>finishedtasks">
                     <i class="fa fa-tasks"></i>
                     <span>Finished Tasks</span>
+                    <small class="label pull-right bg-red">
+                        <?php if (isset($myfinishedTasksCount)) {
+                            echo $myfinishedTasksCount;
+                          } else {
+                            echo '0';
+                          } ?>
+                  </small>
                   </a>
                 </li>
             <?php

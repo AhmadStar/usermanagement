@@ -34,7 +34,7 @@ $(function () {
   };
 
   var labels = [];
-  var value = [];
+  var values = [];
   var hitURL = baseURL + "getMonthHours";    
   $.ajax({
     async: false,
@@ -44,15 +44,22 @@ $(function () {
     success: function(data) {
       $.each( data, function( key, var1 ){
         labels.push(key+1);
-        value.push(var1);
+        values.push(var1);
       });
     }
   });
 
   salesChartData.labels = labels;
-  salesChartData.datasets[0].data = value;
-  console.log(salesChartData.labels);
-  console.log(salesChartData.datasets[0].data);
+  salesChartData.datasets[0].data = values;
+  // console.log(salesChartData.labels);
+  // console.log(salesChartData.datasets[0].data);
+  
+  var sum = 0;
+  $.each( values, function( key, value ){
+    sum = sum + parseInt(value);
+  });
+  $("#monthly_work_hours").text(sum);  
+  
 
   var salesChartOptions = {
     //Boolean - If we should show the scale at all
