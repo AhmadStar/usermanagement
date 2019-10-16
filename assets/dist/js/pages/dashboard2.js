@@ -18,7 +18,7 @@ $(function () {
 
 
   var salesChartData = {
-    labels: ["1", "2", "3", "4", "5", "6", "7","9", "10", "11", "12", "13", "14", "15"],
+    labels: [],
     datasets: [
       {
         label: "Digital Goods",
@@ -28,7 +28,7 @@ $(function () {
         pointStrokeColor: "rgba(60,141,188,1)",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(60,141,188,1)",
-        data: [28, 48, 40, 19, 86, 27, 90 , 12 , 22 ,21 , 66, 32 ,43, 82 , 21]
+        data: []
       }
     ]
   };

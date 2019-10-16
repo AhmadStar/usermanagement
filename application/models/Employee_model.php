@@ -239,7 +239,11 @@ class Employee_model extends CI_Model {
 			foreach($list as $key => $employee) {				
 				$sum = $sum + $this->get_total_as_sum($employee->userId , $day);
 			}
-			$array[] = $sum;
+			$hours = floor($sum / 3600);
+			$minutes = floor(($sum / 60) % 60);
+			$seconds = $sum % 60;
+			
+			$array[] = "$hours.$minutes";
 		}
 		return $array;
     }

@@ -693,6 +693,32 @@ class User_model extends CI_Model
     }
 
     /**
+     * This function is used to get the tasks count
+     * @return array $result : This is result
+     */
+    function myAllTasksCount($userId = '')
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_task as BaseTbl');
+        if($userId != '')
+            $this->db->where('employee_id', $userId);        
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    /**
+     * This function is used to get the tasks count
+     * @return array $result : This is result
+     */
+    function AllTasksCount($userId = '')
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_task as BaseTbl');
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    /**
      * This function is used to get the finished tasks count
      * @return array $result : This is result
      */

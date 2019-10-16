@@ -32,9 +32,12 @@ class User extends BaseController
             $data['mytasksCount'] = $this->user_model->tasksCount($this->session->userdata('userId'));
             $data['myfinishedTasksCount'] = $this->user_model->finishedTasksCount($this->session->userdata('userId'));            
             $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();
+            $data['tasksCount'] = $this->user_model->tasksCount();
             $data['logsCount'] = $this->user_model->logsCount($this->session->userdata('userId'));
             $data['usersCount'] = $this->user_model->usersCount();
             $data['latestTask'] = $this->user_model->getLatestTasks($this->session->userdata('userId'));
+            $data['myAllTasksCount'] = $this->user_model->myAllTasksCount($this->session->userdata('userId'));            
+            $data['tasksCount'] = $this->user_model->tasksCount();
           }else{
             $data['tasksCount'] = $this->user_model->tasksCount();
             $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();
@@ -44,6 +47,7 @@ class User extends BaseController
             $data['connectedUsersCount'] = $this->user_model->connectedUsersCount();
             $data['latestTask'] = $this->user_model->getLatestTasks();
           }
+          $data['AllTasksCount'] = $this->user_model->AllTasksCount();
           $data['userStars'] = $this->user_model->userStars($this->session->userdata('userId'));
 
         if ($this->getUserStatus() == TRUE)
@@ -297,21 +301,11 @@ class User extends BaseController
         
         if ($result > 0) {
                 $this->session->set_flashdata('success', 'Task completed successfully');
-                if ($this->role != ROLE_EMPLOYEE){
                 redirect('tasks');
-                }
-                else{
-                redirect('etasks');
-                }
             }
         else {
             $this->session->set_flashdata('error', 'Task completion failed');
-            if ($this->role != ROLE_EMPLOYEE){
-                redirect('tasks');
-                }
-                else{
-                redirect('etasks');
-                }
+            redirect('tasks');
         }
     }
 
