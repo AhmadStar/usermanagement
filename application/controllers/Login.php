@@ -132,6 +132,8 @@ class Login extends BaseController
                     $sessionArray = array('userId'=>$res->userId,                    
                                             'role'=>$res->roleId,
                                             'roleText'=>$res->role,
+                                            'group_id'=>$res->groups_id,
+                                            'group_name'=>$res->group_name,
                                             'name'=>$res->name,
                                             'picture'=>$res->picture,
                                             'lastLogin'=> isset($lastLogin) ? $lastLogin->createdDtm : 'first ',

@@ -9,6 +9,7 @@
   <section class="content">
 
     <div class="">
+    <!--  Sales Chart -->
       <div class="box box-danger">
         <div class="box-header with-border">
           <h3 class="box-title">
@@ -322,8 +323,7 @@
         </div>
         <!-- ./col -->
       <?php
-      }
-      if ($role != ROLE_EMPLOYEE) {
+      }else {
         ?>
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
@@ -410,7 +410,7 @@
       }
       ?>
 
-      <!-- ./col -->
+      <!-- ./col log history-->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-red">
@@ -437,7 +437,7 @@
       <?php
       if ($role == ROLE_ADMIN) {
         ?>
-        <!-- ./col -->
+        <!-- ./col User Count -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
@@ -460,6 +460,7 @@
           </div>
         </div>
 
+        <!-- Connected User -->
         <div class="col-md-6">
           <!-- USERS LIST -->
           <div class="box box-danger">
@@ -502,6 +503,7 @@
             <!-- /.box-footer -->
           </div>
 
+          <!-- Browse Usage -->
           <div class="box box-default">
             <div class="box-header with-border">
               <h3 class="box-title">Browser Usage</h3>
@@ -556,6 +558,9 @@
       <?php
       }
       ?>
+
+
+      <!--  Recently Added Tasks -->
       <div class="col-md-6">
         <!-- Tasks LIST -->
         <div class="box box-primary">
@@ -579,13 +584,13 @@
                   <div class="product-info">
                     <a href="javascript:void(0)" class="product-title"><?php echo $task->title ?>
                       <span class="pull-right label label-<?php
-                                                            if ($task->priorityId == '1')
-                                                              echo 'danger';
-                                                            else if ($task->priorityId == '2')
-                                                              echo 'warning';
-                                                            else if ($task->priorityId == '3')
-                                                              echo 'info'
-                                                              ?>">
+                      if ($task->priorityId == '1')
+                        echo 'danger';
+                      else if ($task->priorityId == '2')
+                        echo 'warning';
+                      else if ($task->priorityId == '3')
+                        echo 'info'
+                        ?>">
                         <?php echo $task->priority ?>
                       </span>
                     </a>
@@ -608,6 +613,7 @@
         </div>
         <!-- /.box -->
 
+        <!-- calander box -->
         <div class="box box-solid bg-green-gradient">
           <div class="box-header ui-sortable-handle" style="cursor: move;">
             <i class="fa fa-calendar"></i>

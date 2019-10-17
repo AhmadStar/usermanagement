@@ -6,7 +6,7 @@ class Employee_model extends CI_Model {
 	var $table = 'tbl_log';
 	var $column_order = array(null,'userName',null,'createdDtm'); //set column field database for datatable orderable
 	var $column_search = array('userName'); //set column field database for datatable searchable 
-	var $order = array('createdDtm' => 'asc'); // default order 
+	var $order = array('createdDtm' => 'desc'); // default order 
 
 	public function __construct()
 	{

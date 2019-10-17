@@ -67,8 +67,8 @@ class Manager extends BaseController
     function addNewTask()
     {
         $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();            
-        $data['user_list']=$this->_user_list();
-
+        $data['user_list']= $this->_user_list();
+        $data['groups'] = $this->user_model->getUserGroups();        
         $this->global['pageTitle'] = 'DAS : Add Task';
 
         $this->loadViews("addNewTask", $this->global, $data, NULL);
@@ -81,26 +81,31 @@ class Manager extends BaseController
     {
         $this->load->library('form_validation');
         
+        // var_dump($this->input->post());die();
+
         $this->form_validation->set_rules('fname','Task Title','required');
         $this->form_validation->set_rules('priority','priority','required');
         $this->form_validation->set_rules('employee_id','employee name','required');
-        
+        $this->form_validation->set_rules('group','Group Name','trim|required|numeric');
+
         if($this->form_validation->run() == FALSE)
         {
             $this->addNewTask();
         }
         else
-        {                
+        {
             $title = $this->input->post('fname');
             $comment = $this->input->post('comment');
             $priorityId = $this->input->post('priority');
             $employee_id = $this->input->post('employee_id');
+            $group = $this->input->post('group');
             
             $statusId = 1;
             $permalink = sef($title);
             
             $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 'statusId'=> $statusId,
-                                'permalink'=>$permalink, 'createdBy'=>$this->vendorId, 'employee_id' => $employee_id);
+                                'permalink'=>$permalink, 'createdBy'=>$this->vendorId,
+                                'employee_id' => $employee_id , 'group_id' => $group);
                                 
             $result = $this->user_model->addNewTasks($taskInfo);
             
@@ -131,6 +136,8 @@ class Manager extends BaseController
         // var_dump($data['taskInfo']);die();
         $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
         $data['tasks_situations'] = $this->user_model->getTasksSituations();
+        $data['groups'] = $this->user_model->getUserGroups();
+        
         $data['user_list']=$this->_user_list();
         
         $this->global['pageTitle'] = 'DAS : Edit Task';
@@ -147,6 +154,8 @@ class Manager extends BaseController
 
         $this->form_validation->set_rules('fname','Task Title','required');
         $this->form_validation->set_rules('priority','priority','required');
+        $this->form_validation->set_rules('employee_id','employee name','required');
+        $this->form_validation->set_rules('group','Group Name','trim|required|numeric');
         
         $taskId = $this->input->post('taskId');
 
@@ -163,18 +172,17 @@ class Manager extends BaseController
             $priorityId = $this->input->post('priority');
             $statusId = $this->input->post('status');
             $employee_id = $this->input->post('employee_id');
+            $group = $this->input->post('group');
             $permalink = sef($title);
             
             $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 'statusId'=> $statusId,
-                                'permalink'=>$permalink ,'employee_id' => $employee_id);
+                                'permalink'=>$permalink, 'createdBy'=>$this->vendorId,
+                                'employee_id' => $employee_id , 'group_id' => $group);
                                 
             $result = $this->user_model->editTask($taskInfo,$taskId);
             
             if($result > 0)
-            {
-                // $process = 'Edit Task';
-                // $processFunction = 'Manager/editTask';
-                // $this->logrecord($process,$processFunction);
+            {                
                 $this->session->set_flashdata('success', 'Task editing successful');
             }
             else
@@ -182,7 +190,6 @@ class Manager extends BaseController
                 $this->session->set_flashdata('error', 'Task editing failed');
             }
             redirect('tasks');
-
         }
     }
 
@@ -216,6 +223,7 @@ class Manager extends BaseController
   {    
     $users = $this->user_model->get_users();
     $user_list['']= 'Choose Employee';
+    $user_list['0']= 'Not For User';
     foreach ($users as $user) 
     {
       $user_list[$user->userId]=  html_escape($user->name);

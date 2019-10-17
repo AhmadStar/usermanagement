@@ -5,6 +5,7 @@ $title = '';
 $comment = '';
 $priorityId = '';
 $statusId = '';
+$group_id = '';
 
 
 if(!empty($taskInfo))
@@ -17,6 +18,7 @@ if(!empty($taskInfo))
         $priorityId = $uf->priorityId;
         $statusId = $uf->statusId;
         $employee_id = $uf->employee_id;
+        $group_id = $uf->group_id;
     }
 }
 
@@ -80,6 +82,29 @@ if(!empty($taskInfo))
                                         <label for="employeename">Employee</label>
                                         <?php echo form_dropdown('employee_id',$user_list,set_value('employee_id',$employee_id) , "employee_id='name' class='form-control'");?>                                        
                                         </div>                                    
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="role">Group</label>
+                                            <select class="form-control required" id="group" name="group">
+                                                <option value="0">Select Group</option>
+                                                <?php
+                                                if(!empty($groups))
+                                                {
+                                                    foreach ($groups as $gr)
+                                                    {
+                                                        ?>
+                                                    <option value="<?php echo $gr->id ?>" <?php if($gr->id == $group_id) {echo "selected=selected";} ?>>
+                                                        <?php echo $gr->name ?>
+                                                    </option>
+                                                    <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">

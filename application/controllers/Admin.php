@@ -69,6 +69,7 @@ class Admin extends BaseController
     function addNew()
     {
         $data['roles'] = $this->user_model->getUserRoles();
+        $data['groups'] = $this->user_model->getUserGroups();
         $this->global['pageTitle'] = 'DAS : Add User';
         $this->loadViews("addNew", $this->global, $data, NULL);
     }
@@ -86,6 +87,7 @@ class Admin extends BaseController
         $this->form_validation->set_rules('password','Password','required|max_length[20]');
         $this->form_validation->set_rules('cpassword','Confirm Password','trim|required|matches[password]|max_length[20]');
         $this->form_validation->set_rules('role','Role','trim|required|numeric');
+        $this->form_validation->set_rules('group','Group','trim|required|numeric');
         $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]');
         
         if($this->form_validation->run() == FALSE)
@@ -102,12 +104,20 @@ class Admin extends BaseController
             
             $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId, 'name'=> $name,
                                 'mobile'=>$mobile, 'createdBy'=>$this->vendorId, 'createdDtm'=>date('Y-m-d H:i:s'));
-                                
+
             $result = $this->user_model->addNewUser($userInfo);
             
             if($result > 0)
-            {
-                $this->session->set_flashdata('success', 'User created successfully');
+            {                
+                $group = $this->input->post('group');
+                $userGroup = array('group_id'=>$group , 'user_id'=> $result );
+                $result = $this->user_model->addUserToGroup($userGroup);
+                if($result > 0)
+                { 
+                    $this->session->set_flashdata('success', 'User successfully added');
+                }else{
+                    $this->session->set_flashdata('error', 'Error With Group');
+                }
             }
             else
             {
@@ -129,7 +139,8 @@ class Admin extends BaseController
             redirect('userListing');
         }
         
-        $data['roles'] = $this->user_model->getUserRoles();
+        $data['groups'] = $this->user_model->getUserGroups();
+        $data['roles'] = $this->user_model->getUserRoles();        
         $data['userInfo'] = $this->user_model->getUserInfo($userId);
 
         $this->global['pageTitle'] = 'DAS : Edit User';
@@ -153,6 +164,7 @@ class Admin extends BaseController
         $this->form_validation->set_rules('cpassword','Confirm Password','matches[password]|max_length[20]');
         $this->form_validation->set_rules('role','Role','trim|required|numeric');
         $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]');
+        $this->form_validation->set_rules('group','Group','trim|required|numeric');
         
         if($this->form_validation->run() == FALSE)
         {
@@ -165,7 +177,7 @@ class Admin extends BaseController
             $password = $this->input->post('password');
             $roleId = $this->input->post('role');
             $mobile = $this->security->xss_clean($this->input->post('mobile'));
-            
+            $group = $this->input->post('group');
             $userInfo = array();
             
             if(empty($password))
@@ -184,7 +196,16 @@ class Admin extends BaseController
             
             if($result == true)
             {
-                $this->session->set_flashdata('success', 'User successfully updated');
+                // $this->session->set_flashdata('success', 'User successfully updated');
+                $userGroup = array('group_id'=>$group);
+                $result = $this->user_model->editUserToGroup($userGroup ,$userId);
+                if($result > 0)
+                { 
+                    $this->session->set_flashdata('success', 'User successfully updated');
+                }else{
+                    $this->session->set_flashdata('error', 'Error With Group');
+                }
+
             }
             else
             {

@@ -72,6 +72,19 @@ class User_model extends CI_Model
         return $query->result();
     }
 
+    /**
+     * This function is used to get the user getUserGroups
+     * @return array $result : This is result of the query
+     */
+    function getUserGroups()
+    {
+        $this->db->select('id, name');
+        $this->db->from('groups');
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+
 
     /**
      * This function is used to get the getThemes
@@ -181,6 +194,22 @@ class User_model extends CI_Model
         
         return $insert_id;
     }
+
+    /**
+     * This function is used to add new user to system
+     * @return number $insert_id : This is last inserted id
+     */
+    function addUserToGroup($userGroup)
+    {
+        $this->db->trans_start();
+        $this->db->insert('user_group', $userGroup);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
     
     /**
      * This function used to get user information by id
@@ -189,8 +218,10 @@ class User_model extends CI_Model
      */
     function getUserInfo($userId)
     {
-        $this->db->select('userId, name, email, mobile, roleId , picture');
+        $this->db->select('userId, name, email, mobile, roleId , picture , user_group.group_id');
         $this->db->from('tbl_users');
+        $this->db->join('user_group', 'user_group.user_id = tbl_users.userId');
+        // $this->db->join('group', 'group.id = user_group.group_id');
         $this->db->where('isDeleted', 0);
         $this->db->where('userId', $userId);
         $query = $this->db->get();
@@ -208,6 +239,20 @@ class User_model extends CI_Model
     {
         $this->db->where('userId', $userId);
         $this->db->update('tbl_users', $userInfo);
+        
+        return TRUE;
+    }
+
+
+    /**
+     * This function is used to update the user information
+     * @param array $userInfo : This is users updated information
+     * @param number $userId : This is user id
+     */
+    function editUserToGroup($userGroup, $userId)
+    {
+        $this->db->where('user_id', $userId);
+        $this->db->update('user_group', $userGroup);
         
         return TRUE;
     }

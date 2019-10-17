@@ -8,6 +8,8 @@
 class BaseController extends CI_Controller {
 	// User session variables
 	protected $role = '';
+	protected $group = '';
+	protected $groupName = '';
 	protected $vendorId = '';
 	protected $name = '';
 	protected $roleText = '';
@@ -169,6 +171,8 @@ class BaseController extends CI_Controller {
 	function datas()
 	{
 		$this->role = $this->session->userdata ( 'role' );
+		$this->group = $this->session->userdata ( 'group' );
+		$this->groupName = $this->session->userdata ( 'group_name' );
 		$this->vendorId = $this->session->userdata ( 'userId' );
 		$this->name = $this->session->userdata ( 'name' );
 		$this->picture = $this->session->userdata ( 'picture' );
@@ -181,6 +185,8 @@ class BaseController extends CI_Controller {
 		$this->global ['picture'] = $this->picture;
 		$this->global ['role'] = $this->role;
 		$this->global ['role_text'] = $this->roleText;
+		$this->global ['group'] = $this->group;
+		$this->global ['groupName'] = $this->groupName;
 		$this->global ['last_login'] = $this->lastLogin;
 		$this->global ['status'] = $this->status;
 		

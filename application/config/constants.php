@@ -91,6 +91,11 @@ define('ROLE_ADMIN',                            '1');
 define('ROLE_MANAGER',                         	'2');
 define('ROLE_EMPLOYEE',                         '3');
 
+// 
+define('GROUP_WEB_DESIGN',                            '1');
+define('GROUP_WEB_DEVELOPMENT',                         	'2');
+define('GROUP_GRAPHIC_DESIGN',                         '3');
+
 define('SEGMENT',								2);
 
 /************************** EMAIL CONSTANTS *****************************/
