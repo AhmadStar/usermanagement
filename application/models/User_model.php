@@ -556,6 +556,30 @@ class User_model extends CI_Model
         return $result;
     }
 
+
+    /**
+     * This function is used to get tasks
+     */
+    function getgroupTasks($group)
+    {
+        // $this->db->select('*');
+        $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
+        Prioritys.priorityId , Prioritys.priority , 
+        endDtm , TaskTbl.createdDtm , employee_id');
+        $this->db->from('tbl_task as TaskTbl');
+        $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
+        $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
+        $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = TaskTbl.statusId');
+        $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
+        $this->db->order_by('TaskTbl.statusId ASC, TaskTbl.priorityId');
+        $this->db->where('TaskTbl.statusId', 1);
+        if($group != '')
+            $this->db->where('group_id', $group);
+        $query = $this->db->get();
+        $result = $query->result();        
+        return $result;
+    }
+
     /**
      * This function is used to get tasks
      */
@@ -779,6 +803,20 @@ class User_model extends CI_Model
     }
 
     /**
+     * This function is used to get the tasks count
+     * @return array $result : This is result
+     */
+    function groupTaskCount($group_id)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_task as BaseTbl');        
+        $this->db->where('group_id', $group_id);
+        $this->db->where('BaseTbl.statusId', 1);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    /**
      * This function is used to get the logs count
      * @return array $result : This is result
      */
@@ -856,7 +894,7 @@ class User_model extends CI_Model
     }
     
     public function connectedUsers(){
-        $this->db->select('userId , name , role , picture , updatedDtm');
+        $this->db->select('userId , name , role , picture , last_login');
         $this->db->from('tbl_users');
         $this->db->join('tbl_roles as Roles','Roles.roleId = tbl_users.roleId');		
         $this->db->where('is_logged', 1);
@@ -893,7 +931,7 @@ class User_model extends CI_Model
      */
     function get_browse_data()
     {
-        $this->db->select('userAgent , COUNT(userAgent) as count');
+        $this->db->select('userAgent , userIp , COUNT(userAgent) as count');
         $this->db->from('tbl_log as BaseTbl');
         $this->db->group_by('userAgent');        
         $query = $this->db->get();
@@ -901,9 +939,6 @@ class User_model extends CI_Model
         
         return $result;
     }
-
-
-
 }
 
   

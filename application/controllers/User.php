@@ -30,31 +30,31 @@ class User extends BaseController
         $this->global['pageTitle'] = 'Home page';
         if($this->role === ROLE_EMPLOYEE){
             $data['mytasksCount'] = $this->user_model->tasksCount($this->session->userdata('userId'));
-            $data['myfinishedTasksCount'] = $this->user_model->finishedTasksCount($this->session->userdata('userId'));            
-            $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();
-            $data['tasksCount'] = $this->user_model->tasksCount();
-            $data['logsCount'] = $this->user_model->logsCount($this->session->userdata('userId'));
-            $data['usersCount'] = $this->user_model->usersCount();
+            $data['myfinishedTasksCount'] = $this->user_model->finishedTasksCount($this->session->userdata('userId'));                        
+            $data['logsCount'] = $this->user_model->logsCount($this->session->userdata('userId'));            
             $data['latestTask'] = $this->user_model->getLatestTasks($this->session->userdata('userId'));
             $data['myAllTasksCount'] = $this->user_model->myAllTasksCount($this->session->userdata('userId'));            
-            $data['tasksCount'] = $this->user_model->tasksCount();
           }else{
-            $data['tasksCount'] = $this->user_model->tasksCount();
-            $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();
-            $data['logsCount'] = $this->user_model->logsCount();
-            $data['usersCount'] = $this->user_model->usersCount();
+            $data['logsCount'] = $this->user_model->logsCount();            
             $data['connectedUsers'] = $this->user_model->connectedUsers();
             $data['connectedUsersCount'] = $this->user_model->connectedUsersCount();
             $data['latestTask'] = $this->user_model->getLatestTasks();
+            $data['usersCount'] = $this->user_model->usersCount();
           }
           $data['AllTasksCount'] = $this->user_model->AllTasksCount();
+          $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();          
+          $data['tasksCount'] = $this->user_model->tasksCount();
           $data['userStars'] = $this->user_model->userStars($this->session->userdata('userId'));
+          $data['myWorkHours'] = $this->employee_model->get_month_hours_as_sum($this->session->userdata('userId'));
+          $data['AllUserWorkHours'] = $this->employee_model->get_month_hours_as_sum();
 
         if ($this->getUserStatus() == TRUE)
         {
             $this->session->set_flashdata('error', 'Please change your password first for your security.');
             redirect('changePassword');
         }
+
+        $data['groups'] = $this->user_model->getUserGroups();
 
         $this->loadViews("dashboard", $this->global, $data , NULL);
     }
@@ -380,6 +380,19 @@ class User extends BaseController
     }
 
     /**
+     * This function is used to open the tasks page for users (no edit/delete etc)
+     */
+    function grouptasks($group = NULL)
+    {        
+        $data['group_tasks'] = $this->user_model->getgroupTasks($group);        
+        $data['user_list']=$this->user_list();
+
+        $this->global['pageTitle'] = 'DAS : Group Tasks';
+        
+        $this->loadViews("groupTasks", $this->global, $data, NULL);
+    }
+
+    /**
      * This function is used to get bonus of user
      */
     function userStars()
@@ -540,11 +553,10 @@ class User extends BaseController
      */
     public function getMonthHours()
     {        
-        $now = new \DateTime('now');
         if($this->role === ROLE_ADMIN){            
-            $data = $this->employee_model->get_month_hours($now->format('m') , $now->format('y'));
+            $data = $this->employee_model->get_month_hours();
         }else{
-            $data = $this->employee_model->get_month_hours($now->format('m') , $now->format('y') , $this->session->userdata('userId'));
+            $data = $this->employee_model->get_month_hours($this->session->userdata('userId'));
         }
         
         

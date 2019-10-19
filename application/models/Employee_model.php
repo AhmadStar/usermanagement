@@ -216,8 +216,8 @@ class Employee_model extends CI_Model {
 	}
 
 
-	//return array all hours of every day
-    public function get_month_hours($month , $year , $userId = '')
+	//return array all hours of every day for chart
+    public function get_month_hours($userId = '')
 	{
         $this->db->select('BaseTbl.userId');
         $this->db->from('tbl_users as BaseTbl');
@@ -230,9 +230,9 @@ class Employee_model extends CI_Model {
 		
 		$array= [];
 		
-		if(!$year){
-			$year=date('Y');
-		}
+		$now = new \DateTime('now');		 
+		$month = $now->format('m');
+		$year = $now->format('y');
 		$num = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
 		for($day=1;$day<=$num;$day++){
 			$sum = 0 ;
@@ -246,6 +246,32 @@ class Employee_model extends CI_Model {
 			$array[] = "$hours.$minutes";
 		}
 		return $array;
+	}
+	
+
+	//return array all hours of every day as sum
+    public function get_month_hours_as_sum($userId = '')
+	{
+        $this->db->select('BaseTbl.userId');
+        $this->db->from('tbl_users as BaseTbl');
+		$this->db->where('BaseTbl.isDeleted', 0);
+		if($userId != '')
+			$this->db->where('userId', $userId);
+        $query = $this->db->get();
+        
+        $list = $query->result();			
+		
+		$now = new \DateTime('now');		 
+		$month = $now->format('m');
+		$year = $now->format('y');
+		$num = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
+		$sum = 0 ;
+		for($day=1;$day<=$num;$day++){			
+			foreach($list as $key => $employee) {				
+				$sum = $sum + $this->get_total_as_sum($employee->userId , $day);
+			}
+		}
+		return $sum;
     }
 
 	public function get_total($userName = '', $month = '' , $year = ''){
@@ -286,10 +312,7 @@ class Employee_model extends CI_Model {
 			$seconds = $sum % 60;
 
 			$sum = "$hours:$minutes:$seconds";
-
-			// $all_data = [];
-			// $all_data[0] = $list;
-			// $all_data[1] = $sum;
+			
 			return $sum;
 		}		
 		$all_data = 'empty';		
@@ -297,7 +320,7 @@ class Employee_model extends CI_Model {
 	}
 	
 	
-	public function get_total_as_sum($userId = '' , $day){		
+	public function get_total_as_sum($userId = '' , $day){
 		$this->db->select('userId, userName , createdDtm');
 		$this->db->group_by('userId , userName , day(createdDtm)');
 		$this->db->from('tbl_log');

@@ -54,11 +54,7 @@ $(function () {
   // console.log(salesChartData.labels);
   // console.log(salesChartData.datasets[0].data);
   
-  var sum = 0;
-  $.each( values, function( key, value ){
-    sum = sum + parseInt(value);
-  });
-  $("#monthly_work_hours").text(sum);  
+  
   
 
   var salesChartOptions = {
@@ -175,6 +171,14 @@ $(function () {
           }
         });
       });
+      
+      
+      $.getJSON('https://ipapi.co/'+$( "#location" ).attr("location")+'/json', function(data){        
+        console.log(data);
+        $( "#location" ).text( data.city+' '+data.country)
+        //  
+        $( "#my_location" ).attr("href", "https://maps.google.com/?q="+data.latitude+","+data.longitude+"")
+    });
     
   var pieOptions = {
     //Boolean - Whether we should show a stroke on each segment

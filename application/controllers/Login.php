@@ -147,7 +147,7 @@ class Login extends BaseController
                     
                     $this->logrecord($process,$processFunction);
 
-                    $userInfo = array('is_logged'=>1);
+                    $userInfo = array('is_logged'=>1 , 'last_login' =>date('Y-m-d H:i:s'));
         
                     $this->user_model->editUser($userInfo, $res->userId);
 

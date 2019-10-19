@@ -7,7 +7,6 @@
   </section>
 
   <section class="content">
-
     <div class="">
     <!--  Sales Chart -->
       <div class="box box-danger">
@@ -218,10 +217,35 @@
               <!-- /.progress-group -->
               <div class="progress-group">
                 <span class="progress-text">My Work Hours from all</span>
-                <span class="progress-number"><b>250</b>/500</span>
+                <span class="progress-number">
+                  <b>
+                    <?php if (isset($myWorkHours)) {
+                        $hours = floor($myWorkHours / 3600);
+                        $minutes = floor(($myWorkHours / 60) % 60);
+                        $seconds = $myWorkHours % 60;
+                        echo $hours.':'.$minutes.':'.$seconds;
+                      } else {
+                        echo '0';
+                      } ?>
+                </b>/<?php if (isset($AllUserWorkHours)) {
+                        $hours = floor($AllUserWorkHours / 3600);
+                        $minutes = floor(($AllUserWorkHours / 60) % 60);
+                        $seconds = $AllUserWorkHours % 60;
+                        echo $hours.':'.$minutes.':'.$seconds;
+                      } else {
+                        echo '0';
+                      } ?>
+                </span>
 
                 <div class="progress sm">
-                  <div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
+                  <div class="progress-bar progress-bar-yellow" 
+                      style="width:<?php if (isset($myWorkHours)) {
+                          $perecent = (($myWorkHours) / ($AllUserWorkHours)) * 100;
+                            echo $perecent;
+                            echo "%";
+                          } else {
+                            echo '0';
+                          } ?>"></div>
                 </div>
               </div>
               <!-- /.progress-group -->
@@ -235,7 +259,19 @@
             <div class="col-sm-3 col-xs-6">
               <div class="description-block border-right">
                 <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                <h5 class="description-header" id="monthly_work_hours"></h5>
+                <h5 class="description-header"><?php
+                if ($role !== ROLE_ADMIN) {
+                  $hours = floor($myWorkHours / 3600);
+                  $minutes = floor(($myWorkHours / 60) % 60);
+                  $seconds = $myWorkHours % 60;
+                  echo $hours.':'.$minutes.':'.$seconds;
+                }else{
+                  $hours = floor($AllUserWorkHours / 3600);
+                  $minutes = floor(($AllUserWorkHours / 60) % 60);
+                  $seconds = $AllUserWorkHours % 60;
+                  echo $hours.':'.$minutes.':'.$seconds;
+                }
+                ?></h5>
                 <span class="description-text">TOTAL WORK HOURS</span>
               </div>
               <!-- /.description-block -->
@@ -322,6 +358,23 @@
           </div>
         </div>
         <!-- ./col -->
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+            <h3><?php echo $this->user_model->groupTaskCount($group);?></h3>
+              <p><?php echo $groupName?>Tasks</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="<?php echo base_url(); ?><?php echo 'groupTasks/'.$group ?>" class="small-box-footer">More information
+              <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
       <?php
       }else {
         ?>
@@ -341,11 +394,7 @@
             <div class="icon">
               <i class="fa fa-tasks"></i>
             </div>
-            <a href="<?php echo base_url(); ?><?php if ($role != ROLE_EMPLOYEE) {
-                                                  echo 'tasks';
-                                                } else {
-                                                  echo 'tasks';
-                                                } ?>" class="small-box-footer">See all
+            <a href="<?php echo base_url();?><?php echo 'tasks';?>" class="small-box-footer">See all
               <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -372,11 +421,30 @@
             </a>
           </div>
         </div>
-      <?php
-      }
-      ?>
 
+
+        <?php 
+          foreach($groups as $group){                      
+            ?>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-green">
+                <div class="inner">
+                  <h3><?php echo $this->user_model->groupTaskCount($group->id);?></h3>
+                  <p><?php echo $group->name?> Taks</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="<?php echo base_url(); ?><?php echo 'groupTasks/'.$group->id ?>" class="small-box-footer">More information
+                  <i class="fa fa-arrow-circle-right"></i>
+                </a>
+              </div>
+            </div>
       <?php
+          }
+        }
       if ($role !== ROLE_ADMIN) {
         ?>
         <!-- ./col -->
@@ -487,8 +555,8 @@
                     <a href="<?= base_url() . 'log-history/' . $user->userId; ?>"><img src="<?php echo $user->picture ?>" alt="User Image"></a>
                     <a class="users-list-name" href="<?= base_url() . 'log-history/' . $user->userId; ?>"><?php echo $user->name ?></a>
                     <span class="users-list-date"><?php echo $user->role ?></span>
-                    <span class="users-list-date"><?php echo date('Y-m-d', strtotime($user->updatedDtm));
-                                                      echo date('l', strtotime($user->updatedDtm)); ?></span>
+                    <span class="users-list-date"><?php echo date('Y-m-d', strtotime($user->last_login));
+                                                      echo date('l', strtotime($user->last_login)); ?></span>
                   </li>
                 <?php } ?>
               </ul>

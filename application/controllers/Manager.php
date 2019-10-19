@@ -68,7 +68,14 @@ class Manager extends BaseController
     {
         $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();            
         $data['user_list']= $this->_user_list();
-        $data['groups'] = $this->user_model->getUserGroups();        
+        $data['groups'] = $this->user_model->getUserGroups();
+
+        $item = new stdClass();
+        $item->id = -1;
+        $item->name = 'Not fot Group';
+        array_push($data['groups'], $item);        			
+        // var_dump($data['groups']);die();
+
         $this->global['pageTitle'] = 'DAS : Add Task';
 
         $this->loadViews("addNewTask", $this->global, $data, NULL);

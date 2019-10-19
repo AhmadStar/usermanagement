@@ -52,6 +52,7 @@ $route['checkUsernameExists'] = "user/checkUsernameExists";
 $route['endTask/(:num)'] = "user/endTask/$1";
 $route['showTask/(:num)'] = "user/showTask/$1";
 $route['tasks'] = "user/tasks";
+$route['groupTasks/(:any)'] = "user/grouptasks/$1";
 $route['finishedtasks'] = "user/finishedtasks";
 $route['userStars'] = "user/userStars";
 $route['showBonus/(:num)'] = "user/showBonus/$1";

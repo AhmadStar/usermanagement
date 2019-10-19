@@ -171,7 +171,7 @@ class BaseController extends CI_Controller {
 	function datas()
 	{
 		$this->role = $this->session->userdata ( 'role' );
-		$this->group = $this->session->userdata ( 'group' );
+		$this->group = $this->session->userdata ( 'group_id' );
 		$this->groupName = $this->session->userdata ( 'group_name' );
 		$this->vendorId = $this->session->userdata ( 'userId' );
 		$this->name = $this->session->userdata ( 'name' );
