@@ -44,7 +44,11 @@ if(!empty($taskInfo))
                 <div class="box-body">
                 <h4 class=""><span >Task Title :</span><?php echo $title; ?></h4>
                 <h4 class=""><span >Task Description :</span><?php echo $comment; ?></h4>
-                <h4 class=""><span >Employee Name :</span><?php echo $user_list[$employee_id]?></h4>
+                <h4 class=""><span >Employee Name :</span><?php
+                    if(isset($user_list[$employee_id]))
+                        echo $user_list[$employee_id];
+                
+                ?></h4>
                 <h4 class=""><span >Task Proiotity :</span>
                     <?php 
                     foreach ($tasks_prioritys as $rl)

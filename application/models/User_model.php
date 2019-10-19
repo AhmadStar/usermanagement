@@ -931,7 +931,7 @@ class User_model extends CI_Model
      */
     function get_browse_data()
     {
-        $this->db->select('userAgent , userIp , COUNT(userAgent) as count');
+        $this->db->select('userAgent , COUNT(userAgent) as count');
         $this->db->from('tbl_log as BaseTbl');
         $this->db->group_by('userAgent');        
         $query = $this->db->get();

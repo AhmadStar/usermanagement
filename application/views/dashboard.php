@@ -432,7 +432,7 @@
               <div class="small-box bg-green">
                 <div class="inner">
                   <h3><?php echo $this->user_model->groupTaskCount($group->id);?></h3>
-                  <p><?php echo $group->name?> Taks</p>
+                  <p><?php echo $group->name?> Tasks</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-pie-graph"></i>
