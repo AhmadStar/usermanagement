@@ -100,7 +100,7 @@ if(!empty($userInfo))
                                             </div>  
                                         </div>
                                     </div>
-                            </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /.box-body -->

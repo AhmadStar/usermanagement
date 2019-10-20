@@ -47,16 +47,14 @@
             </div>
             <?php } ?>
             <div class="panel-body">
-              <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                <thead>
-                  <tr>
-                    <th>ID</th>
+              <table width="100%" class="cards table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead class="cards-head">
+                  <tr>                    
                     <th>Task Title</th>
                     <th>Explanation</th>
                     <th>Availability</th>
                     <th>Priority</th>
-                    <th>Created by</th>
-                    <!-- <th>User Role</th> -->
+                    <th>Created by</th>                    
                     <th>For Employee</th>
                     <th>Creation Date</th>
                     <th>End Date</th>
@@ -72,15 +70,15 @@
                       ?>
                     <tr>
                       <td>
-                        <?php echo $record->id ?>
-                      </td>
-                      <td>
+                        <label>Title:</label>
                         <?php echo $record->title ?>
                       </td>
                       <td>
+                        <label>Detail:</label>
                         <?php echo $record->comment ?>
                       </td>
                       <td>
+                        <label>Status:</label>
                         <div class="label label-<?php
                         if ($record->statusId == '1')
                         echo 'danger';
@@ -92,6 +90,7 @@
                       </td>
 
                       <td>
+                        <label>Prority:</label>
                         <div class="label label-<?php
                         if ($record->priorityId == '1')
                         echo 'danger';
@@ -104,26 +103,25 @@
                         </div>
                       </td>
                       <td>
+                        <label>Name:</label>
                         <?php echo $record->name ?>
-                      </td>
-                      <!-- <td>
-                        <?php echo $record->role ?>
-                      </td> -->
+                      </td>                      
                       <td>
-                        <?php 
-                        
+                        <label>Employee Name:</label>
+                        <?php                         
                         $employee_name = '';
                         foreach($user_list as $employee){
                             if ($employee->userId == $record->employee_id)
                                 $employee_name = $employee->name;
-                        }
-                        
+                        }                        
                         echo $employee_name ?>
                       </td>
                       <td>
+                        <label>Create Date:</label>
                         <?php echo $record->createdDtm ?>
                       </td>
                       <td>
+                        <label>Finish Date:</label>
                         <?php echo $record->endDtm ?>
                       </td>
                       <td class="text-center">

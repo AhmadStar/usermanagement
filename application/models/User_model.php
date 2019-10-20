@@ -33,7 +33,7 @@ class User_model extends CI_Model
      */
     function userListing($searchText = '', $page, $segment)
     {
-        $this->db->select('BaseTbl.userId, BaseTbl.email, BaseTbl.name, BaseTbl.mobile, Role.role , COUNT(bonus.user_id) as stars');
+        $this->db->select('BaseTbl.userId, BaseTbl.email, BaseTbl.name, BaseTbl.mobile, Role.role, BaseTbl.picture , COUNT(bonus.user_id) as stars');
         $this->db->from('tbl_users as BaseTbl');
         $this->db->join('tbl_roles as Role', 'Role.roleId = BaseTbl.roleId','left');
         $this->db->join('bonus', 'bonus.user_id = BaseTbl.userId','left');        
@@ -524,7 +524,7 @@ class User_model extends CI_Model
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
         $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = TaskTbl.statusId');
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
-        $this->db->order_by('TaskTbl.statusId ASC, TaskTbl.priorityId');
+        $this->db->order_by('TaskTbl.createdDtm DESC');
         $this->db->where('TaskTbl.statusId', 1);
         if($employee_id != '')
             $this->db->where('employee_id', $employee_id);
@@ -616,6 +616,32 @@ class User_model extends CI_Model
         
         return $query->result();
     }
+
+    /**
+     * This function is used to get task Images
+     */
+    function getTasksImages($taskId)
+    {
+        $this->db->select('*');
+        $this->db->from('task_files');
+        $this->db->where('task_id', $taskId);
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+
+    /**
+     * This function is used to get task Links
+     */
+    function getTasksLinks($taskId)
+    {
+        $this->db->select('*');
+        $this->db->from('links');
+        $this->db->where('task_id', $taskId);
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
     
     /**
      * This function is used to add a new task
@@ -624,6 +650,37 @@ class User_model extends CI_Model
     {
         $this->db->trans_start();
         $this->db->insert('tbl_task', $taskInfo);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
+
+
+    /**
+     * This function is used to add link of task
+     */
+    function addTaskLinks($taskLink)
+    {
+        $this->db->trans_start();
+        $this->db->insert('links', $taskLink);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
+
+    /**
+     * This function is used to add link of task
+     */
+    function addTaskFiles($taskFile)
+    {
+        $this->db->trans_start();
+        $this->db->insert('task_files', $taskFile);
         
         $insert_id = $this->db->insert_id();
         
@@ -675,6 +732,16 @@ class User_model extends CI_Model
         return $this->db->affected_rows();
     }
     
+    /**
+     * This function is used to delete tasks
+     */
+    function delete_file($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('task_files');
+        return TRUE;
+    }
+
     /**
      * This function is used to delete tasks
      */

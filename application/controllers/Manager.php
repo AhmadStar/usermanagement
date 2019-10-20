@@ -86,9 +86,7 @@ class Manager extends BaseController
      */
     function addNewTasks()
     {
-        $this->load->library('form_validation');
-        
-        // var_dump($this->input->post());die();
+        $this->load->library('form_validation');            
 
         $this->form_validation->set_rules('fname','Task Title','required');
         $this->form_validation->set_rules('priority','priority','required');
@@ -106,7 +104,8 @@ class Manager extends BaseController
             $priorityId = $this->input->post('priority');
             $employee_id = $this->input->post('employee_id');
             $group = $this->input->post('group');
-            
+            $links = $this->input->post('links');
+
             $statusId = 1;
             $permalink = sef($title);
             
@@ -118,6 +117,56 @@ class Manager extends BaseController
             
             if($result > 0)
             {
+                foreach($links as $link){
+                    $taskLink = array('task_id'=>$result , 'name'=> $link);
+                    $linkresult = $this->user_model->addTaskLinks($taskLink);
+                    if($linkresult < 0){
+                        $this->session->set_flashdata('error', 'Task Link creation failed');
+                    }
+                }
+
+                // Count total files
+                $countfiles = count($_FILES['files']['name']);
+                // Looping all files
+                
+                for($i=0;$i<$countfiles;$i++){
+            
+                    if(!empty($_FILES['files']['name'][$i])){
+            
+                        // Define new $_FILES array - $_FILES['file']
+                        $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+                        $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+                        $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                        $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+                        $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+
+                        // Set preference
+                        $config['upload_path']  = './uploads/';
+                        $config['allowed_types'] = 'jpg|jpeg|png|gif|txt|pdf';
+                        $config['max_size'] = '5000'; // max_size in kb
+                        $config['file_name'] = $result.'file'.$i;
+                
+                        //Load upload library
+                        $this->load->library('upload',$config);
+            
+                        // File upload
+                        if($this->upload->do_upload('file')){
+                            // Get data about the file
+                            $uploadData = $this->upload->data();
+                            $filename = $uploadData['file_name'];
+                            $taskFile = array('task_id'=>$result , 'name'=> $filename);
+                            $linkresult = $this->user_model->addTaskFiles($taskFile);
+                        }else{
+                            {
+                                $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
+                                $error = array('error' => $this->upload->display_errors());
+                                $this->session->set_flashdata('error',$error['error']);
+                                redirect('addNewTask');
+                            }
+                        }
+                    }
+                }
+
                 $this->session->set_flashdata('success', 'Task created successfully');
             }
             else
@@ -143,6 +192,14 @@ class Manager extends BaseController
         // var_dump($data['taskInfo']);die();
         $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
         $data['tasks_situations'] = $this->user_model->getTasksSituations();
+        $data['tasks_images'] = $this->user_model->getTasksImages($taskId);
+        $data['tasks_links'] = $this->user_model->getTasksLinks($taskId);
+
+        // var_dump($data['tasks_images']);
+        // var_dump($data['tasks_links']);
+        // die();
+
+
         $data['groups'] = $this->user_model->getUserGroups();
         
         $data['user_list']=$this->_user_list();
@@ -247,5 +304,20 @@ class Manager extends BaseController
     $users = $this->user_model->get_users();    
     return $users;
   }
+
+
+  /**
+     * This function used to show log history
+     * @param number $userId : This is user id
+     */
+    public function deleteFile()
+    {        
+        $id = $this->input->post('id');    
+        
+        $data = $this->user_model->delete_file($id);
+        
+        //output to json format
+            echo json_encode($data);
+    }
 
 }

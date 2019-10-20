@@ -41,8 +41,8 @@
                             </div>
                             <?php } ?>
                             <div class="panel-body">
-                                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <thead>
+                                <table width="100%" class=" cards table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead class="cards-head">
                                         <tr>
                                         <th>User Id </th>
                                         <th>User Name</th>
@@ -60,19 +60,24 @@
                       ?>
                     <tr>
                         <td>
+                          <label>ID:</label>
                           <?php echo $record->userId ?>
                         </td>
                         <td>
+                          <label>Name:</label>
                           <?php echo $record->userName ?>
                         </td>                        
                         <td>
+                          <label>Date And Time:</label>
                           <?php echo $record->createdDtm ?>
                         </td>
                         <td>
+                          <label>Day:</label>
                           <?php echo date('l', strtotime($record->createdDtm));?>
                         </td>
                         <td>
-                        <?php echo $record->total ?>
+                            <label>Day work Hours:</label>
+                            <?php echo $record->total ?>
                         </td>
                       </tr>
                                             <?php
@@ -127,6 +132,8 @@
                 name: row_data[1] ,                
                 date: row_data[2] ,
             }
+
+            console.log(mydata)
 
             var day_hours = 0;
 

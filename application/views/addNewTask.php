@@ -18,7 +18,7 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <?php $this->load->helper("form"); ?>
-                    <form role="form" id="addNewTask" action="<?php echo base_url() ?>addNewTasks" method="post" role="form">
+                    <form role="form" id="addNewTask" action="<?php echo base_url() ?>addNewTasks" method="post" role="form" enctype="multipart/form-data">
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-4">
@@ -77,6 +77,32 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <input type='file' name='files[]' multiple >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="repeater">
+                                    <div class="col-md-12">
+                                        <div class="repeater-heading" align="right">
+                                            <button type="button" class="btn btn-primary repeater-add-btn">Add More Links</button>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="items" data-group="links">
+                                        <div class="item-content">
+                                            <div class="form-group">                                                
+                                                <div class="col-md-9">
+                                                    <label>Enter link </label>
+                                                    <input type="text" class="form-control" value="">
+                                                </div>
+                                                <div class="col-md-3" style="margin-top:24px;" align="center">
+                                                    <button id="remove-btn" onclick="$(this).parents('.items').remove()" class="btn btn-danger">Remove</button>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -132,4 +158,11 @@
             </div>
     </section>
 </div>
+<script>
+$(document).ready(function(){
+    $('#repeater').createRepeater();    
+});
+    
+</script>
 <script src="<?php echo base_url(); ?>assets/js/addTask.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/js/repeater.js" type="text/javascript"></script>

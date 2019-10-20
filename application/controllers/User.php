@@ -164,7 +164,7 @@ class User extends BaseController
                             'mobile'=>$mobile, 'status'=>1, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $picture);                      
                     }
                 }else{
-            $userInfo = array('email'=>$email,'name'=>$name,
+                    $userInfo = array('email'=>$email,'name'=>$name,
                             'mobile'=>$mobile, 'status'=>1, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'));
                 }
             }

@@ -157,6 +157,8 @@ class Admin extends BaseController
         $this->load->library('form_validation');
         
         $userId = $this->input->post('userId');
+
+        var_dump($this->input->post());die();
         
         $this->form_validation->set_rules('fname','Full Name','trim|required|max_length[128]');
         $this->form_validation->set_rules('email','Email','trim|required|valid_email|max_length[128]');

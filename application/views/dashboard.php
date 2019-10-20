@@ -68,7 +68,7 @@
                   if ($role == ROLE_EMPLOYEE) {
               ?>
                   <div class="progress-group">
-                    <span class="progress-text">My available Task from all available task</span>
+                    <span class="progress-text">My Tasks from all available Tasks</span>
                     <span class="progress-number">
                       <b>
                         <?php if (isset($mytasksCount)) {
@@ -97,7 +97,7 @@
                   </div>
                   <!-- /.progress-group -->
                   <div class="progress-group">
-                    <span class="progress-text">My Completed Task from all</span>
+                    <span class="progress-text">My Completed Tasks from all</span>
                     <span class="progress-number">
                       <b>
                         <?php if (isset($myfinishedTasksCount)) {

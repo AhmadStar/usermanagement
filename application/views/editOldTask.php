@@ -107,6 +107,23 @@ if(!empty($taskInfo))
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ul class="list-unstyled clearfix">                            
+                                            <?php foreach($tasks_images as $image) {?>                                                
+                                                <li id="<?php echo $image->id?>" style="float:left; width: 33.33333%; padding: 5px;">
+                                                    <a href="#" class="remove_picture" style="float: none" title="Remove the selected picture">&times;</a>
+                                                    <div class="thumbnail" style="width: 120px; height: 140px;">                                                        
+                                                        <img src="<?php echo base_url().'uploads/'.$image->name;?>" />
+                                                    </div>
+                                                </li>                                               
+                                            <?php }?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -185,3 +202,4 @@ if(!empty($taskInfo))
         </section>
 
         </div>
+<script src="<?php echo base_url(); ?>assets/js/editTask.js" type="text/javascript"></script>

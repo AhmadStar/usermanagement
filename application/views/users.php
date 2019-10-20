@@ -45,10 +45,11 @@
                         </div>
               <?php } ?>
               <div class="panel-body">
-                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                  <thead>
+                <table width="100%" class="table table-striped table-bordered table-hover cards" id="dataTables-example">
+                <thead class="cards-head">
                             <tr>
-                                <th>ID</th>
+                                <th>Image</th>
+                                <!-- <th>ID</th> -->
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Telephone number</th>
@@ -65,25 +66,34 @@
                         {
                     ?>
                                 <tr>
-                                    <td>
+                                <td class="text-center">                                
+                                    <img src="<?php echo base_url().$record->picture;?>" class="img-circle user-image" alt="User Image">                                
+                                </td>
+                                    <!-- <td>
+                                        <label>ID:</label>
                                         <?php echo $record->userId ?>
-                                    </td>
+                                    </td> -->
                                     <td>
+                                        <label>Name:</label>
                                         <?php echo $record->name ?>
                                     </td>
                                     <td>
+                                        <label>Email:</label>
                                         <?php echo $record->email ?>
                                     </td>
                                     <td>
+                                        <label>Telephone:</label>
                                         <?php echo $record->mobile ?>
                                     </td>
                                     <td>
+                                        <label>Bonus:</label>
                                         <?php 
                                         while($record->stars > 0){?>
                                              <i class="fa fa-star" style="color:yellow"></i>                                             
                                         <?php $record->stars--;}?>                                        
                                     </td>
                                     <td>
+                                        <label>Bonus:</label>
                                         <?php echo $record->role ?>
                                     </td>
                                     <td class="text-center">
