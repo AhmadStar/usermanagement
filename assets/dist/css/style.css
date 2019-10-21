@@ -17,6 +17,9 @@ table.table-bordered.dataTable .logs-hover tr:hover {
 }
 .cards tbody td {
     display: block;
+    max-width: 250px;
+    overflow: auto; 
+    word-wrap: break-word;
 }
 
 .cards tbody tr {
@@ -37,4 +40,3 @@ table.table-bordered.dataTable .logs-hover tr:hover {
     max-height: 45px;    
 }
 
-/* max-width: 250px; overflow: auto; word-wrap: break-word */

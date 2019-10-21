@@ -107,7 +107,7 @@
                           </div>
                         </td>
                         <td>
-                          <label>Name:</label>
+                          <label>Created By:</label>
                           <?php echo $record->name ?>
                         </td>
                         <td>

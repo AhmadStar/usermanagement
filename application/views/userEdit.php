@@ -46,7 +46,7 @@ if(!empty($userInfo))
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="fname">User Name</label>
-                                        <input type="text" class="form-control required" value="<?php echo $name; ?>" id="fname" name="fname" maxlength="128">
+                                        <input type="text" class="form-control required" value="<?php echo $name; ?>" id="fname" name="fname" maxlength="128" readonly>
                                         <input type="hidden" value="<?php echo $userId; ?>" name="userId" id="userId" />
                                     </div>
 
@@ -55,7 +55,7 @@ if(!empty($userInfo))
                                     <div class="form-group">
                                         <label for="email">Email address</label>
                                         <input type="text" class="form-control required email" id="email" value="<?php echo $email; ?>" name="email"
-                                            maxlength="128">
+                                            maxlength="128" readonly>
                                     </div>
                                 </div>
                             </div>
