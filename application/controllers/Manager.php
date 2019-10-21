@@ -70,6 +70,7 @@ class Manager extends BaseController
         $data['user_list']= $this->_user_list();
         $data['groups'] = $this->user_model->getUserGroups();
 
+        // for first item
         $item = new stdClass();
         $item->id = -1;
         $item->name = 'Not fot Group';
@@ -325,28 +326,27 @@ class Manager extends BaseController
     /**
    * _user_list()
    * returns a list of employee.
-   */ 
-  public function _user_list()
-  {
-    $users = $this->user_model->get_users();
-    $user_list['']= 'Choose Employee';
-    $user_list['0']= 'Not For User';
-    foreach ($users as $user) 
+   */
+    public function _user_list()
     {
-      $user_list[$user->userId]=  html_escape($user->name);
+        $users = $this->user_model->get_users();
+        $user_list['']= 'Choose Employee';
+        $user_list['0']= 'Not For User';
+        foreach ($users as $user){
+            $user_list[$user->userId]=  html_escape($user->name);
+        }
+        return $user_list;
     }
-    return $user_list;
-  }
 
  /**
    * employee_list()
    * returns a list of employee.
    */ 
-  public function employee_list()
-  {
-    $users = $this->user_model->get_users();    
-    return $users;
-  }
+    public function employee_list()
+    {
+        $users = $this->user_model->get_users();    
+        return $users;
+    }
 
 
   /**

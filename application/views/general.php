@@ -120,14 +120,6 @@
         </div>
     </section>
 </div>
-<script src="<?php echo base_url(); ?>assets/js/general.js" type="text/javascript"></script>
-
-<?php 
-    if (($token = $this->input->cookie('site_theme'))) {
-        $token = explode("\n", $token);
-        $theme = $token[0];
-    }
-?>
 
 <script>
     $(document).ready(function(){

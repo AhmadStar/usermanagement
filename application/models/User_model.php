@@ -85,50 +85,12 @@ class User_model extends CI_Model
         return $query->result();
     }
 
-
     /**
-     * This function is used to get the getThemes
-     * @return array $result : This is result of the query
-     */
-    function getThemes()
-    {
-        $this->db->select('id, name');
-        $this->db->from('themes');
-        $query = $this->db->get();
-        
-        return $query->result();
-    }
-
-    /**
-     * This function is used to update general table
-     * @return array $result : This is result of the query
-     */
-    function update_general($general_info)
-    {        
-        $this->db->update('general', $general_info);        
-        return TRUE;
-    }
-
-    /**
-     * This function is used to get general table
-     * @return array $result : This is result of the query
-     */
-    function get_general()
-    {        
-        $this->db->select('themes.name');
-        $this->db->from('general');
-        $this->db->join('themes','general.theme_id = themes.id');
-        $query = $this->db->get();
-        $res = $query->result();
-        return $res[0];
-    }
-
-    /**
-     * This function is used to get general table
-     * @return array $result : This is result of the query
+     * This function is used to get picture
+     * @param string $userId : This is the Id of user
      */
     function get_picture($userId)
-    {        
+    {
         $this->db->select('picture');
         $this->db->from('tbl_users');
         $this->db->where("userId", $userId);
@@ -159,8 +121,8 @@ class User_model extends CI_Model
 
 
     /**
-     * This function is used to check whether email id is already exist or not
-     * @param {string} $email : This is email id
+     * This function is used to check whether User name id is already exist or not
+     * @param {string} $fname : This is fname
      * @param {number} $userId : This is user id
      * @return {mixed} $result : This is searched result
      */
@@ -196,7 +158,7 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function is used to add new user to system
+     * This function is used to add user to group
      * @return number $insert_id : This is last inserted id
      */
     function addUserToGroup($userGroup)
@@ -220,8 +182,7 @@ class User_model extends CI_Model
     {
         $this->db->select('userId, name, email, mobile, roleId , picture , user_group.group_id');
         $this->db->from('tbl_users');
-        $this->db->join('user_group', 'user_group.user_id = tbl_users.userId');
-        // $this->db->join('group', 'group.id = user_group.group_id');
+        $this->db->join('user_group', 'user_group.user_id = tbl_users.userId');        
         $this->db->where('isDeleted', 0);
         $this->db->where('userId', $userId);
         $query = $this->db->get();
@@ -245,11 +206,11 @@ class User_model extends CI_Model
 
 
     /**
-     * This function is used to update the user information
-     * @param array $userInfo : This is users updated information
+     * This function is used to update the user group information
+     * @param array $userGroup : This is users group information
      * @param number $userId : This is user id
      */
-    function editUserToGroup($userGroup, $userId)
+    function editUserGroup($userGroup, $userId)
     {
         $this->db->where('user_id', $userId);
         $this->db->update('user_group', $userGroup);
@@ -273,8 +234,8 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function is used to delete the user information
-     * @param number $userId : This is user id
+     * This function is used to delete bonus
+     * @param number $bonusid : This is bonus id
      * @return boolean $result : TRUE / FALSE
      */
     function deleteBonus($bonusid)
@@ -304,7 +265,7 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function used to get user information by id
+     * This function used to get user bonus by id
      * @param number $userId : This is user id
      * @return array $result : This is user information
      */
@@ -319,8 +280,8 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function is used to update the user information
-     * @param array $userInfo : This is users updated information
+     * This function is used to update the user bonus
+     * @param array $bonusInfo : This is bonus updated information
      * @param number $userId : This is user id
      */
     function editBonus($bonusInfo, $bonusId)
@@ -396,7 +357,7 @@ class User_model extends CI_Model
     }
 
 /**
-     * This function is used to get user log history
+     * This function is used to get user bonus
      * @param number $userId : This is user id
      * @return array $result : This is result
      */
@@ -447,11 +408,13 @@ class User_model extends CI_Model
             $result = $query->result();            
         }
 
+        // to count the work hout for every day or record
         foreach ($result as $key => $employee) {
 			$item = new stdClass();
 			$item->userName = $employee->userName;
 			$item->userId = $employee->userId;
-			$item->createdDtm = $employee->createdDtm;
+            $item->createdDtm = $employee->createdDtm;
+            // invoke to get the sum of work hours
 			$sum = $this->get_day_hours($employee->userId , $employee->createdDtm);
 			$hours = floor($sum / 3600);
 			$minutes = floor(($sum / 60) % 60);
@@ -558,7 +521,7 @@ class User_model extends CI_Model
 
 
     /**
-     * This function is used to get tasks
+     * This function is used to get group tasks
      */
     function getgroupTasks($group)
     {
@@ -581,10 +544,10 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function is used to get tasks
+     * This function is used to get stars of user
      */
     function getUserStars($user_id)
-    {        
+    {
         $this->db->select('id , title , description , date');
         $this->db->from('bonus');
         $this->db->where('user_id', $user_id);
@@ -675,7 +638,7 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function is used to add link of task
+     * This function is used to add files of task
      */
     function addTaskFiles($taskFile)
     {
@@ -707,8 +670,8 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function used to get task information by id
-     * @param number $taskId : This is task id
+     * This function used to get bonus information by id
+     * @param number $bonusId : This is bonus id
      * @return array $result : This is task information
      */
     function getBonusInfo($bonusId)
@@ -899,7 +862,7 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function is used to get the logs count
+     * This function is used to get the stars of user
      * @return array $result : This is result
      */
     function userStars($userId = '')
@@ -973,7 +936,7 @@ class User_model extends CI_Model
      * This function is used to get tasks
      */
     function getLatestTasks($userId = '')
-    {        
+    {
         $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
         Prioritys.priorityId , Prioritys.priority , endDtm , TaskTbl.createdDtm , employee_id , Users.picture ');
         $this->db->from('tbl_task as TaskTbl');
@@ -992,8 +955,7 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function is used to get user log history
-     * @param number $userId : This is user id
+     * This function is used to get Browse data      
      * @return array $result : This is result
      */
     function get_browse_data()

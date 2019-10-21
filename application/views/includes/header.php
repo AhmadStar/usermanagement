@@ -50,10 +50,8 @@
 </head>
 
 <?php 
-$theme = $this->user_model->get_general();
 $picture = $this->user_model->get_picture($this->session->userdata('userId'));
 $picture = $picture->picture;
-$theme = '';
 
 if(($token = $this->input->cookie('site_theme')))
 {

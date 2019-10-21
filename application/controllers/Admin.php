@@ -44,7 +44,7 @@ class Admin extends BaseController
      * This function is used to load the user list
      */
     function userListing()
-    {   
+    {
         $searchText = $this->security->xss_clean($this->input->post('searchText'));
         $data['searchText'] = $searchText;
         
@@ -54,9 +54,7 @@ class Admin extends BaseController
 
         $returns = $this->paginationCompress ( "userListing/", $count, 100 );
         
-        $data['userRecords'] = $this->user_model->userListing($searchText, $returns["page"], $returns["segment"]);
-
-        // $data['userRecords'] = $this->user_model->userListing();
+        $data['userRecords'] = $this->user_model->userListing($searchText, $returns["page"], $returns["segment"]);        
 
         $this->global['pageTitle'] = 'DAS : User List';
         
@@ -126,7 +124,8 @@ class Admin extends BaseController
             
             redirect('userListing');
         }
-        }
+    }
+
 
      /**
      * This function is used load user edit information
@@ -195,10 +194,9 @@ class Admin extends BaseController
             $result = $this->user_model->editUser($userInfo, $userId);
             
             if($result == true)
-            {
-                // $this->session->set_flashdata('success', 'User successfully updated');
+            {                
                 $userGroup = array('group_id'=>$group);
-                $result = $this->user_model->editUserToGroup($userGroup ,$userId);
+                $result = $this->user_model->editUserGroup($userGroup ,$userId);
                 if($result > 0)
                 { 
                     $this->session->set_flashdata('success', 'User successfully updated');
@@ -291,36 +289,27 @@ class Admin extends BaseController
             
             $bonusId = $this->input->post('bonusId');
             
-            // $this->form_validation->set_rules('title','title','trim|required|max_length[128]');        
+            $title = ucwords(strtolower($this->security->xss_clean($this->input->post('title'))));
+            $description = ucwords(strtolower($this->security->xss_clean($this->input->post('description'))));
             
-            // if($this->form_validation->run() == FALSE)
-            // {
-            //     $this->editBonus($userId);
-            // }
-            // else
-            // {
-                $title = ucwords(strtolower($this->security->xss_clean($this->input->post('title'))));
-                $description = ucwords(strtolower($this->security->xss_clean($this->input->post('description'))));
-                
-                $bonusInfo = array();
-                
-                $bonusInfo = array('title'=>$title, 'description'=>$description,'date'=>date('Y-m-d H:i:s'));
-                
-                // var_dump('come with post');die();
+            $bonusInfo = array();
+            
+            $bonusInfo = array('title'=>$title, 'description'=>$description,'date'=>date('Y-m-d H:i:s'));
+            
+            // var_dump('come with post');die();
 
-                $result = $this->user_model->editBonus($bonusInfo, $bonusId);
+            $result = $this->user_model->editBonus($bonusInfo, $bonusId);
+            
+            if($result == true)
+            {
+                $this->session->set_flashdata('success', 'Bonus successfully updated');
+            }
+            else
+            {
+                $this->session->set_flashdata('error', 'Bonus update failed');
+            }
                 
-                if($result == true)
-                {
-                    $this->session->set_flashdata('success', 'Bonus successfully updated');
-                }
-                else
-                {
-                    $this->session->set_flashdata('error', 'Bonus update failed');
-                }
-                
-                redirect('editBonus/'.$bonusId);
-            // }
+                redirect('editBonus/'.$bonusId);            
         }
 
         // var_dump('come withot post ');die();
@@ -421,7 +410,7 @@ class Admin extends BaseController
      * This function used to open the logHistoryUpload page
      */
     function logHistoryUpload()
-    {       
+    {
             $this->load->helper('directory');
             $map = directory_map('./backup/', FALSE, TRUE);
         
@@ -526,7 +515,7 @@ class Admin extends BaseController
      * @param number $userId : This is user id
      */
     public function getBrowseData()
-    {        
+    {
         $data = $this->user_model->get_browse_data();
         
         //output to json format

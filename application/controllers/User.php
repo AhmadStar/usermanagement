@@ -78,7 +78,7 @@ class User extends BaseController
     }
 
     /**
-     * This function is used to check whether email already exist or not
+     * This function is used to check whether User Name already exist or not
      */
     function checkUsernameExists()
     {
@@ -330,7 +330,7 @@ class User extends BaseController
     }
 
     /**
-     * This function is used to show task
+     * This function is used to show Bonus
      */
     function showBonus($bonusId = NULL)
     {
@@ -347,7 +347,7 @@ class User extends BaseController
     }
 
     /**
-     * This function is used to open the tasks page for users (no edit/delete etc)
+     * This function is used to open the tasks page
      */
     function tasks()
     {
@@ -363,7 +363,7 @@ class User extends BaseController
     }
 
     /**
-     * This function is used to open the tasks page for users (no edit/delete etc)
+     * This function is used to open the finished tasks
      */
     function finishedtasks()
     {
@@ -380,10 +380,10 @@ class User extends BaseController
     }
 
     /**
-     * This function is used to open the tasks page for users (no edit/delete etc)
+     * This function is used to show task of group
      */
     function grouptasks($group = NULL)
-    {        
+    {
         $data['taskRecords'] = $this->user_model->getgroupTasks($group);        
         $data['user_list']=$this->user_list();
 
@@ -429,41 +429,21 @@ class User extends BaseController
         $this->loadViews("logHistory", $this->global, $data, NULL);
     }
 
-
     /**
      * This function used to show general settings
      *
      */
     function general()
-    {
-        if($this->input->post())
-        {
-            $theme_name = $this->input->post('theme_name');
-
-            $session_id = sha1(mt_rand(0, PHP_INT_MAX).time());
-                // set cookie 
-                $cookie = array(
-                    'name'   => 'theme',
-                    'value' => $theme_name."\n".$session_id,
-                    'expire' => time()+86500,
-                    'domain' => 'localhost',
-                    'path'   => '/',
-                    'prefix' => 'site_',
-                    );
-
-            $this->input->set_cookie($cookie);
-        }
-        
+    {       
         $data['themes'] = '';
         $this->global['pageTitle'] = 'DAS : General Settings';
         
         $this->loadViews("general", $this->global, $data, NULL);
     }
 
-
      /**
      * This function used to show log history
-     * @param number $userId : This is user id
+     * of user per specific date
      */
     public function logs()
     {
@@ -477,8 +457,9 @@ class User extends BaseController
     }
 
     /**
-     * This function used to show log history
-     * @param number $userId : This is user id
+     * 
+     * get total work hours of user filter
+     * 
      */
     public function total()
     {
@@ -492,8 +473,9 @@ class User extends BaseController
             echo json_encode($data);
     }
 
+    // get data for logs 
     public function employee_list()
-    {      
+    {
           $list = $this->employee_model->get_datatables();
           $data = array();
           $no = $_POST['start'];        
@@ -525,7 +507,7 @@ class User extends BaseController
    * returns a list of employee.
    */ 
   public function _employee_list($employee_id='')
-  {    
+  {
     $employees = $this->employee_model->get_employees($employee_id);
     if($employee_id == '')
         $employee_list['']= 'Choose Employee';
@@ -548,17 +530,16 @@ class User extends BaseController
 
 
   /**
-     * This function used to show log history
-     * @param number $userId : This is user id
+     * 
+     * MOnth Hours for chart
      */
     public function getMonthHours()
-    {        
+    {
         if($this->role === ROLE_ADMIN){            
             $data = $this->employee_model->get_month_hours();
         }else{
             $data = $this->employee_model->get_month_hours($this->session->userdata('userId'));
-        }
-        
+        }        
         
         //output to json format
             echo json_encode($data);

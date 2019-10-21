@@ -40,10 +40,7 @@ class Login extends BaseController
             $this->load->view('login');
         }
         else
-        {
-            // $process = 'Error';
-            // $processFunction = 'Login/error';
-            // $this->logrecord($process,$processFunction);
+        {            
             redirect('pageNotFound');
         }
     }
@@ -98,9 +95,7 @@ class Login extends BaseController
             $email = $this->security->xss_clean($this->input->post('email'));
             $password = $this->input->post('password');
             
-            $result = $this->login_model->loginMe($email, $password);
-            
-            // var_dump($result);die();
+            $result = $this->login_model->loginMe($email, $password);                        
 
             if(count($result) > 0)
             {
@@ -127,7 +122,6 @@ class Login extends BaseController
 
                         $this->input->set_cookie($cookie);
                     }
-
 
                     $sessionArray = array('userId'=>$res->userId,                    
                                             'role'=>$res->roleId,
@@ -224,10 +218,6 @@ class Login extends BaseController
                     }
 
                     $sendStatus = resetPasswordEmail($data1);
-
-                    // $process = 'Password Reset Request';
-                    // $processFunction = 'Login/resetPasswordUser';
-                    // $this->logrecord($process,$processFunction);
 
                     if($sendStatus){
                         $status = "send";
