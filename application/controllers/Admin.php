@@ -194,7 +194,7 @@ class Admin extends BaseController
             $result = $this->user_model->editUser($userInfo, $userId);
             
             if($result == true)
-            {                
+            {
                 $userGroup = array('group_id'=>$group);
                 $result = $this->user_model->editUserGroup($userGroup ,$userId);
                 if($result > 0)
@@ -522,5 +522,24 @@ class Admin extends BaseController
             echo json_encode($data);
     }    
 
+
+    /**
+     * This function used to show log history every day
+     * @param number $userId : This is user id
+     */
+    function dailylogs()
+    {
+        $data['dbinfo'] = $this->user_model->gettablemb('tbl_log','monitor');
+        if(isset($data['dbinfo']->total_size))
+        {
+            if(($data['dbinfo']->total_size)>1000){
+                $this->backupLogTable();
+            }
+        }        
+
+        $this->global['pageTitle'] = 'DAS : Daily Login History';
+        
+        $this->loadViews("dailylogHistory", $this->global, $data, NULL);
+    }
 }
 

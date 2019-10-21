@@ -170,100 +170,66 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
               <span>Home page</span>
               </i>
             </a>
-          </li>
-          <?php
-            // Rol definetion in application/config/constants.php
-            if($role == ROLE_ADMIN || $role == ROLE_MANAGER)
-            {
-            ?>
+          </li>          
             <li class="treeview">
-              <a href="<?php echo base_url(); ?>tasks">
-                <i class="fa fa-tasks"></i>
+              <a href="#">
+                <i class="fa fa-pie-chart"></i>
                 <span>Tasks</span>
-                <span class="pull-right-container">                  
-                  <small class="label pull-right bg-green">
-                        <?php if (isset($tasksCount)) {
-                            echo $tasksCount;
-                          } else {
-                            echo '0';
-                          } ?>
-                  </small>
-                </span>
-              </a>
-            </li>
-            <li class="treeview">
-              <a href="<?php echo base_url(); ?>finishedtasks">
-                <i class="fa fa-tasks"></i>
-                <span>Finished Tasks</span>
-                <span class="pull-right-container">                  
-                  <small class="label pull-right bg-red">
-                        <?php if (isset($finishedTasksCount)) {
-                            echo $finishedTasksCount;
-                          } else {
-                            echo '0';
-                          } ?>
-                  </small>
-                </span>
-              </a>
-            </li>
-            <li class="treeview">
-              <a href="<?php echo base_url(); ?>addNewTask">
-                <i class="fa fa-plus-circle"></i>
-                <span>Add Task</span>
                 <span class="pull-right-container">
-                  <small class="label pull-right bg-green">new</small>
+                  <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
-            </li>
-            <?php
-            }
-            if($role != ROLE_ADMIN)
-            {
-            ?>
-              <li class="treeview">
-                <a href="<?php echo base_url(); ?>userStars">
-                  <i class="fa fa-star"></i>
-                  <span>My Bonus</span>
-                  <small class="label pull-right bg-yellow">
-                        <?php if (isset($myBonus)) {
-                            echo $myBonus;
-                          } else {
-                            echo '0';
-                          } ?>
-                  </small>
-                </a>
-              </li>
-            <?php
-            }
-            if($role == ROLE_ADMIN)
-            {
-            ?>
-              <li class="treeview">
-                <a href="<?php echo base_url(); ?>userListing">
-                  <i class="fa fa-users"></i>
-                  <span>Users</span>
-                </a>
-              </li>
-              <li class="treeview">
-                <a href="<?php echo base_url(); ?>addNew">
-                  <i class="fa fa-plus-circle"></i>
-                  <span>Add User</span>
-                </a>
-              </li>              
-              <li class="treeview">
-                <a href="<?php echo base_url(); ?>log-history-upload">
-                  <i class="fa fa-upload"></i>
-                  <span>log history upload</span>
-                </a>
-              </li>
-              <li class="treeview">
-                <a href="<?php echo base_url(); ?>log-history-backup">
-                  <i class="fa fa-archive"></i>
-                  <span>log history backup</span>
-                </a>
-              </li>
+              <ul class="treeview-menu">
               <?php
-            }
+              // Rol definetion in application/config/constants.php
+              if($role == ROLE_ADMIN || $role == ROLE_MANAGER)
+              {
+              ?>
+                  <li class="treeview">
+                  <a href="<?php echo base_url(); ?>tasks">
+                    <i class="fa fa-tasks"></i>
+                    <span>Tasks</span>
+                    <span class="pull-right-container">                  
+                      <small class="label pull-right bg-green">
+                            <?php if (isset($tasksCount)) {
+                                echo $tasksCount;
+                              } else {
+                                echo '0';
+                              } ?>
+                      </small>
+                    </span>
+                  </a>
+                </li>
+
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>finishedtasks">
+                    <i class="fa fa-tasks"></i>
+                    <span>Finished Tasks</span>
+                    <span class="pull-right-container">                  
+                      <small class="label pull-right bg-red">
+                            <?php if (isset($finishedTasksCount)) {
+                                echo $finishedTasksCount;
+                              } else {
+                                echo '0';
+                              } ?>
+                      </small>
+                    </span>
+                  </a>
+                </li>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>addNewTask">
+                    <i class="fa fa-plus-circle"></i>
+                    <span>Add Task</span>
+                    <span class="pull-right-container">
+                      <small class="label pull-right bg-green">new</small>
+                    </span>
+                  </a>
+                </li>
+
+
+
+            <?php
+              }
             if($role == ROLE_EMPLOYEE)
             {
             ?>
@@ -297,18 +263,92 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
             }
             ?>
 
+              </ul>
+            </li>                                  
+            <?php            
+            if($role != ROLE_ADMIN)
+            {
+            ?>
+              <li class="treeview">
+                <a href="<?php echo base_url(); ?>userStars">
+                  <i class="fa fa-star"></i>
+                  <span>My Bonus</span>
+                  <small class="label pull-right bg-yellow">
+                        <?php if (isset($myBonus)) {
+                            echo $myBonus;
+                          } else {
+                            echo '0';
+                          } ?>
+                  </small>
+                </a>
+              </li>
+            <?php
+            }
+            if($role == ROLE_ADMIN)
+            {
+            ?>
+              <li class="treeview">
+                <a href="<?php echo base_url(); ?>userListing">
+                  <i class="fa fa-users"></i>
+                  <span>Users</span>
+                </a>
+              </li>
+
+              <li class="treeview">
+              <a href="<?php echo base_url(); ?>dailylogs">
+                <i class="fa fa-archive"></i>
+                <span>Day Log Records</span>
+              </a>
+            </li> 
+              <?php
+              }?>
+
             <li class="treeview">
               <a href="<?php echo base_url(); ?>log-history">
                 <i class="fa fa-archive"></i>
                 <span>Log Records</span>
               </a>
-            </li>
+            </li>            
+
+
             <li class="treeview">
-              <a href="<?php echo base_url(); ?>general">
-                <i class="fa fa-cog"></i>
-                <span>Genearal Settings</span>
+              <a href="#">
+                <i class="fa fa-pie-chart"></i>
+                <span>General Settings</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
               </a>
+              <ul class="treeview-menu">
+                  <li class="treeview">
+                    <a href="<?php echo base_url(); ?>general">
+                      <i class="fa fa-cog"></i>
+                      <span>Genearal Settings</span>
+                    </a>
+                  </li>
+
+                  <?php            
+                    if($role === ROLE_ADMIN)
+                    {
+                    ?>                  
+                      <li class="treeview">
+                        <a href="<?php echo base_url(); ?>log-history-upload">
+                          <i class="fa fa-upload"></i>
+                          <span>log history upload</span>
+                        </a>
+                      </li>
+                      <li class="treeview">
+                        <a href="<?php echo base_url(); ?>log-history-backup">
+                          <i class="fa fa-archive"></i>
+                          <span>log history backup</span>
+                        </a>
+                      </li>
+                      <?php            
+                    }
+                  ?>
+              </ul>
             </li>
+            
         </ul>
       </section>
       <!-- /.sidebar -->
