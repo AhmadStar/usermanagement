@@ -41,7 +41,7 @@
                             </div>
                             <?php } ?>
                             <div class="panel-body">
-                                <table width="100%" class=" cards table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table width="100%" class=" cards table table-striped table-bordered table-hover" id="dataTables-single">
                                     <thead class="cards-head">
                                         <tr>
                                         <th>User Id </th>
@@ -51,7 +51,7 @@
                                         <th>Day work Hours</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="logs-hover">
                                         <?php
                       if(!empty($userRecords))
                       {
@@ -59,24 +59,20 @@
                           {
                       ?>
                     <tr>
-                        <td>
-                          <label>ID:</label>
+                        <td>                          
                           <?php echo $record->userId ?>
                         </td>
-                        <td>
-                          <label>Name:</label>
+                        <td>                          
                           <?php echo $record->userName ?>
                         </td>                        
-                        <td>
-                          <label>Date And Time:</label>
+                        <td>                          
                           <?php echo $record->createdDtm ?>
                         </td>
-                        <td>
-                          <label>Day:</label>
+                        <td>                          
                           <?php echo date('l', strtotime($record->createdDtm));?>
                         </td>
                         <td>
-                            <label>Day work Hours:</label>
+                            <label>work Hours:</label>
                             <?php echo $record->total ?>
                         </td>
                       </tr>
@@ -122,10 +118,74 @@
 </div>
 <!-- Full Height Modal -->
 
+
+<script>
+    $(document).ready(function () {
+        $('#dataTables-single').DataTable({
+            //Dom Gösterim şekli B-> buttonlar l-> lengthMenu f-> filtre vs.
+            dom: "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-9'i><'col-sm-3'B>>" +
+                "<'row'<'col-sm-7 col-centered'p>>",
+            lengthMenu: [
+                [10, 15, 25, 50, -1],
+                [10, 15, 25, 50, "All"]
+            ],
+
+            //lang
+            language: {
+                select: {
+                    rows: "%d row selected."
+                },
+
+                url: "http://cdn.datatables.net/plug-ins/1.10.12/i18n/English.json"
+            },
+            buttons: [{
+                    extend: "print",
+                    text: "Print",
+                    exportOptions: {
+                        orthogonal: 'export',
+                        columns: ':visible'
+                    },
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        orthogonal: 'export'
+                    },
+                    text: "Excel",
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        orthogonal: 'export'
+                    },
+                    text: "PDF",
+                }
+            ],
+            "order": [],
+            //Set column definition initialisation properties.
+            "columnDefs": [
+                {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false            
+            },
+            {
+                "targets": [ 1 ],
+                "visible": false,
+                "searchable": false            
+            },
+            ],
+            responsive: true
+        });
+    });
+</script>
+
 <script>
  // fetch logs of day.
- $('#dataTables-example tbody').on( 'click', 'tr', function () {
-            var table = $('#dataTables-example').DataTable();
+ $('#dataTables-single tbody').on( 'click', 'tr', function () {
+            var table = $('#dataTables-single').DataTable();
             var row_data = table.row( this ).data()
             var mydata  = {
                 id: row_data[0],

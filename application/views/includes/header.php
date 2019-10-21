@@ -307,7 +307,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
             </li>
             <li class="treeview">
               <a href="<?php echo base_url(); ?>general">
-                <i class="fa fa-archive"></i>
+                <i class="fa fa-cog"></i>
                 <span>Genearal Settings</span>
               </a>
             </li>

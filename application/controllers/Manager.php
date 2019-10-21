@@ -73,8 +73,7 @@ class Manager extends BaseController
         $item = new stdClass();
         $item->id = -1;
         $item->name = 'Not fot Group';
-        array_push($data['groups'], $item);        			
-        // var_dump($data['groups']);die();
+        array_push($data['groups'], $item);        
 
         $this->global['pageTitle'] = 'DAS : Add Task';
 
@@ -86,7 +85,7 @@ class Manager extends BaseController
      */
     function addNewTasks()
     {
-        $this->load->library('form_validation');            
+        $this->load->library('form_validation');
 
         $this->form_validation->set_rules('fname','Task Title','required');
         $this->form_validation->set_rules('priority','priority','required');
@@ -188,17 +187,11 @@ class Manager extends BaseController
             redirect('tasks');
         }
         
-        $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);
-        // var_dump($data['taskInfo']);die();
+        $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);        
         $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
         $data['tasks_situations'] = $this->user_model->getTasksSituations();
         $data['tasks_images'] = $this->user_model->getTasksImages($taskId);
         $data['tasks_links'] = $this->user_model->getTasksLinks($taskId);
-
-        // var_dump($data['tasks_images']);
-        // var_dump($data['tasks_links']);
-        // die();
-
 
         $data['groups'] = $this->user_model->getUserGroups();
         
@@ -213,7 +206,7 @@ class Manager extends BaseController
      * This function is used to edit tasks
      */
     function editTask()
-    {            
+    {
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('fname','Task Title','required');
@@ -237,17 +230,67 @@ class Manager extends BaseController
             $statusId = $this->input->post('status');
             $employee_id = $this->input->post('employee_id');
             $group = $this->input->post('group');
+            $links = $this->input->post('links');
             $permalink = sef($title);
             
-            $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 'statusId'=> $statusId,
-                                'permalink'=>$permalink, 'createdBy'=>$this->vendorId,
+            $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 
+                    'statusId'=> $statusId,'permalink'=>$permalink, 'createdBy'=>$this->vendorId,
                                 'employee_id' => $employee_id , 'group_id' => $group);
                                 
             $result = $this->user_model->editTask($taskInfo,$taskId);
             
             if($result > 0)
-            {                
-                $this->session->set_flashdata('success', 'Task editing successful');
+            {
+                foreach($links as $link){
+                    $taskLink = array('task_id'=>$taskId , 'name'=> $link);
+                    $linkresult = $this->user_model->addTaskLinks($taskLink);
+                    if($linkresult < 0){
+                        $this->session->set_flashdata('error', 'Task Link creation failed');
+                    }
+                }                
+
+                // Count total files
+                $countfiles = count($_FILES['files']['name']);
+                // Looping all files
+                
+                for($i=0;$i<$countfiles;$i++){
+            
+                    if(!empty($_FILES['files']['name'][$i])){
+            
+                        // Define new $_FILES array - $_FILES['file']
+                        $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+                        $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+                        $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                        $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+                        $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+
+                        // Set preference
+                        $config['upload_path']  = './uploads/';
+                        $config['allowed_types'] = 'jpg|jpeg|png|gif|txt|pdf';
+                        $config['max_size'] = '5000'; // max_size in kb
+                        $config['file_name'] = $taskId.'file'.$i;
+                
+                        //Load upload library
+                        $this->load->library('upload',$config);
+            
+                        // File upload
+                        if($this->upload->do_upload('file')){
+                            // Get data about the file
+                            $uploadData = $this->upload->data();
+                            $filename = $uploadData['file_name'];
+                            $taskFile = array('task_id'=>$taskId , 'name'=> $filename);
+                            $linkresult = $this->user_model->addTaskFiles($taskFile);
+                        }else{
+                            {
+                                $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
+                                $error = array('error' => $this->upload->display_errors());
+                                $this->session->set_flashdata('error',$error['error']);
+                                redirect('addNewTask');
+                            }
+                        }
+                    }
+                }
+                $this->session->set_flashdata('success', 'Task edited successful');
             }
             else
             {
@@ -284,7 +327,7 @@ class Manager extends BaseController
    * returns a list of employee.
    */ 
   public function _user_list()
-  {    
+  {
     $users = $this->user_model->get_users();
     $user_list['']= 'Choose Employee';
     $user_list['0']= 'Not For User';
@@ -300,7 +343,7 @@ class Manager extends BaseController
    * returns a list of employee.
    */ 
   public function employee_list()
-  {    
+  {
     $users = $this->user_model->get_users();    
     return $users;
   }
@@ -311,7 +354,7 @@ class Manager extends BaseController
      * @param number $userId : This is user id
      */
     public function deleteFile()
-    {        
+    {
         $id = $this->input->post('id');    
         
         $data = $this->user_model->delete_file($id);

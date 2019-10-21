@@ -91,7 +91,7 @@
                       <th>Total</th>
                   </tr>
               </thead>
-              <tbody>
+              <tbody class="logs-hover">
               </tbody>
           </table>
           </div>

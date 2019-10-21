@@ -384,12 +384,12 @@ class User extends BaseController
      */
     function grouptasks($group = NULL)
     {        
-        $data['group_tasks'] = $this->user_model->getgroupTasks($group);        
+        $data['taskRecords'] = $this->user_model->getgroupTasks($group);        
         $data['user_list']=$this->user_list();
 
         $this->global['pageTitle'] = 'DAS : Group Tasks';
         
-        $this->loadViews("groupTasks", $this->global, $data, NULL);
+        $this->loadViews("tasks", $this->global, $data, NULL);
     }
 
     /**

@@ -6,6 +6,15 @@ $(function () {
    * Here we will create a few charts using ChartJS
    */
 
+
+  $.getJSON('https://ipapi.co/'+$( "#location" ).attr("location")+'/json', function(data){
+      console.log(data);
+      $( "#location" ).text( data.city+' '+data.country)        
+      $( "#my_location" ).attr("href", "https://maps.google.com/?q="+data.latitude+","+data.longitude+"")
+  });
+
+
+
   //-----------------------
   //- MONTHLY SALES CHART -
   //-----------------------
@@ -170,14 +179,7 @@ $(function () {
             var1.value = parseInt(var2.count);
           }
         });
-      });
-      
-      
-      $.getJSON('https://ipapi.co/'+$( "#location" ).attr("location")+'/json', function(data){        
-        console.log(data);
-        $( "#location" ).text( data.city+' '+data.country)        
-        $( "#my_location" ).attr("href", "https://maps.google.com/?q="+data.latitude+","+data.longitude+"")
-    });
+      });                
     
   var pieOptions = {
     //Boolean - Whether we should show a stroke on each segment

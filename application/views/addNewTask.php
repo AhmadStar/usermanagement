@@ -128,21 +128,21 @@
                 </div>
                 <div class="col-md-4">
                     <?php
-                    $this->load->helper('form');
-                    $error = $this->session->flashdata('error');
-                    if($error)
-                    {
-                ?>
+                        $this->load->helper('form');
+                        $error = $this->session->flashdata('error');
+                        if($error)
+                        {
+                    ?>
                         <div class="alert alert-danger alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <?php echo $this->session->flashdata('error'); ?>
                         </div>
                         <?php } ?>
                         <?php  
-                    $success = $this->session->flashdata('success');
-                    if($success)
-                    {
-                ?>
+                            $success = $this->session->flashdata('success');
+                            if($success)
+                            {
+                        ?>
                         <div class="alert alert-success alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <?php echo $this->session->flashdata('success'); ?>
@@ -161,8 +161,7 @@
 <script>
 $(document).ready(function(){
     $('#repeater').createRepeater();    
-});
-    
+});    
 </script>
 <script src="<?php echo base_url(); ?>assets/js/addTask.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/js/repeater.js" type="text/javascript"></script>

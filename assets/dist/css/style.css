@@ -1,4 +1,4 @@
-table.table-bordered.dataTable tbody tr:hover {
+table.table-bordered.dataTable .logs-hover tr:hover {
     background-color: #dddddd;
     cursor: pointer;
 }
@@ -36,3 +36,5 @@ table.table-bordered.dataTable tbody tr:hover {
     max-width: 45px;
     max-height: 45px;    
 }
+
+/* max-width: 250px; overflow: auto; word-wrap: break-word */
