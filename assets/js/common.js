@@ -29,6 +29,32 @@ jQuery(document).ready(function(){
 		}
 	});
 
+	jQuery(document).on("click", ".finishtask", function(){
+			var taskid = $(this).data("taskid")			
+		
+		$("#finish_task_modal").on("shown.bs.modal", function () {			
+			$("#taskid").val(taskid);
+			}).modal('show');
+	});
+
+	jQuery(document).on("click", "#finish_task", function(){
+		var finishDetail = $('#finishDetail').val(),
+		taskId = $('#taskid').val();		
+		
+		hitURL = baseURL + "endTask",
+		jQuery.ajax({
+		type : "POST",
+		dataType : "json",
+		url : hitURL,
+		data : {taskId : taskId , finishDetail : finishDetail } 
+		}).done(function(data){
+			console.log(data);				
+			if(data.status = true) { alert("successfully bonus added"); }
+			else if(data.status = false) { alert("Failed add bonus"); }
+			else { alert("Access denied..!"); }
+			location.reload(true);
+		});
+	});
 
 	jQuery(document).on("click", ".addbonus", function(){
 			var userId = $(this).data("userid"),

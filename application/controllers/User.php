@@ -294,19 +294,21 @@ class User extends BaseController
     /**
      * This function is used to finish tasks.
      */
-    function endTask($taskId)
+    function endTask()
     {
-        $taskInfo = array('statusId'=>2,'endDtm'=>date('Y-m-d H:i:s'));
+
+        $taskId = $this->input->post('taskId');
+        $finishDetail = $this->input->post('finishDetail');
+
+        $taskInfo = array('statusId'=>2,'endDtm'=>date('Y-m-d H:i:s') , 'finish_detail' => $finishDetail);
         
         $result = $this->user_model->endTask($taskId, $taskInfo);
         
         if ($result > 0) {
-                $this->session->set_flashdata('success', 'Task completed successfully');
-                redirect('tasks');
+            echo(json_encode(array('status'=>TRUE)));
             }
         else {
-            $this->session->set_flashdata('error', 'Task completion failed');
-            redirect('tasks');
+            echo(json_encode(array('status'=>FALSE)));
         }
     }
 
@@ -541,6 +543,18 @@ class User extends BaseController
         }else{
             $data = $this->employee_model->get_month_hours($this->session->userdata('userId'));
         }        
+        
+        //output to json format
+            echo json_encode($data);
+    }
+
+    /**
+     * 
+     * MOnth Hours for chart
+     */
+    public function getUserMonthHours()
+    {        
+        $data = $this->employee_model->get_month_hours($this->input->post('userId'));       
         
         //output to json format
             echo json_encode($data);
