@@ -68,6 +68,11 @@ class Admin extends BaseController
     {
         $data['roles'] = $this->user_model->getUserRoles();
         $data['groups'] = $this->user_model->getUserGroups();
+        // for first item
+        $item = new stdClass();
+        $item->id = 4;
+        $item->name = 'Not In Group';
+        array_push($data['groups'], $item); 
         $this->global['pageTitle'] = 'DAS : Add User';
         $this->loadViews("addNew", $this->global, $data, NULL);
     }
@@ -139,6 +144,11 @@ class Admin extends BaseController
         }
         
         $data['groups'] = $this->user_model->getUserGroups();
+        // for first item
+        $item = new stdClass();
+        $item->id = 4;
+        $item->name = 'Not In Group';
+        array_push($data['groups'], $item); 
         $data['roles'] = $this->user_model->getUserRoles();        
         $data['userInfo'] = $this->user_model->getUserInfo($userId);
 

@@ -88,7 +88,7 @@
                                                             } ?>
                                                 </td>
                                                 <td>
-                                                    <label>Bonus:</label>
+                                                    <label>Role:</label>
                                                     <?php echo $record->role ?>
                                                 </td>
                                                 <td class="text-center">

@@ -44,6 +44,7 @@ class User extends BaseController
           $data['AllTasksCount'] = $this->user_model->AllTasksCount();
           $data['finishedTasksCount'] = $this->user_model->finishedTasksCount();          
           $data['tasksCount'] = $this->user_model->tasksCount();
+          $data['BendingTasksCount'] = $this->user_model->BendingTasksCount();
           $data['userStars'] = $this->user_model->userStars($this->session->userdata('userId'));
           $data['myWorkHours'] = $this->employee_model->get_month_hours_as_sum($this->session->userdata('userId'));
           $data['AllUserWorkHours'] = $this->employee_model->get_month_hours_as_sum();

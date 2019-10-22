@@ -44,6 +44,10 @@ $route['editOldTask/(:num)'] = "manager/editOldTask/$1";
 $route['editTask'] = "manager/editTask";
 $route['deleteTask/(:num)'] = "manager/deleteTask/$1";
 $route['deleteFile'] = "manager/deleteFile";
+$route['Bendingtasks'] = "manager/Bendingtasks";
+
+/*********** CLIENT CONTROLLER ROUTES *******************/
+$route['addClientTask'] = "Client/addClientTask";
 
 /*********** USER CONTROLLER ROUTES *******************/
 $route['changePassword'] = "user/changePassword";

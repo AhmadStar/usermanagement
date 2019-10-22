@@ -130,7 +130,8 @@ if (!empty($taskInfo)) {
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
-                                    <div class="items" data-group="links">
+                                    
+                                    <div class="items" data-group="links" >
                                         <div class="item-content">
                                             <div class="form-group">                                                
                                                 <div class="col-md-9">
@@ -143,6 +144,21 @@ if (!empty($taskInfo)) {
                                             </div>
                                         </div>
                                     </div>
+                                    <?php foreach ($tasks_links as $key => $link) { ?>                                        
+                                        <div class="items<?php echo $link->id?>">
+                                            <div class="item-content">
+                                                <div class="form-group">                                                
+                                                    <div class="col-md-9">
+                                                        <label>Enter link </label>                                                    
+                                                            <input type="text" class="form-control" value="<?php echo $link->name?>" name="linksOld[<?php echo $link->id?>]">                                                    
+                                                    </div>
+                                                    <div class="col-md-3" style="margin-top:24px;" align="center">
+                                                        <button id="remove-btn" onclick="$(this).parents('.items<?php echo $link->id?>').remove()" class="btn btn-danger">Remove</button>
+                                                    </div>                                                
+                                                </div>
+                                            </div>                                        
+                                        </div>
+                                        <?php } ?>                                    
                                 </div>
                             </div>
                             <div class="row">

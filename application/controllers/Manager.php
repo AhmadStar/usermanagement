@@ -48,6 +48,19 @@ class Manager extends BaseController
         $this->loadViews("tasks", $this->global, $data, NULL);
     }
 
+    /**
+     * This function used to show tasks
+     */
+    function Bendingtasks()
+    {
+        $data['taskRecords'] = $this->user_model->getBendingTasks();
+        $data['user_list']=$this->employee_list();
+
+        $this->global['pageTitle'] = 'DAS : All Bending Tasks';
+        
+        $this->loadViews("bindingTasks", $this->global, $data, NULL);
+    }
+
      /**
      * This function used to show tasks
      */
@@ -72,7 +85,7 @@ class Manager extends BaseController
 
         // for first item
         $item = new stdClass();
-        $item->id = -1;
+        $item->id = 4;
         $item->name = 'Not fot Group';
         array_push($data['groups'], $item);        
 
@@ -232,7 +245,8 @@ class Manager extends BaseController
             $employee_id = $this->input->post('employee_id');
             $group = $this->input->post('group');
             $links = $this->input->post('links');
-            $permalink = sef($title);
+            $linksOld = $this->input->post('linksOld');
+            $permalink = sef($title);            
             
             $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 
                     'statusId'=> $statusId,'permalink'=>$permalink, 'createdBy'=>$this->vendorId,
@@ -242,13 +256,28 @@ class Manager extends BaseController
             
             if($result > 0)
             {
-                foreach($links as $link){
-                    $taskLink = array('task_id'=>$taskId , 'name'=> $link);
-                    $linkresult = $this->user_model->addTaskLinks($taskLink);
-                    if($linkresult < 0){
-                        $this->session->set_flashdata('error', 'Task Link creation failed');
+                if($linksOld != NULL){
+                    $oldLinks = $this->user_model->getTasksLinks($taskId);
+                    foreach($oldLinks as $key=>$link){
+                        if (array_key_exists($link->id,$linksOld))
+                        {                    
+                            $Link = array('name'=> $linksOld[$link->id]);
+                            $this->user_model->updateLink( $Link, $link->id);
+                        }else{
+                            $this->user_model->deleteLink( $link->id );
+                        }
                     }
-                }                
+                }else{
+                    $this->user_model->deleteAllLink( $taskId );
+                }
+
+                if($links != NULL){
+                    foreach($links as $link){
+                        $taskLink = array('task_id'=>$taskId , 'name'=> $link);
+                        if($link != "")
+                            $this->user_model->addTaskLinks($taskLink);
+                    }
+                }                    
 
                 // Count total files
                 $countfiles = count($_FILES['files']['name']);

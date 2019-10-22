@@ -67,6 +67,7 @@ if($role === ROLE_EMPLOYEE){
   $finishedTasksCount = $this->user_model->finishedTasksCount();
 }
 $AllTasksCount = $this->user_model->AllTasksCount();
+$BendingTasksCount = $this->user_model->BendingTasksCount();
 $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
 
 
@@ -185,7 +186,23 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
               if($role == ROLE_ADMIN || $role == ROLE_MANAGER)
               {
               ?>
-                  <li class="treeview">
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>Bendingtasks">
+                    <i class="fa fa-clock-o"></i>
+                    <span>Bending Tasks</span>
+                    <span class="pull-right-container">                  
+                      <small class="label pull-right bg-green">
+                            <?php if (isset($BendingTasksCount)) {
+                                echo $BendingTasksCount;
+                              } else {
+                                echo '011';
+                              } ?>
+                      </small>
+                    </span>
+                  </a>
+                </li>
+
+                <li class="treeview">
                   <a href="<?php echo base_url(); ?>tasks">
                     <i class="fa fa-tasks"></i>
                     <span>Tasks</span>
@@ -225,9 +242,6 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                     </span>
                   </a>
                 </li>
-
-
-
             <?php
               }
             if($role == ROLE_EMPLOYEE)
@@ -259,14 +273,28 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   </small>
                   </a>
                 </li>
-            <?php
-            }
-            ?>
+                <?php
+                }
+                if($role == ROLE_CLIENT)
+                {
+               ?>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>addClientTask">
+                    <i class="fa fa-plus-circle"></i>
+                    <span>Add Task</span>
+                    <span class="pull-right-container">
+                      <small class="label pull-right bg-green">new</small>
+                    </span>
+                  </a>
+                </li>
+              <?php
+                }                
+               ?>
 
               </ul>
             </li>                                  
             <?php            
-            if($role != ROLE_ADMIN)
+            if($role === ROLE_EMPLOYEE || $role === ROLE_MANAGER)
             {
             ?>
               <li class="treeview">
@@ -313,7 +341,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-pie-chart"></i>
+                <i class="fa fa-gear"></i>
                 <span>General Settings</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
@@ -323,7 +351,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   <li class="treeview">
                     <a href="<?php echo base_url(); ?>general">
                       <i class="fa fa-cog"></i>
-                      <span>Genearal Settings</span>
+                      <span>Theme Settings</span>
                     </a>
                   </li>
 
