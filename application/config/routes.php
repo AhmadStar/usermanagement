@@ -42,12 +42,13 @@ $route['addNewTask'] = "manager/addNewTask";
 $route['addNewTasks'] = "manager/addNewTasks";
 $route['editOldTask/(:num)'] = "manager/editOldTask/$1";
 $route['editTask'] = "manager/editTask";
-$route['deleteTask/(:num)'] = "manager/deleteTask/$1";
 $route['deleteFile'] = "manager/deleteFile";
 $route['Bendingtasks'] = "manager/Bendingtasks";
+$route['deleteTask'] = "manager/deleteTask";
+$route['confirmTask'] = "manager/confirmTask";
 
 /*********** CLIENT CONTROLLER ROUTES *******************/
-$route['addClientTask'] = "Client/addClientTask";
+$route['clientTasks'] = "Client/clientTasks";
 
 /*********** USER CONTROLLER ROUTES *******************/
 $route['changePassword'] = "user/changePassword";

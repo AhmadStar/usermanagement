@@ -7,9 +7,6 @@
     </h1>
   </section>
   <section class="content">
-    <?php
-    if ($role !== ROLE_EMPLOYEE) {
-      ?>
       <div class="row">
         <div class="col-xs-12 text-right">
           <div class="form-group">
@@ -17,8 +14,7 @@
               <i class="fa fa-plus"></i> Add Task</a>
           </div>
         </div>
-      </div>
-    <?php } ?>
+      </div>    
     <div class="row">
       <div class="col-xs-12">
         <div class="box box-primary">
@@ -60,11 +56,7 @@
                     <th>For Employee</th>
                     <th>Creation Date</th>
                     <th>End Date</th>
-                    <th>
-                      <?php if ($role !== ROLE_EMPLOYEE) { ?>
-                        Edit / Delete /
-                      <?php } ?>
-                      Show / Finish</th>
+                    <th>Edit / Delete / Show</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -130,19 +122,14 @@
                           <?php echo $record->endDtm ?>
                         </td>
                         <td class="text-center">
-                          <?php if ($role !== ROLE_EMPLOYEE) { ?>
                             <a class="btn btn-sm btn-primary" href="<?php echo base_url() . 'editOldTask/' . $record->id; ?>" title="Edit">
                               <i class="fa fa-pencil"></i>
                             </a>
                             <a class="btn btn-sm btn-danger deleteTask" href="#" data-taskid="<?php echo $record->id; ?>" title="Delete">
                               <i class="fa fa-trash"></i>
-                            </a>
-                          <?php } ?>
+                            </a>                          
                           <a class="btn btn-sm btn-info showtask" href="<?php echo base_url() . 'showTask/' . $record->id; ?>" data-userid="<?php echo $record->id; ?>" title="Show">
                             <i class="fa fa-eye"></i>
-                          </a>
-                          <a class="btn btn-sm btn-success finishtask" href="#" data-taskid="<?php echo $record->id; ?>" title="End Task">
-                            <i class="fa fa-check-circle"></i>
                           </a>
                         </td>
                       </tr>
@@ -161,35 +148,5 @@
     </div>
   </section>
 </div>
-
-<!-- Full Height Modal -->
-<div class="modal fade" id="finish_task_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
-    <div class="modal-dialog modal-full-height" role="document">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title w-100" id="myModalLabel">ADD Notes for finished task<span id="bonus_user_name"></span></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="md-form">
-                    <input type="hidden" class="form-control" id="taskid">
-                </div>
-                <div class="md-form">
-                    <input type="text" class="form-control" id="finishDetail">
-                </div>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="finish_task" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Full Height Modal -->
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>

@@ -279,11 +279,26 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                 {
                ?>
                 <li class="treeview">
-                  <a href="<?php echo base_url(); ?>addClientTask">
+                  <a href="<?php echo base_url(); ?>addNewTask">
                     <i class="fa fa-plus-circle"></i>
                     <span>Add Task</span>
                     <span class="pull-right-container">
                       <small class="label pull-right bg-green">new</small>
+                    </span>
+                  </a>
+                </li>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>clientTasks">
+                    <i class="fa fa-clock-o"></i>
+                    <span>Our Tasks</span>
+                    <span class="pull-right-container">                  
+                      <small class="label pull-right bg-green">
+                            <?php if (isset($BendingTasksCount)) {
+                                echo $BendingTasksCount;
+                              } else {
+                                echo '011';
+                              } ?>
+                      </small>
                     </span>
                   </a>
                 </li>

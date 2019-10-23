@@ -47,7 +47,7 @@ class BaseController extends CI_Controller {
 	 * Rol definetions in application/config/constants.php
 	 */
 	function isAdmin() {
-		if ($this->role != ROLE_ADMIN) {
+		if ($this->role == ROLE_ADMIN) {
 			return true;
 		} else {
 			return false;
@@ -60,9 +60,22 @@ class BaseController extends CI_Controller {
 	 */
 	function isManagerOrAdmin() {
 		if ($this->role == ROLE_ADMIN || $this->role == ROLE_MANAGER) {
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
+		}
+	}
+
+
+	/**
+	 * This function is used to check the Client access
+	 * Rol definetions in application/config/constants.php
+	 */
+	function isClient() {
+		if ($this->role == ROLE_CLIENT) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

@@ -28,7 +28,7 @@ class Manager extends BaseController
         else
         {
             // isManagerOrAdmin / Admin or manager role control function / This function used admin or manager role control
-            if($this->isManagerOrAdmin() == TRUE)
+            if(!$this->isManagerOrAdmin() && !$this->isClient())
             {
                 $this->accesslogincontrol();
             }
@@ -119,7 +119,10 @@ class Manager extends BaseController
             $group = $this->input->post('group');
             $links = $this->input->post('links');
 
-            $statusId = 1;
+            if($this->role === ROLE_CLIENT)                
+                $statusId = 3;
+            else
+                $statusId = 1;
             $permalink = sef($title);
             
             $taskInfo = array('title'=>$title, 'comment'=>$comment, 'priorityId'=>$priorityId, 'statusId'=> $statusId,
@@ -326,30 +329,43 @@ class Manager extends BaseController
             {
                 $this->session->set_flashdata('error', 'Task editing failed');
             }
-            redirect('tasks');
+            if($this->role === ROLE_CLIENT)
+                redirect('clientTasks');                
+            else
+                redirect('tasks');
+            
         }
     }
 
     /**
      * This function is used to delete tasks
      */
-    function deleteTask($taskId = NULL)
+    function deleteTask()
     {
-        if($taskId == null)
-        {
-            redirect('tasks');
-        }
-
+        $taskId = $this->input->post('taskId');        
+                
         $result = $this->user_model->deleteTask($taskId);
         
-        if ($result == TRUE) {
-            $this->session->set_flashdata('success', 'Task deleted successful');
-        }
-        else
-        {
-            $this->session->set_flashdata('error', 'Task deletion failed');
-        }
-        redirect('tasks');
+        if ($result > 0) {
+                echo(json_encode(array('status'=>TRUE)));
+            }
+        else { echo(json_encode(array('status'=>FALSE))); }        
+    }
+
+    /**
+     * This function is used to confirm tasks
+     */
+    function confirmTask()
+    {
+        $taskId = $this->input->post('taskId');        
+
+        $data = array('statusId'=> 1);
+        $result = $this->user_model->confirmTask($taskId , $data);
+        
+        if ($result > 0) {
+                echo(json_encode(array('statusId'=>TRUE)));
+            }
+        else { echo(json_encode(array('status'=>FALSE))); }        
     }
 
     /**

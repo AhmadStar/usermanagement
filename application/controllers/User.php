@@ -326,6 +326,8 @@ class User extends BaseController
         $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
         $data['tasks_situations'] = $this->user_model->getTasksSituations();
         $data['user_list']=$this->_employee_list();
+        $data['tasks_images'] = $this->user_model->getTasksImages($taskId);
+        $data['tasks_links'] = $this->user_model->getTasksLinks($taskId);
         
         $this->global['pageTitle'] = 'DAS : Show Task';
         
@@ -437,7 +439,7 @@ class User extends BaseController
      *
      */
     function general()
-    {       
+    {
         $data['themes'] = '';
         $this->global['pageTitle'] = 'DAS : General Settings';
         
@@ -553,7 +555,7 @@ class User extends BaseController
      * MOnth Hours for chart
      */
     public function getUserMonthHours()
-    {        
+    {
         $data = $this->employee_model->get_month_hours($this->input->post('userId'));       
         
         //output to json format

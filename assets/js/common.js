@@ -29,6 +29,55 @@ jQuery(document).ready(function(){
 		}
 	});
 
+	jQuery(document).on("click", ".deleteTask", function(){
+		var taskId = $(this).data("taskid"),
+		hitURL = baseURL + "deleteTask",
+		currentRow = $(this);				
+
+		var confirmation = confirm("Are you sure to delete this Task ?");
+		
+		if(confirmation)
+		{
+			jQuery.ajax({
+			type : "POST",
+			dataType : "json",
+			url : hitURL,
+			data : { taskId : taskId } 
+			}).done(function(data){
+				console.log(data);
+				currentRow.parents('tr').remove();
+				if(data.status = true) { alert("Task successfully deleted"); }
+				else if(data.status = false) { alert("Task deletion failed"); }
+				else { alert("Access denied..!"); }
+			});
+		}
+	});
+
+
+	jQuery(document).on("click", ".confirmTask", function(){
+		var taskId = $(this).data("taskid"),
+		hitURL = baseURL + "confirmTask",
+		currentRow = $(this);				
+
+		var confirmation = confirm("Are you sure to confirm this Task ?");
+		
+		if(confirmation)
+		{
+			jQuery.ajax({
+			type : "POST",
+			dataType : "json",
+			url : hitURL,
+			data : { taskId : taskId }
+			}).done(function(data){
+				console.log(data);
+				currentRow.parents('tr').remove();
+				if(data.status = true) { alert("Task successfully confirmed"); }
+				else if(data.status = false) { alert("Task confirmation failed"); }
+				else { alert("Access denied..!"); }
+			});
+		}
+	});
+
 	jQuery(document).on("click", ".finishtask", function(){
 			var taskid = $(this).data("taskid")			
 		

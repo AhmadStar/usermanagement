@@ -7,8 +7,7 @@ $(function () {
    */
 
 
-  $.getJSON('https://ipapi.co/'+$( "#location" ).attr("location")+'/json', function(data){
-      console.log(data);
+  $.getJSON('https://ipapi.co/'+$( "#location" ).attr("location")+'/json', function(data){      
       $( "#location" ).text( data.city+' '+data.country)        
       $( "#my_location" ).attr("href", "https://maps.google.com/?q="+data.latitude+","+data.longitude+"")
   });
