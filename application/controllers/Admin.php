@@ -292,6 +292,10 @@ class Admin extends BaseController
         else { echo(json_encode(array('status'=>FALSE))); }
     }
 
+    /**
+     * This function is used to edit user bonus
+     * @return boolean $result : TRUE / FALSE
+     */
     function editBonus($bonusId = NULL)
     {
         if($this->input->post()){
