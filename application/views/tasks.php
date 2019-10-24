@@ -170,7 +170,7 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title w-100" id="myModalLabel">ADD Notes for finished task<span id="bonus_user_name"></span></h4>
+                <h4 class="modal-title w-100" id="myModalLabel">ADD Note Before Finish Task<span id="bonus_user_name"></span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

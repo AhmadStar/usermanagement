@@ -135,7 +135,7 @@ class User extends BaseController
             $password = $this->input->post('cpassword');
             $mobile = $this->security->xss_clean($this->input->post('mobile'));
             $oldPassword = $this->input->post('oldpassword');
-
+            
             $userInfo = array();
 
             if(empty($password))

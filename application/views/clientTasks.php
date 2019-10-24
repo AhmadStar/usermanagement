@@ -122,12 +122,14 @@
                           <?php echo $record->endDtm ?>
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-sm btn-primary" href="<?php echo base_url() . 'editOldTask/' . $record->id; ?>" title="Edit">
+                        <?php if ($record->statusId != 2) { ?>    
+                          <a class="btn btn-sm btn-primary" href="<?php echo base_url() . 'editOldTask/' . $record->id; ?>" title="Edit">
                               <i class="fa fa-pencil"></i>
                             </a>
                             <a class="btn btn-sm btn-danger deleteTask" href="#" data-taskid="<?php echo $record->id; ?>" title="Delete">
                               <i class="fa fa-trash"></i>
-                            </a>                          
+                            </a>    
+                        <?php } ?>                      
                           <a class="btn btn-sm btn-info showtask" href="<?php echo base_url() . 'showTask/' . $record->id; ?>" data-userid="<?php echo $record->id; ?>" title="Show">
                             <i class="fa fa-eye"></i>
                           </a>

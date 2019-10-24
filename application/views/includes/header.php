@@ -27,9 +27,11 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
   <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
-
-  <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+  
+  <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />  
   <style>
+
+    
     .error {
       color: red;
       font-weight: normal;
@@ -67,7 +69,13 @@ if($role === ROLE_EMPLOYEE){
   $finishedTasksCount = $this->user_model->finishedTasksCount();
 }
 $AllTasksCount = $this->user_model->AllTasksCount();
+
 $BendingTasksCount = $this->user_model->BendingTasksCount();
+
+if($role === ROLE_CLIENT){
+  $ClientTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId'));
+}
+
 $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
 
 
@@ -293,8 +301,8 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                     <span>Our Tasks</span>
                     <span class="pull-right-container">                  
                       <small class="label pull-right bg-green">
-                            <?php if (isset($BendingTasksCount)) {
-                                echo $BendingTasksCount;
+                            <?php if (isset($ClientTasksCount)) {
+                                echo $ClientTasksCount;
                               } else {
                                 echo '011';
                               } ?>

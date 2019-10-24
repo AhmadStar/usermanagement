@@ -550,7 +550,7 @@ class User_model extends CI_Model
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
         $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = TaskTbl.statusId');
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
-        $this->db->order_by('TaskTbl.statusId ASC, TaskTbl.priorityId');
+        $this->db->order_by('TaskTbl.endDtm DESC');
         $this->db->where('TaskTbl.statusId', 2);
         if($employee_id != '')
             $this->db->where('employee_id', $employee_id);
@@ -880,11 +880,27 @@ class User_model extends CI_Model
      * This function is used to get the tasks count
      * @return array $result : This is result
      */
-    function BendingTasksCount()
+    function BendingTasksCount($userId = '')
     {
         $this->db->select('*');
         $this->db->from('tbl_task as BaseTbl');        
         $this->db->where('BaseTbl.statusId', 3);
+        if($userId != '')
+            $this->db->where('createdBy', $userId);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    /**
+     * This function is used to get the tasks count
+     * @return array $result : This is result
+     */
+    function ClientTasksCount($userId = '')
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_task as BaseTbl');        
+        if($userId != '')
+            $this->db->where('createdBy', $userId);
         $query = $this->db->get();
         return $query->num_rows();
     }

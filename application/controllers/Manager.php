@@ -84,10 +84,10 @@ class Manager extends BaseController
         $data['groups'] = $this->user_model->getUserGroups();
 
         // for first item
-        $item = new stdClass();
-        $item->id = 4;
-        $item->name = 'Not fot Group';
-        array_push($data['groups'], $item);        
+        // $item = new stdClass();
+        // $item->id = 4;
+        // $item->name = 'Not fot Group';
+        // array_push($data['groups'], $item);        
 
         $this->global['pageTitle'] = 'DAS : Add Task';
 
