@@ -394,6 +394,7 @@ class User extends BaseController
     {
         $data['taskRecords'] = $this->user_model->getgroupTasks($group);        
         $data['user_list']=$this->user_list();
+        $data['group_list']=$this->group_list();
 
         $this->global['pageTitle'] = 'DAS : Group Tasks';
         
