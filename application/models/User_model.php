@@ -478,10 +478,9 @@ class User_model extends CI_Model
      */
     function getTasks($employee_id = '')
     {
-        // $this->db->select('*');
         $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
         Prioritys.priorityId , Prioritys.priority , 
-        endDtm , TaskTbl.createdDtm , employee_id');
+        endDtm , TaskTbl.createdDtm , employee_id , group_id , finished_by');
         $this->db->from('tbl_task as TaskTbl');
         $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
@@ -503,7 +502,7 @@ class User_model extends CI_Model
     {
         $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
         Prioritys.priorityId , Prioritys.priority , 
-        endDtm , TaskTbl.createdDtm , employee_id');
+        endDtm , TaskTbl.createdDtm , employee_id , group_id , finished_by');
         $this->db->from('tbl_task as TaskTbl');
         $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
@@ -544,7 +543,7 @@ class User_model extends CI_Model
         // $this->db->select('*');
         $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
         Prioritys.priorityId , Prioritys.priority , 
-        endDtm , TaskTbl.createdDtm , employee_id , finished_by');
+        endDtm , TaskTbl.createdDtm , employee_id , finished_by , group_id');
         $this->db->from('tbl_task as TaskTbl');
         $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
@@ -1108,6 +1107,13 @@ class User_model extends CI_Model
         
         return $result;
     }
+
+    public function get_groups(){
+		$this->db->select('*');		
+		$this->db->from('groups');	
+		$query = $this->db->get();
+		return $query->result();
+	}
 }
 
   

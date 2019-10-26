@@ -360,8 +360,11 @@ class User extends BaseController
         }else{
             $data['taskRecords'] = $this->user_model->getTasks();
         }
-        $data['user_list']=$this->user_list();
+        $data['user_list']=$this->_employee_list();
+        $data['group_list']=$this->group_list();
         $this->global['pageTitle'] = 'DAS : All Tasks';
+
+        // var_dump($data['taskRecords']);die();
         
         $this->loadViews("tasks", $this->global, $data, NULL);
     }
@@ -377,6 +380,7 @@ class User extends BaseController
             $data['taskRecords'] = $this->user_model->getFinishedTasks();
         }
         $data['user_list']=$this->_employee_list();
+        $data['group_list']=$this->group_list();
 
         $this->global['pageTitle'] = 'DAS : All Finished Tasks';        
         
@@ -520,6 +524,21 @@ class User extends BaseController
       $employee_list[$employee->userId]=  html_escape($employee->name);
     }
     return $employee_list;
+  }
+
+
+        /**
+   * group_list()
+   * returns a list of group.
+   */ 
+  public function group_list()
+  {
+    $groups = $this->user_model->get_groups();    
+    foreach ($groups as $group) 
+    {
+      $group_list[$group->id]=  html_escape($group->name);
+    }
+    return $group_list;
   }
 
    /**

@@ -58,6 +58,7 @@
                     <th>Priority</th>
                     <th>Created by</th>
                     <th>For Employee</th>
+                    <th>For Group</th>
                     <th>Creation Date</th>
                     <th>End Date</th>
                     <th>
@@ -111,15 +112,22 @@
                           <?php echo $record->name ?>
                         </td>
                         <td>
-                          <label>Employee Name:</label>
+                          <label>for Employee</label>
                           <?php
-
-                              $employee_name = '';
-                              foreach ($user_list as $employee) {
-                                if ($employee->userId == $record->employee_id)
-                                  $employee_name = $employee->name;
-                              }
-                              echo $employee_name ?>
+                            if (isset($user_list[$record->employee_id]))
+                                echo $user_list[$record->employee_id];
+                            else
+                                echo 'Not for Employee';
+                          ?>
+                        </td>
+                        <td>
+                          <label>Group :</label>
+                          <?php
+                            if (isset($group_list[$record->group_id]))
+                                echo $group_list[$record->group_id];
+                            else
+                                echo 'Not for Group';
+                          ?>
                         </td>
                         <td>
                           <label>Create Date:</label>

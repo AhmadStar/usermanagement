@@ -58,6 +58,7 @@
                     <th>Priority</th>
                     <th>Created by</th>
                     <th>For Employee</th>
+                    <th>For Group</th>
                     <th>Finished By</th>
                     <th>Creation Date</th>
                     <th>End Date</th>
@@ -108,18 +109,29 @@
                           <?php echo $record->name ?>
                         </td>
                         <td>
-                          <label>Employee Name:</label>
+                          <label>for Employee</label>
                           <?php
-                                if (isset($user_list[$record->employee_id]))
-                                    echo $user_list[$record->employee_id];                                
-                                ?>
-
+                            if (isset($user_list[$record->employee_id]))
+                                echo $user_list[$record->employee_id];
+                            else
+                                echo 'Not for Employee';
+                          ?>
+                        </td>
+                        <td>
+                          <label>Group :</label>
+                          <?php
+                            if (isset($group_list[$record->group_id]))
+                                echo $group_list[$record->group_id];
+                            else
+                                echo 'Not for Group';
+                          ?>
+                        </td>
                         <td>
                           <label>Finished By:</label>
                           <?php
-                                if (isset($user_list[$record->finished_by]))
-                                    echo $user_list[$record->finished_by];
-                                ?>
+                            if (isset($user_list[$record->finished_by]))
+                                echo $user_list[$record->finished_by];
+                          ?>
                         </td>
                         <td>
                           <label>Create Date:</label>

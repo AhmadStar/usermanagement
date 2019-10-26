@@ -17,6 +17,7 @@ class Manager extends BaseController
     {
         parent::__construct();
         $this->load->model('user_model');
+        $this->load->model('employee_model');
         // Datas -> libraries ->BaseController / This function used load user sessions
         $this->datas();
         // isLoggedIn / Login control function /  This function used login control
@@ -33,20 +34,7 @@ class Manager extends BaseController
                 $this->accesslogincontrol();
             }
         }
-    }
-        
-     /**
-     * This function used to show tasks
-     */
-    function tasks()
-    {
-        $data['taskRecords'] = $this->user_model->getTasks();
-        $data['user_list']=$this->employee_list();
-
-        $this->global['pageTitle'] = 'DAS : All Tasks';
-        
-        $this->loadViews("tasks", $this->global, $data, NULL);
-    }
+    }        
 
     /**
      * This function used to show tasks
@@ -55,23 +43,11 @@ class Manager extends BaseController
     {
         $data['taskRecords'] = $this->user_model->getBendingTasks();
         $data['user_list']=$this->employee_list();
+        $data['group_list']=$this->group_list();
 
         $this->global['pageTitle'] = 'DAS : All Bending Tasks';
         
-        $this->loadViews("bindingTasks", $this->global, $data, NULL);
-    }
-
-     /**
-     * This function used to show tasks
-     */
-    function finishedTasks()
-    {
-        $data['taskRecords'] = $this->user_model->getFinishedTasks();
-        $data['user_list']=$this->employee_list();
-
-        $this->global['pageTitle'] = 'DAS : All Finished Tasks';
-        
-        $this->loadViews("finishedTasks", $this->global, $data, NULL);
+        $this->loadViews("bendingTasks", $this->global, $data, NULL);
     }
 
     /**
@@ -383,16 +359,33 @@ class Manager extends BaseController
         return $user_list;
     }
 
- /**
-   * employee_list()
+  /**
+   * _employee_list()
    * returns a list of employee.
    */ 
-    public function employee_list()
+  public function employee_list()
+  {
+    $employees = $this->employee_model->get_employees();
+    foreach ($employees as $employee) 
     {
-        $users = $this->user_model->get_users();    
-        return $users;
+      $employee_list[$employee->userId]=  html_escape($employee->name);
     }
+    return $employee_list;
+  }
 
+  /**
+   * group_list()
+   * returns a list of group.
+   */ 
+  public function group_list()
+  {
+    $groups = $this->user_model->get_groups();    
+    foreach ($groups as $group) 
+    {
+      $group_list[$group->id]=  html_escape($group->name);
+    }
+    return $group_list;
+  }
 
   /**
      * This function used to show log history
