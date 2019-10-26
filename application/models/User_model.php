@@ -544,7 +544,7 @@ class User_model extends CI_Model
         // $this->db->select('*');
         $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
         Prioritys.priorityId , Prioritys.priority , 
-        endDtm , TaskTbl.createdDtm , employee_id');
+        endDtm , TaskTbl.createdDtm , employee_id , finished_by');
         $this->db->from('tbl_task as TaskTbl');
         $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
@@ -552,8 +552,10 @@ class User_model extends CI_Model
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
         $this->db->order_by('TaskTbl.endDtm DESC');
         $this->db->where('TaskTbl.statusId', 2);
-        if($employee_id != '')
+        if($employee_id != ''){
             $this->db->where('employee_id', $employee_id);
+            $this->db->or_where('finished_by', $employee_id);
+        }
         $query = $this->db->get();
         $result = $query->result();        
         return $result;
@@ -699,13 +701,18 @@ class User_model extends CI_Model
      */
     function getTaskInfo($taskId)
     {
-        $this->db->select('*');
+        $this->db->select('tbl_task.id , title , comment , users.name as createdBy, tbl_task.createdDtm ,
+             endDtm , tbl_task.employee_id , groups.name as groupName , finish_detail , Situations.status , Prioritys.priority
+        ');
         $this->db->from('tbl_task');
         $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = tbl_task.statusId');
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = tbl_task.priorityId');
-        $this->db->where('id', $taskId);
+        $this->db->join('tbl_users as users','users.userId = tbl_task.createdBy');
+        $this->db->join('groups','groups.id = tbl_task.group_id');
+        $this->db->where('tbl_task.id', $taskId);
         $query = $this->db->get();
         
+        // var_dump($query->result());die();
         return $query->result();
     }
 
@@ -939,9 +946,11 @@ class User_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('tbl_task as BaseTbl');
-        if($userId != '')
-        $this->db->where('employee_id', $userId);
         $this->db->where('BaseTbl.statusId', 2);
+        if($userId != ''){
+            $this->db->where('employee_id', $userId);
+            $this->db->or_where('finished_by', $userId);
+        }        
         $query = $this->db->get();
         return $query->num_rows();
     }

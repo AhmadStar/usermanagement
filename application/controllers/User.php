@@ -300,7 +300,8 @@ class User extends BaseController
         $taskId = $this->input->post('taskId');
         $finishDetail = $this->input->post('finishDetail');
 
-        $taskInfo = array('statusId'=>2,'endDtm'=>date('Y-m-d H:i:s') , 'finish_detail' => $finishDetail);
+        $taskInfo = array('statusId'=>2,'endDtm'=>date('Y-m-d H:i:s') ,
+                    'finish_detail' => $finishDetail , 'finished_by' => $this->session->userdata('userId'));
         
         $result = $this->user_model->endTask($taskId, $taskInfo);
         
@@ -323,8 +324,6 @@ class User extends BaseController
         }
         
         $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);
-        $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
-        $data['tasks_situations'] = $this->user_model->getTasksSituations();
         $data['user_list']=$this->_employee_list();
         $data['tasks_images'] = $this->user_model->getTasksImages($taskId);
         $data['tasks_links'] = $this->user_model->getTasksLinks($taskId);
@@ -377,9 +376,9 @@ class User extends BaseController
         }else{
             $data['taskRecords'] = $this->user_model->getFinishedTasks();
         }
-        $data['user_list']=$this->user_list();
+        $data['user_list']=$this->_employee_list();
 
-        $this->global['pageTitle'] = 'DAS : All Finished Tasks';
+        $this->global['pageTitle'] = 'DAS : All Finished Tasks';        
         
         $this->loadViews("finishedTasks", $this->global, $data, NULL);
     }

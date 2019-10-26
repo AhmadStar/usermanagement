@@ -58,6 +58,7 @@
                     <th>Priority</th>
                     <th>Created by</th>
                     <th>For Employee</th>
+                    <th>Finished By</th>
                     <th>Creation Date</th>
                     <th>End Date</th>
                     <th>Show</th>
@@ -109,12 +110,16 @@
                         <td>
                           <label>Employee Name:</label>
                           <?php
-                              $employee_name = '';
-                              foreach ($user_list as $employee) {
-                                if ($employee->userId == $record->employee_id)
-                                  $employee_name = $employee->name;
-                              }
-                              echo $employee_name ?>
+                                if (isset($user_list[$record->employee_id]))
+                                    echo $user_list[$record->employee_id];                                
+                                ?>
+
+                        <td>
+                          <label>Finished By:</label>
+                          <?php
+                                if (isset($user_list[$record->finished_by]))
+                                    echo $user_list[$record->finished_by];
+                                ?>
                         </td>
                         <td>
                           <label>Create Date:</label>

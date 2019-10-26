@@ -3,18 +3,24 @@
 $id = '';
 $title = '';
 $comment = '';
-$priorityId = '';
-$statusId = '';
-
+$priority = '';
+$status = '';
+$employee_id = '';
+$groupName = '';
+$createdBy = '';
+$finish_detail = '';
 
 if (!empty($taskInfo)) {
     foreach ($taskInfo as $uf) {
         $id = $uf->id;
         $title = $uf->title;
         $comment = $uf->comment;
-        $priorityId = $uf->priorityId;
-        $statusId = $uf->statusId;
+        $priority = $uf->priority;
+        $status = $uf->status;
         $employee_id = $uf->employee_id;
+        $groupName = $uf->groupName;
+        $createdBy = $uf->createdBy;
+        $finish_detail = $uf->finish_detail;
     }
 }
 
@@ -42,25 +48,46 @@ if (!empty($taskInfo)) {
                     <div class="box-body">
                         <h4 class=""><span>Task Title :</span><?php echo $title; ?></h4>
                         <h4 class=""><span>Task Description :</span><?php echo $comment; ?></h4>
-                        <h4 class=""><span>Employee Name :</span><?php
-                                                                    if (isset($user_list[$employee_id]))
-                                                                        echo $user_list[$employee_id];
+                        <h4 class=""><span>created By :</span>
+                            <?php
+                                if (isset($createdBy))
+                                    echo $createdBy;                                
+                            ?>
+                        </h4>
+                        <h4 class=""><span>Group Name :</span>
+                            <?php
+                                if (isset($groupName))
+                                    echo $groupName;
+                                else
+                                    echo 'Not for Group';
+                            ?>
+                        </h4>
+                        <h4 class=""><span>Employee Name :</span>
+                            <?php
+                                if (isset($user_list[$employee_id]))
+                                    echo $user_list[$employee_id];
+                                else
+                                    echo 'Not for Employee';
 
-                                                                    ?></h4>
+                                ?>
+                        </h4>
                         <h4 class=""><span>Task Proiotity :</span>
                             <?php
-                            foreach ($tasks_prioritys as $rl) {
-                                if ($rl->priorityId == $priorityId)
-                                    echo $rl->priority;
-                            }
+                                echo $priority;
                             ?>
                         </h4>
                         <h4 class=""><span>Task Status :</span>
                             <?php
-                            foreach ($tasks_situations as $rl) {
-                                if ($rl->statusId == $statusId)
-                                    echo $rl->status;
-                            }
+                            echo $status;
+                            ?>
+                        </h4>
+                        <h4 class=""><span>Finish Details :</span>
+                            <?php
+                                if($finish_detail){
+                                    echo $finish_detail;
+                                }else{
+                                    echo 'Not finished yet';
+                                }
                             ?>
                         </h4>
                         <div class="row">
@@ -79,12 +106,14 @@ if (!empty($taskInfo)) {
                                 </div>
 
                             </div>
-                        </div>                        
-                        <div class="content-section" id="portfolio">
+                        </div>
+                        <div class="content-section" id="">
                             <div class="container">
                                 <div class="row">
                                     <div class="heading-section col-md-12 text-center">
-                                        <h2>Task Images</h2>
+                                        <?php if(!empty($tasks_images)){ ?>
+                                            <h2>Task Images</h2>
+                                        <?php }?>
                                     </div> <!-- /.heading-section -->
                                 </div> <!-- /.row -->
                                 <div class="row">

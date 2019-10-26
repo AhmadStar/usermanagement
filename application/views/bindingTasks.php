@@ -70,8 +70,10 @@
                           <div class="label label-<?php
                                                       if ($record->statusId == '1')
                                                         echo 'danger';
-                                                      else if ($record->statusId == '2')
+                                                        else if ($record->statusId == '2')
                                                         echo 'success';
+                                                        else if ($record->statusId == '3')
+                                                        echo 'info';
                                                       ?>">
                             <?php echo $record->status ?>
                           </div>

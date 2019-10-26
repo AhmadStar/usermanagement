@@ -79,7 +79,7 @@ jQuery(document).ready(function(){
 	});
 
 	jQuery(document).on("click", ".finishtask", function(){
-			var taskid = $(this).data("taskid")			
+			var taskid = $(this).data("taskid")
 		
 		$("#finish_task_modal").on("shown.bs.modal", function () {			
 			$("#taskid").val(taskid);
@@ -98,8 +98,8 @@ jQuery(document).ready(function(){
 		data : {taskId : taskId , finishDetail : finishDetail } 
 		}).done(function(data){
 			console.log(data);				
-			if(data.status = true) { alert("successfully bonus added"); }
-			else if(data.status = false) { alert("Failed add bonus"); }
+			if(data.status = true) { alert("successfully task finished"); }
+			else if(data.status = false) { alert("Failed finish task"); }
 			else { alert("Access denied..!"); }
 			location.reload(true);
 		});
