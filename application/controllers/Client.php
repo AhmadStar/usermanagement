@@ -24,20 +24,50 @@ class Client extends BaseController
 
     /**
      * This function used to show tasks
+     * @param {int} $status : 3 bending , 2 finished , 1 opened
      */
-    function clientTasks()
+    function clientBendingTasks()
     {
-        $data['taskRecords'] = $this->user_model->getClientTasks($this->session->userdata('userId'));
+        $data['taskRecords'] = $this->user_model->getClientTasks($this->session->userdata('userId') , 3);
         $data['user_list']=$this->employee_list();
+        $data['group_list']=$this->group_list();
 
-        $this->global['pageTitle'] = 'DAS : Our Tasks';
+        $this->global['pageTitle'] = 'DAS : Our Bending Tasks';
         
-        $this->loadViews("clientTasks", $this->global, $data, NULL);
+        $this->loadViews("tasks", $this->global, $data, NULL);
+    }
+
+    /**
+     * This function used to show tasks
+     */
+    function clientOpenedTasks()
+    {
+        $data['taskRecords'] = $this->user_model->getClientTasks($this->session->userdata('userId') , 1);
+        $data['user_list']=$this->employee_list();
+        $data['group_list']=$this->group_list();
+
+        $this->global['pageTitle'] = 'DAS : Our Opened Tasks';
+        
+        $this->loadViews("tasks", $this->global, $data, NULL);
+    }
+
+    /**
+     * This function used to show tasks
+     */
+    function clientFinishedTasks()
+    {
+        $data['taskRecords'] = $this->user_model->getClientTasks($this->session->userdata('userId') , 2);
+        $data['user_list']=$this->employee_list();        
+        $data['group_list']=$this->group_list();
+
+        $this->global['pageTitle'] = 'DAS : Our Finished Tasks';
+        
+        $this->loadViews("finishedTasks", $this->global, $data, NULL);
     }
 
      
 
-     /**
+  /**
    * _user_list()
    * returns a list of employee.
    */
@@ -53,14 +83,33 @@ class Client extends BaseController
   }
 
   /**
-   * employee_list()
+   * _employee_list()
    * returns a list of employee.
    */ 
   public function employee_list()
   {
-      $users = $this->user_model->get_users();    
-      return $users;
+    $employees = $this->employee_model->get_employees();
+    foreach ($employees as $employee) 
+    {
+      $employee_list[$employee->userId]=  html_escape($employee->name);
+    }
+    return $employee_list;
   }
+
+          /**
+   * group_list()
+   * returns a list of group.
+   */ 
+  public function group_list()
+  {
+    $groups = $this->user_model->get_groups();    
+    foreach ($groups as $group) 
+    {
+      $group_list[$group->id]=  html_escape($group->name);
+    }
+    return $group_list;
+  }
+
 }
 
 ?>

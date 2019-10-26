@@ -546,7 +546,7 @@ class User extends BaseController
    * returns a list of employee.
    */ 
   public function user_list()
-  {    
+  {
     $users = $this->user_model->get_users();    
     return $users;
   }

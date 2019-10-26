@@ -517,18 +517,20 @@ class User_model extends CI_Model
 
     /**
      * This function is used to get tasks
+     * @param {int} $status : 3 bending , 2 opened , 1 finished
      */
-    function getClientTasks($userId)
+    function getClientTasks($userId, $status)
     {
         $this->db->select('TaskTbl.id , TaskTbl.title , TaskTbl.comment , Situations.statusId ,Situations.status, Users.name , Roles.role, 
         Prioritys.priorityId , Prioritys.priority , 
-        endDtm , TaskTbl.createdDtm , employee_id');
+        endDtm , TaskTbl.createdDtm , employee_id , group_id , finished_by');
         $this->db->from('tbl_task as TaskTbl');
         $this->db->join('tbl_users as Users','Users.userId = TaskTbl.createdBy');
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
         $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = TaskTbl.statusId');
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
         $this->db->order_by('TaskTbl.createdDtm DESC');
+        $this->db->where('TaskTbl.statusId', $status);
         $this->db->where('TaskTbl.createdBy', $userId);
         $query = $this->db->get();
         $result = $query->result();        
@@ -918,10 +920,11 @@ class User_model extends CI_Model
      * This function is used to get the tasks count
      * @return array $result : This is result
      */
-    function ClientTasksCount($userId = '')
+    function ClientTasksCount($userId = '' , $status)
     {
         $this->db->select('*');
-        $this->db->from('tbl_task as BaseTbl');        
+        $this->db->from('tbl_task as BaseTbl');
+        $this->db->where('BaseTbl.statusId', $status);
         if($userId != '')
             $this->db->where('createdBy', $userId);
         $query = $this->db->get();

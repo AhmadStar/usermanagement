@@ -48,7 +48,9 @@ $route['deleteTask'] = "manager/deleteTask";
 $route['confirmTask'] = "manager/confirmTask";
 
 /*********** CLIENT CONTROLLER ROUTES *******************/
-$route['clientTasks'] = "Client/clientTasks";
+$route['clientBendingTasks'] = "Client/clientBendingTasks";
+$route['clientOpenedTasks'] = "Client/clientOpenedTasks";
+$route['clientFinishedTasks'] = "Client/clientFinishedTasks";
 
 /*********** USER CONTROLLER ROUTES *******************/
 $route['changePassword'] = "user/changePassword";

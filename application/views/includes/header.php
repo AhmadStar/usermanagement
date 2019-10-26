@@ -73,7 +73,9 @@ $AllTasksCount = $this->user_model->AllTasksCount();
 $BendingTasksCount = $this->user_model->BendingTasksCount();
 
 if($role === ROLE_CLIENT){
-  $ClientTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId'));
+  $ClientBendingTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId') , 3);
+  $ClientFinishedTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId') , 2);
+  $ClientOpenedTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId') , 1);
 }
 
 $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
@@ -296,13 +298,43 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   </a>
                 </li>
                 <li class="treeview">
-                  <a href="<?php echo base_url(); ?>clientTasks">
+                  <a href="<?php echo base_url(); ?>clientBendingTasks">
                     <i class="fa fa-clock-o"></i>
-                    <span>Our Tasks</span>
+                    <span>Bending Tasks</span>
+                    <span class="pull-right-container">                  
+                      <small class="label pull-right bg-yellow">
+                            <?php if (isset($ClientBendingTasksCount)) {
+                                echo $ClientBendingTasksCount;
+                              } else {
+                                echo '011';
+                              } ?>
+                      </small>
+                    </span>
+                  </a>
+                </li>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>clientOpenedTasks">
+                    <i class="fa fa-clock-o"></i>
+                    <span>Opened Tasks</span>
+                    <span class="pull-right-container">                  
+                      <small class="label pull-right bg-red">
+                            <?php if (isset($ClientOpenedTasksCount)) {
+                                echo $ClientOpenedTasksCount;
+                              } else {
+                                echo '011';
+                              } ?>
+                      </small>
+                    </span>
+                  </a>
+                </li>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>clientFinishedTasks">
+                    <i class="fa fa-clock-o"></i>
+                    <span>Finished Tasks</span>
                     <span class="pull-right-container">                  
                       <small class="label pull-right bg-green">
-                            <?php if (isset($ClientTasksCount)) {
-                                echo $ClientTasksCount;
+                            <?php if (isset($ClientFinishedTasksCount)) {
+                                echo $ClientFinishedTasksCount;
                               } else {
                                 echo '011';
                               } ?>
