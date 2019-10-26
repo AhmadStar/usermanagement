@@ -204,7 +204,7 @@ class Manager extends BaseController
             redirect('tasks');
         }
         
-        $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);        
+        $data['taskInfo'] = $this->user_model->getTaskInfoEdit($taskId);        
         $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
         $data['tasks_situations'] = $this->user_model->getTasksSituations();
         $data['tasks_images'] = $this->user_model->getTasksImages($taskId);

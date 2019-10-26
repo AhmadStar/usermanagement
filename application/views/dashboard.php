@@ -582,16 +582,6 @@
               <!-- /.row -->
             </div>
             <!-- /.box-body -->
-            <div class="box-footer no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li><a href="#">United States of America
-                    <span class="pull-right text-red"><i class="fa fa-angle-down"></i> 12%</span></a></li>
-                <li><a href="#">India <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 4%</span></a>
-                </li>
-                <li><a href="#">China
-                    <span class="pull-right text-yellow"><i class="fa fa-angle-left"></i> 0%</span></a></li>
-              </ul>
-            </div>
             <!-- /.footer -->
           </div>
 

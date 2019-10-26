@@ -717,6 +717,23 @@ class User_model extends CI_Model
     }
 
     /**
+     * This function used to get task information by id
+     * @param number $taskId : This is task id
+     * @return array $result : This is task information
+     */
+    function getTaskInfoEdit($taskId)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_task');
+        $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = tbl_task.statusId');
+        $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = tbl_task.priorityId');
+        $this->db->where('id', $taskId);
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+
+    /**
      * This function used to get bonus information by id
      * @param number $bonusId : This is bonus id
      * @return array $result : This is task information
