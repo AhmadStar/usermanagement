@@ -61,7 +61,9 @@
             <!-- /.col -->
             <div class="col-md-4">
               <p class="text-center">
+              <?php if ($role != ROLE_CLIENT){ ?>
                 <strong>Goal Completion</strong>
+              <?php } ?>
               </p>
 
               <?php
@@ -86,7 +88,7 @@
 
                     <div class="progress sm">
                       <div class="progress-bar progress-bar-aqua" 
-                      style="width:<?php if (isset($tasksCount)) {
+                      style="width:<?php if (isset($tasksCount) && $tasksCount != 0) {
                           $perecent = (($mytasksCount) / ($tasksCount)) * 100;
                             echo $perecent;
                             echo "%";
@@ -115,7 +117,7 @@
 
                     <div class="progress sm">
                       <div class="progress-bar progress-bar-green" 
-                      style="width:<?php if (isset($myfinishedTasksCount)) {
+                      style="width:<?php if (isset($myfinishedTasksCount) && $myfinishedTasksCount != 0) {
                           $perecent = (($myfinishedTasksCount) / ($finishedTasksCount)) * 100;
                             echo $perecent;
                             echo "%";
@@ -144,7 +146,7 @@
 
                     <div class="progress sm">
                       <div class="progress-bar progress-bar-red" 
-                      style="width:<?php if (isset($AllTasksCount)) {
+                      style="width:<?php if (isset($AllTasksCount) && $AllTasksCount != 0) {
                           $perecent = (($myAllTasksCount) / ($AllTasksCount)) * 100;
                             echo $perecent;
                             echo "%";
@@ -153,7 +155,7 @@
                           } ?>"></div>
                     </div>
                   </div>
-              <?php }else {?>
+              <?php }elseif ($role == ROLE_ADMIN || $role == ROLE_MANAGER) {?>
                 <div class="progress-group">
                     <span class="progress-text">Available Task from all</span>
                     <span class="progress-number">
@@ -173,7 +175,7 @@
 
                   <div class="progress sm">
                     <div class="progress-bar progress-bar-aqua" 
-                    style="width:<?php if (isset($tasksCount)) {
+                    style="width:<?php if (isset($tasksCount) && $tasksCount != 0) {
                         $perecent = (($tasksCount) / ($AllTasksCount)) * 100;
                           echo $perecent;
                           echo "%";
@@ -202,7 +204,7 @@
 
                     <div class="progress sm">
                       <div class="progress-bar progress-bar-green" 
-                      style="width:<?php if (isset($finishedTasksCount)) {
+                      style="width:<?php if (isset($finishedTasksCount) && $AllTasksCount != 0 ) {
                           $perecent = (($finishedTasksCount) / ($AllTasksCount)) * 100;
                             echo $perecent;
                             echo "%";
@@ -212,7 +214,7 @@
                     </div>
                   </div>              
               <?php }
-                if ($role !== ROLE_ADMIN) {
+                if ($role == ROLE_EMPLOYEE || $role == ROLE_MANAGER) {
               ?>
               <!-- /.progress-group -->
               <div class="progress-group">
@@ -239,7 +241,7 @@
 
                 <div class="progress sm">
                   <div class="progress-bar progress-bar-yellow" 
-                      style="width:<?php if (isset($myWorkHours)) {
+                      style="width:<?php if (isset($myWorkHours) && $AllUserWorkHours != 0) {
                           $perecent = (($myWorkHours) / ($AllUserWorkHours)) * 100;
                             echo $perecent;
                             echo "%";
@@ -298,7 +300,7 @@
                     echo '0';
                   } ?>
               </h3>
-              <p>client Bending Tasks</p>
+              <p>Bending Tasks</p>
             </div>
             <div class="icon">
               <i class="fa fa-clock-o"></i>
@@ -320,7 +322,7 @@
                     echo '0';
                   } ?>
               </h3>
-              <p>client Opened Tasks</p>
+              <p>Opened Tasks</p>
             </div>
             <div class="icon">
               <i class="fa fa-tasks"></i>
@@ -342,7 +344,7 @@
                     echo '0';
                   } ?>
               </h3>
-              <p>client Finished Tasks</p>
+              <p>Finished Tasks</p>
             </div>
             <div class="icon">
               <i class="fa fa-tasks"></i>

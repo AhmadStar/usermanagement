@@ -122,12 +122,18 @@ if (!empty($taskInfo)) {
                                     <?php foreach ($tasks_images as $image) { ?>
                                         <li class="col-12 col-md-6 col-lg-3">
                                             <div class="cnt-block equal-hight" style="height: 349px;">
-                                                <figure><img src="<?php echo base_url() . 'uploads/' . $image->name; ?>" class="img-responsive" alt=""></figure>
+                                                <figure><img src="<?php 
+                                                $ext = pathinfo($image->name, PATHINFO_EXTENSION);
+                                                if($ext == 'pdf')
+                                                    echo base_url() . 'uploads/' . 'pdf.png';
+                                                else
+                                                    echo base_url() . 'uploads/' . $image->name;                                                                                                
+                                                ?>" class="img-responsive" alt=""></figure>
                                                 <ul class="follow-us clearfix">
                                                     <li>
                                                         <a download="<?php echo $image->name ?>" href="<?php echo base_url() . 'uploads/' . $image->name; ?>" data-rel="lightbox" class="expand">
                                                             <i class="fa fa-download"></i>
-                                                        </a>
+                                                        </a>                                                        
                                                     </li>
                                                 </ul>
                                             </div>
