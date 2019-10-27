@@ -258,7 +258,7 @@
           <div class="row">
             <div class="col-sm-3 col-xs-6">
               <div class="description-block border-right">
-                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i></span>
                 <h5 class="description-header"><?php
                 if ($role !== ROLE_ADMIN) {
                   $hours = floor($myWorkHours / 3600);

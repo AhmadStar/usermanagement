@@ -314,7 +314,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                 </li>
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>clientOpenedTasks">
-                    <i class="fa fa-clock-o"></i>
+                    <i class="fa fa-tasks"></i>
                     <span>Opened Tasks</span>
                     <span class="pull-right-container">                  
                       <small class="label pull-right bg-red">
@@ -329,7 +329,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                 </li>
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>clientFinishedTasks">
-                    <i class="fa fa-clock-o"></i>
+                    <i class="fa fa-tasks"></i>
                     <span>Finished Tasks</span>
                     <span class="pull-right-container">                  
                       <small class="label pull-right bg-green">

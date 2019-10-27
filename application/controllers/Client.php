@@ -19,7 +19,12 @@ class Client extends BaseController
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('employee_model');
-        $this->isLoggedIn();        
+        $this->isLoggedIn();
+        // isManagerOrAdmin / Admin or manager role control function / This function used admin or manager role control
+        if(!$this->isClient())
+        {
+            $this->accesslogincontrol();
+        }
     }
 
     /**
@@ -32,9 +37,9 @@ class Client extends BaseController
         $data['user_list']=$this->employee_list();
         $data['group_list']=$this->group_list();
 
-        $this->global['pageTitle'] = 'DAS : Our Bending Tasks';
+        $this->global['pageTitle'] = 'DAS : Client Bending Tasks';
         
-        $this->loadViews("tasks", $this->global, $data, NULL);
+        $this->loadViews("bendingTasks", $this->global, $data, NULL);
     }
 
     /**
@@ -46,7 +51,7 @@ class Client extends BaseController
         $data['user_list']=$this->employee_list();
         $data['group_list']=$this->group_list();
 
-        $this->global['pageTitle'] = 'DAS : Our Opened Tasks';
+        $this->global['pageTitle'] = 'DAS : Client Opened Tasks';
         
         $this->loadViews("tasks", $this->global, $data, NULL);
     }
@@ -60,12 +65,10 @@ class Client extends BaseController
         $data['user_list']=$this->employee_list();        
         $data['group_list']=$this->group_list();
 
-        $this->global['pageTitle'] = 'DAS : Our Finished Tasks';
+        $this->global['pageTitle'] = 'DAS : Client Finished Tasks';
         
         $this->loadViews("finishedTasks", $this->global, $data, NULL);
     }
-
-     
 
   /**
    * _user_list()
@@ -96,7 +99,7 @@ class Client extends BaseController
     return $employee_list;
   }
 
-          /**
+  /**
    * group_list()
    * returns a list of group.
    */ 

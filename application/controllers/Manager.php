@@ -333,6 +333,11 @@ class Manager extends BaseController
      */
     function confirmTask()
     {
+        // isManagerOrAdmin / Admin or manager role control function / This function used admin or manager role control
+        if(!$this->isManagerOrAdmin())
+        {
+            $this->accesslogincontrol();
+        }
         $taskId = $this->input->post('taskId');        
 
         $data = array('statusId'=> 1);
@@ -388,17 +393,17 @@ class Manager extends BaseController
   }
 
   /**
-     * This function used to show log history
-     * @param number $userId : This is user id
-     */
-    public function deleteFile()
-    {
-        $id = $this->input->post('id');    
-        
-        $data = $this->user_model->delete_file($id);
-        
-        //output to json format
-            echo json_encode($data);
-    }
+ * This function used to show log history
+ * @param number $userId : This is user id
+ */
+public function deleteFile()
+{
+    $id = $this->input->post('id');    
+    
+    $data = $this->user_model->delete_file($id);
+    
+    //output to json format
+        echo json_encode($data);
+}
 
 }
