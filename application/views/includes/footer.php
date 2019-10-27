@@ -15,8 +15,6 @@
 <script src="<?php echo base_url(); ?>assets/dist/js/app.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/plugins/chartjs/Chart.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/dist/js/pages/dashboard2.js" type="text/javascript"></script>
-<!-- <script src="<?php echo base_url(); ?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script> -->
 <script src="<?php echo base_url(); ?>assets/js/jquery.validate.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/js/validation.js" type="text/javascript"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
@@ -29,6 +27,22 @@
     var y = $('a[href="' + windowURL + '"]');
     y.addClass('active');
     y.parent().addClass('active');
+
+
+    //
+    /** add active class and stay opened when selected */
+    var url = window.location;
+
+    // for sidebar menu entirely but not cover treeview
+    $('ul.sidebar-menu a').filter(function() {
+    return this.href == url;
+    }).parent().addClass('active');
+
+    // for treeview
+    $('ul.treeview-menu a').filter(function() {
+    return this.href == url;
+    }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
+    
 </script>
 <!-- DataTables JavaScript -->
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/fc-3.2.4/fh-3.1.3/r-2.2.1/sc-1.4.4/sl-1.2.5/datatables.min.js"></script>

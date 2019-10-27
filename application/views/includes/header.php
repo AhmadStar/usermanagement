@@ -201,7 +201,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                     <i class="fa fa-clock-o"></i>
                     <span>Bending Tasks</span>
                     <span class="pull-right-container">                  
-                      <small class="label pull-right bg-green">
+                      <small class="label pull-right bg-yellow">
                             <?php if (isset($BendingTasksCount)) {
                                 echo $BendingTasksCount;
                               } else {
@@ -217,7 +217,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                     <i class="fa fa-tasks"></i>
                     <span>Tasks</span>
                     <span class="pull-right-container">                  
-                      <small class="label pull-right bg-green">
+                      <small class="label pull-right bg-red">
                             <?php if (isset($tasksCount)) {
                                 echo $tasksCount;
                               } else {
@@ -233,7 +233,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                     <i class="fa fa-tasks"></i>
                     <span>Finished Tasks</span>
                     <span class="pull-right-container">                  
-                      <small class="label pull-right bg-red">
+                      <small class="label pull-right bg-green">
                             <?php if (isset($finishedTasksCount)) {
                                 echo $finishedTasksCount;
                               } else {
@@ -287,16 +287,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                 }
                 if($role == ROLE_CLIENT)
                 {
-               ?>
-                <li class="treeview">
-                  <a href="<?php echo base_url(); ?>addNewTask">
-                    <i class="fa fa-plus-circle"></i>
-                    <span>Add Task</span>
-                    <span class="pull-right-container">
-                      <small class="label pull-right bg-green">new</small>
-                    </span>
-                  </a>
-                </li>
+               ?>                
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>clientBendingTasks">
                     <i class="fa fa-clock-o"></i>
@@ -339,6 +330,15 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                                 echo '011';
                               } ?>
                       </small>
+                    </span>
+                  </a>
+                </li>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>addNewTask">
+                    <i class="fa fa-plus-circle"></i>
+                    <span>Add Task</span>
+                    <span class="pull-right-container">
+                      <small class="label pull-right bg-green">new</small>
                     </span>
                   </a>
                 </li>

@@ -2,8 +2,8 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      <i class="fa fa-users"></i> All Binding Tasks
-      <small>All Binding Tasks</small>
+      <i class="fa fa-users"></i> All Bending Tasks
+      <small>All Bending Tasks</small>
     </h1>
   </section>
   <section class="content">
@@ -12,7 +12,7 @@
         <div class="box box-primary">
           <div class="box-header">
             <div class="box-header">
-              <h3 class="box-title">Binding Tasks List</h3>
+              <h3 class="box-title">Bending Tasks List</h3>
             </div>
           </div>
           <!-- /.box-header -->
@@ -132,10 +132,12 @@
                             </a>
                             <a class="btn btn-sm btn-danger deleteTask" href="#" data-taskid="<?php echo $record->id; ?>" title="Delete">
                               <i class="fa fa-trash"></i>
-                            </a>                        
+                            </a>
+                            <?php if ($role !== ROLE_CLIENT) { ?>
                             <a class="btn btn-sm btn-success confirmTask" href="#" data-taskid="<?php echo $record->id; ?>" title="Confirm Task">
                               <i class="fa fa-check"></i>
                             </a>
+                            <?php }?>
                         </td>
                       </tr>
                   <?php
