@@ -49,6 +49,12 @@ class User extends BaseController
           $data['myWorkHours'] = $this->employee_model->get_month_hours_as_sum($this->session->userdata('userId'));
           $data['AllUserWorkHours'] = $this->employee_model->get_month_hours_as_sum();
 
+          if($this->role === ROLE_CLIENT){
+            $data['ClientBendingTasksCount'] = $this->user_model->ClientTasksCount($this->session->userdata('userId') , 3);
+            $data['ClientFinishedTasksCount'] = $this->user_model->ClientTasksCount($this->session->userdata('userId') , 2);
+            $data['ClientOpenedTasksCount'] = $this->user_model->ClientTasksCount($this->session->userdata('userId') , 1);
+          }
+
         if ($this->getUserStatus() == TRUE)
         {
             $this->session->set_flashdata('error', 'Please change your password first for your security.');

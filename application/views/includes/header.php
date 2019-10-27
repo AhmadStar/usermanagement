@@ -380,7 +380,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
               <li class="treeview">
               <a href="<?php echo base_url(); ?>dailylogs">
                 <i class="fa fa-archive"></i>
-                <span>Day Log Records</span>
+                <span>Today Log Records</span>
               </a>
             </li> 
               <?php

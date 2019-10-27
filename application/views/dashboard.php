@@ -284,8 +284,78 @@
 
 
     <div class="row">
+    <?php
+      if ($role == ROLE_CLIENT) {
+        ?>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>
+                <?php if (isset($ClientBendingTasksCount)) {
+                    echo $ClientBendingTasksCount;
+                  } else {
+                    echo '0';
+                  } ?>
+              </h3>
+              <p>client Bending Tasks</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-clock-o"></i>
+            </div>
+            <a href="<?php echo base_url(); ?><?php echo 'clientBendingTasks' ?>" class="small-box-footer">See all
+              <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>
+                <?php if (isset($ClientOpenedTasksCount)) {
+                    echo $ClientOpenedTasksCount;
+                  } else {
+                    echo '0';
+                  } ?>
+              </h3>
+              <p>client Opened Tasks</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-tasks"></i>
+            </div>
+            <a href="<?php echo base_url(); ?><?php echo 'clientOpenedTasks' ?>" class="small-box-footer">See all
+              <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>
+                <?php if (isset($ClientFinishedTasksCount)) {
+                    echo $ClientFinishedTasksCount;
+                  } else {
+                    echo '0';
+                  } ?>
+              </h3>
+              <p>client Finished Tasks</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-tasks"></i>
+            </div>
+            <a href="<?php echo base_url(); ?><?php echo 'clientFinishedTasks' ?>" class="small-box-footer">See all
+              <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
       <?php
-      if ($role == ROLE_EMPLOYEE) {
+      }
+        elseif ($role == ROLE_EMPLOYEE) {
         ?>
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
