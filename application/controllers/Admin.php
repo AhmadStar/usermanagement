@@ -54,7 +54,9 @@ class Admin extends BaseController
 
         $returns = $this->paginationCompress ( "userListing/", $count, 100 );
         
-        $data['userRecords'] = $this->user_model->userListing($searchText, $returns["page"], $returns["segment"]);        
+        $data['userRecords'] = $this->user_model->userListing($searchText, $returns["page"], $returns["segment"]);
+
+        $data['userBonus'] = $this->user_bonus();
 
         $this->global['pageTitle'] = 'DAS : User List';
         
@@ -555,5 +557,20 @@ class Admin extends BaseController
         
         $this->loadViews("dailylogHistory", $this->global, $data, NULL);
     }
+
+
+          /**
+   * user_bonus()
+   * returns a list of all users bonus .
+   */ 
+  public function user_bonus()
+  {
+    $bonuses = $this->user_model->get_bonus();    
+    foreach ($bonuses as $bonus) 
+    {
+      $bonus_list[$bonus->user_id]=  html_escape($bonus->stars);
+    }
+    return $bonus_list;
+  }
 }
 

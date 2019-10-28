@@ -40,6 +40,9 @@ table.table-bordered.dataTable .logs-hover tr:hover {
     max-height: 45px;    
 }
 
+.user-picture{    
+  background-color: #222d32;
+}
 
 /**********************
 /***** links *******

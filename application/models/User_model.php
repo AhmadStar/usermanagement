@@ -33,31 +33,36 @@ class User_model extends CI_Model
      */
     function userListing($searchText = '', $page, $segment)
     {
-        $this->db->select('BaseTbl.userId, BaseTbl.email, BaseTbl.name, BaseTbl.mobile, Role.role, BaseTbl.picture , COUNT(bonus.user_id) as stars');
+        $this->db->select('BaseTbl.userId, BaseTbl.email, BaseTbl.name, BaseTbl.mobile, Role.role, BaseTbl.picture');
         $this->db->from('tbl_users as BaseTbl');
-        $this->db->join('tbl_roles as Role', 'Role.roleId = BaseTbl.roleId','left');
-        $this->db->join('bonus', 'bonus.user_id = BaseTbl.userId','left');        
-        $this->db->group_by('BaseTbl.userId');
-        $this->db->HAVING('stars >= 0');
+        $this->db->join('tbl_roles as Role', 'Role.roleId = BaseTbl.roleId','left');        
         if(!empty($searchText)) {
             $likeCriteria = "(BaseTbl.email  LIKE '%".$searchText."%'
                             OR  BaseTbl.name  LIKE '%".$searchText."%'
                             OR  BaseTbl.mobile  LIKE '%".$searchText."%')";
             $this->db->where($likeCriteria);
         }
-        $this->db->where('BaseTbl.isDeleted', 0);
-        // $now = new \DateTime('now');
-		// $month = $now->format('m');		
-        // $this->db->where('month(bonus.date)', $month);
+        $this->db->where('BaseTbl.isDeleted', 0);        
         $this->db->limit($page, $segment);
         $query = $this->db->get();
         
-        $result = $query->result();
-
-        // var_dump($result);die();
+        $result = $query->result();        
 
         return $result;
     }
+
+
+    public function get_bonus(){
+		$this->db->select('user_id , COUNT(*) as stars');
+        $this->db->from('bonus');        
+        $this->db->group_by('bonus.user_id');
+        $now = new \DateTime('now');
+		$month = $now->format('m');		
+        $this->db->where('month(bonus.date)', $month);
+        $query = $this->db->get();
+        // var_dump($query->result());die();
+		return $query->result();
+	}
     
     /**
      * This function is used to get the user roles information

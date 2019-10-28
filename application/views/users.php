@@ -35,7 +35,7 @@
                         <?php }
                         $success = $this->session->flashdata('success');
                         if ($success) {
-                        ?>
+                            ?>
                             <div class="alert alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                 <?php echo $this->session->flashdata('success'); ?>
@@ -45,7 +45,7 @@
                             <table width="100%" class="table table-striped table-bordered table-hover cards" id="dataTables-example">
                                 <thead class="cards-head">
                                     <tr>
-                                        <th>Image</th>                                        
+                                        <th>Image</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Telephone number</th>
@@ -60,13 +60,9 @@
                                         foreach ($userRecords as $record) {
                                             ?>
                                             <tr>
-                                                <td class="text-center">
+                                                <td class="text-center user-picture">
                                                     <img src="<?php echo base_url() . $record->picture; ?>" class="img-circle user-image" alt="User Image">
                                                 </td>
-                                                <!-- <td>
-                                        <label>ID:</label>
-                                        <?php echo $record->userId ?>
-                                    </td> -->
                                                 <td>
                                                     <label>Name:</label>
                                                     <?php echo $record->name ?>
@@ -81,11 +77,18 @@
                                                 </td>
                                                 <td>
                                                     <label>Bonus:</label>
+
+
                                                     <?php
-                                                            while ($record->stars > 0) { ?>
+                                                        if (isset($userBonus[$record->userId])) {
+                                                            while ($userBonus[$record->userId] > 0) {
+                                                    ?>
                                                         <i class="fa fa-star" style="color:yellow"></i>
-                                                    <?php $record->stars--;
-                                                            } ?>
+                                                    <?php $userBonus[$record->userId]--;
+                                                            }
+                                                        } else
+                                                            echo '';
+                                                    ?>
                                                 </td>
                                                 <td>
                                                     <label>Role:</label>
