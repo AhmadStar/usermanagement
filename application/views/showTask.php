@@ -93,14 +93,14 @@ if (!empty($taskInfo)) {
                         <!-- Links section -->
                         <section id="links">
                             <div class="container-fluid">
-                                <h2 class="section-title mb-2 h1">Task Links</h2>
-                                <p class="text-center text-muted h5">Here we put all links related to current task.</p>
+                                <h2 class="section-title mb-2 h3">Task Links</h2>
+                                <p class="text-center text-muted h5"></p>
                                 <div class="row mt-5">
                                     <?php foreach ($tasks_links as $key => $link) { ?>
                                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                                             <div class="card">
                                                 <div class="card-block block-1">
-                                                    <h3 class="card-title">Link<? echo $key ?> </h3>
+                                                    <h3 class="card-title"></h3>
                                                     <p class="card-text"><?php echo $link->name; ?></p>
                                                     <a href="<?php echo $link->name; ?>" target="_blank" title="Open link" class="read-more">Open link<i class="fa fa-angle-double-right ml-2"></i></a>
                                                 </div>
@@ -113,7 +113,7 @@ if (!empty($taskInfo)) {
                         <!-- /Links section -->
 
                         <!-- files section -->
-                        <section class="files padding-lg" style="<?php if(count($tasks_images) == 0) echo 'visibility: hidden' ?>">
+                        <!-- <section class="files padding-lg" style="<?php if (count($tasks_images) == 0) echo 'visibility: hidden' ?>">
                             <div class="container">
                                 <div class="row heading heading-icon">
                                     <h2>Task Files</h2>
@@ -122,18 +122,18 @@ if (!empty($taskInfo)) {
                                     <?php foreach ($tasks_images as $image) { ?>
                                         <li class="col-12 col-md-6 col-lg-3">
                                             <div class="cnt-block equal-hight" style="height: 349px;">
-                                                <figure><img src="<?php 
-                                                $ext = pathinfo($image->name, PATHINFO_EXTENSION);
-                                                if($ext == 'pdf')
-                                                    echo base_url() . 'uploads/' . 'pdf.png';
-                                                else
-                                                    echo base_url() . 'uploads/' . $image->name;                                                                                                
-                                                ?>" class="img-responsive" alt=""></figure>
+                                                <figure><img src="<?php
+                                                                        $ext = pathinfo($image->name, PATHINFO_EXTENSION);
+                                                                        if ($ext == 'pdf')
+                                                                            echo base_url() . 'uploads/' . 'pdf.png';
+                                                                        else
+                                                                            echo base_url() . 'uploads/' . $image->name;
+                                                                        ?>" class="img-responsive" alt=""></figure>
                                                 <ul class="follow-us clearfix">
                                                     <li>
                                                         <a download="<?php echo $image->name ?>" href="<?php echo base_url() . 'uploads/' . $image->name; ?>" data-rel="lightbox" class="expand">
                                                             <i class="fa fa-download"></i>
-                                                        </a>                                                        
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -141,8 +141,38 @@ if (!empty($taskInfo)) {
                                     <?php } ?>
                                 </ul>
                             </div>
-                        </section>
+                        </section> -->
                         <!-- /files section -->
+
+                        <div class="box-footer" style="<?php if (count($tasks_images) == 0) echo 'visibility: hidden' ?>">
+                            <ul class="mailbox-attachments clearfix">
+                                <?php foreach ($tasks_images as $image) { ?>
+                                    <li>
+                                     <?php
+                                        $ext = pathinfo($image->name, PATHINFO_EXTENSION);
+                                        if ($ext == 'pdf'){?>
+                                             <span class="mailbox-attachment-icon"><i class="fa fa-file-pdf-o"></i></span>
+                                        <?php }if ($ext == 'docx'){?>
+                                             <span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span>
+                                        <?php }if($ext == 'png' || $ext == 'jpeg' || $ext == 'jpg'){?>
+                                             <span class="mailbox-attachment-icon has-img"><img src="<?php echo base_url() . 'uploads/' . $image->name; ?>" alt="Attachment"></span>
+                                        <?php }?>     
+
+                                        <div class="mailbox-attachment-info">
+                                            <a href="<?php echo base_url() . 'uploads/' . $image->name; ?>" target="blank" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> <?php echo $image->name; ?></a>
+                                            <span class="mailbox-attachment-size">
+                                                <!-- <?php
+                                                    $this->load->helper('file');
+                                                    $file_path = __DIR__ . '/uploads/'.$image->name;
+                                                    $size      = filesize($file_path);
+                                                ?>                                                 -->
+                                                <a download="<?php echo $image->name ?>" href="<?php echo base_url() . 'uploads/' . $image->name; ?>" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
+                                            </span>
+                                        </div>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

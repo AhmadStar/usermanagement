@@ -6,7 +6,7 @@
   <title>
     <?php echo $pageTitle; ?>
   </title>
-  <link rel="shortcut icon" type="image/png" href="<?php echo base_url()."uploads/favicon.png"; ?>"/>
+  <link rel="shortcut icon" type="image/png" href="<?php echo base_url() . "uploads/favicon.png"; ?>" />
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   <!-- Bootstrap 3.3.4 -->
   <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -17,27 +17,24 @@
   <!-- Theme style -->
   <link href="<?php echo base_url(); ?>assets/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
   <!-- Datatables style -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/b-flash-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/fc-3.2.4/fh-3.1.3/kt-2.3.2/r-2.2.1/rg-1.0.2/rr-1.2.3/sc-1.4.4/sl-1.2.5/datatables.min.css"
-  />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/b-flash-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/fc-3.2.4/fh-3.1.3/kt-2.3.2/r-2.2.1/rg-1.0.2/rr-1.2.3/sc-1.4.4/sl-1.2.5/datatables.min.css" />
   <!-- Theme style -->
   <!-- <link href="<?php echo base_url(); ?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" /> -->
-  
+
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
   <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
   <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
-  
-  <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />  
-  <style>
 
-    
+  <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+  <style>
     .error {
       color: red;
       font-weight: normal;
     }
   </style>
-  <!-- jQuery 2.1.4 -->
+  <!-- jQuery 3.4.1 -->
   <script src="<?php echo base_url(); ?>assets/js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript">
     var baseURL = "<?php echo base_url(); ?>";
@@ -51,38 +48,41 @@
     <![endif]-->
 </head>
 
-<?php 
+<?php
 $picture = $this->user_model->get_picture($this->session->userdata('userId'));
 $picture = $picture->picture;
 
-if(($token = $this->input->cookie('site_theme')))
-{
+if (($token = $this->input->cookie('site_theme'))) {
   $token = explode("\n", $token);
-  $theme = $token[0];  
+  $theme = $token[0];
 }
 
-if($role === ROLE_EMPLOYEE){
+if ($role === ROLE_EMPLOYEE) {
   $mytasksCount = $this->user_model->tasksCount($this->session->userdata('userId'));
+  $tasks = $this->user_model->getTasks($this->session->userdata('userId'));
   $myfinishedTasksCount = $this->user_model->finishedTasksCount($this->session->userdata('userId'));
-}else{
+}
+
+if ($role === ROLE_ADMIN || $role == ROLE_MANAGER) {
+  $tasks = $this->user_model->getBendingTasks();
+  $AllTasksCount = $this->user_model->AllTasksCount();
+  $BendingTasksCount = $this->user_model->BendingTasksCount();
   $tasksCount = $this->user_model->tasksCount();
   $finishedTasksCount = $this->user_model->finishedTasksCount();
 }
-$AllTasksCount = $this->user_model->AllTasksCount();
 
-$BendingTasksCount = $this->user_model->BendingTasksCount();
-
-if($role === ROLE_CLIENT){
-  $ClientBendingTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId') , 3);
-  $ClientFinishedTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId') , 2);
-  $ClientOpenedTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId') , 1);
+if ($role === ROLE_CLIENT) {
+  $ClientBendingTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId'), 3);
+  $tasks = $this->user_model->getClientTasks($this->session->userdata('userId'), 3);
+  $ClientFinishedTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId'), 2);
+  $ClientOpenedTasksCount = $this->user_model->ClientTasksCount($this->session->userdata('userId'), 1);
 }
 
 $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
 
-
 ?>
-<body class="<?php echo $theme?> sidebar-mini">
+
+<body class="<?php echo $theme ?> sidebar-mini">
   <div class="wrapper">
 
     <header class="main-header">
@@ -102,13 +102,56 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
           <span class="sr-only">Toggle navigation</span>
         </a>
         <div class="navbar-custom-menu">
-          <ul class="nav navbar-nav">
-          <li >
-              <a id ="my_location" href="#" target="_blank">
-                <i class="fa fa-map-marker" id="location" location="<?php echo $_SERVER['REMOTE_ADDR']?>" ></i>
+          <ul class="nav navbar-nav">          
+            <li>
+              <a id="my_location" href="#" target="_blank">
+                <i class="fa fa-map-marker" id="location" location="<?php echo $_SERVER['REMOTE_ADDR'] ?>"></i>
               </a>
-            </li>  
-          <li class="dropdown tasks-menu">
+            </li>
+            <li class="dropdown tasks-menu">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-flag-o"></i>
+              <span class="label label-danger">
+                <?php 
+                  if ($role == ROLE_EMPLOYEE) echo $mytasksCount;
+                  if ($role == ROLE_ADMIN || $role == ROLE_MANAGER) echo $BendingTasksCount;
+                  if ($role == ROLE_CLIENT ) echo $ClientBendingTasksCount;                                
+                ?></span>
+             </a>
+             <ul class="dropdown-menu">
+              <li class="header">You have <?php 
+                  if ($role == ROLE_EMPLOYEE) echo $mytasksCount;
+                  if ($role == ROLE_ADMIN || $role == ROLE_MANAGER) echo $BendingTasksCount;
+                  if ($role == ROLE_CLIENT ) echo $ClientBendingTasksCount;                                
+                ?> tasks</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                <?php                 
+                
+                foreach ($tasks as $task) { ?>
+                  <li><!-- Task item -->
+                    <a href="<?php echo base_url() . 'showTask/' . $task->id; ?>">
+                      <h3>
+                        <?php echo $task->title?>
+                      </h3>
+                      <div class="progress xs">
+                        <div class="progress-bar progress-bar-aqua" style="width: 100%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <span class="sr-only">100% Complete</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                <?php } ?>
+                  <!-- end task item -->
+                </ul>
+              </li>
+              <li class="footer">
+                <a href="<?php echo base_url() . 'Bendingtasks' ?>">View all tasks</a>
+              </li>
+             </ul>
+            </li>
+            <li class="dropdown tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                 <i class="fa fa-history"></i>
               </a>
@@ -118,11 +161,11 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   <?= empty($last_login) ? "First Login" : $last_login; ?>
                 </li>
               </ul>
-            </li>                      
+            </li>
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="<?php echo base_url().$picture;?>" class="user-image" alt="User Image" />
+                <img src="<?php echo base_url() . $picture; ?>" class="user-image" alt="User Image" />
                 <span class="hidden-xs">
                   <?php echo $name; ?>
                 </span>
@@ -130,13 +173,28 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
               <ul class="dropdown-menu">
                 <!-- User image -->
                 <li class="user-header">
-                  <img src="<?php echo base_url().$picture; ?>" class="img-circle" alt="User Image" />
+                  <img src="<?php echo base_url() . $picture; ?>" class="img-circle" alt="User Image" />
                   <p>
                     <?php echo $name; ?>
                     <small>
                       <?php echo $role_text; ?>
                     </small>
                   </p>
+                </li>
+                <!-- Menu Body -->
+                <li class="user-body">
+                  <div class="row">
+                    <div class="col-xs-6 text-center">
+                      <a href="<?php echo base_url(); ?>general">
+                        <i class="fa fa-cog"></i>
+                        <span>Theme</span>
+                      </a>
+                    </div>
+                    <div class="col-xs-6 text-center">
+                      <a href="#">Profile</a>
+                    </div>
+                  </div>
+                  <!-- /.row -->
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
@@ -162,7 +220,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
         <!-- Sidebar user panel -->
         <div class="user-panel">
           <div class="pull-left image">
-            <img src="<?php echo base_url().$picture;?>" class="img-circle" alt="User Image">
+            <img src="<?php echo base_url() . $picture; ?>" class="img-circle" alt="User Image">
           </div>
           <div class="pull-left info">
             <p><?php echo $name; ?></p>
@@ -171,9 +229,9 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-          <li class="header">            
+          <li class="header">
             <span>MAIN NAVIGATION</span>
-          </i>
+            </i>
           </li>
           <li class="treeview">
             <a href="<?php echo base_url(); ?>dashboard">
@@ -181,32 +239,31 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
               <span>Home page</span>
               </i>
             </a>
-          </li>          
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-pie-chart"></i>
-                <span>Tasks</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>Tasks</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
               <?php
               // Rol definetion in application/config/constants.php
-              if($role == ROLE_ADMIN || $role == ROLE_MANAGER)
-              {
-              ?>
+              if ($role == ROLE_ADMIN || $role == ROLE_MANAGER) {
+                ?>
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>Bendingtasks">
                     <i class="fa fa-clock-o"></i>
                     <span>Bending Tasks</span>
-                    <span class="pull-right-container">                  
+                    <span class="pull-right-container">
                       <small class="label pull-right bg-yellow">
-                            <?php if (isset($BendingTasksCount)) {
-                                echo $BendingTasksCount;
-                              } else {
-                                echo '011';
-                              } ?>
+                        <?php if (isset($BendingTasksCount)) {
+                            echo $BendingTasksCount;
+                          } else {
+                            echo '011';
+                          } ?>
                       </small>
                     </span>
                   </a>
@@ -216,13 +273,13 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   <a href="<?php echo base_url(); ?>tasks">
                     <i class="fa fa-tasks"></i>
                     <span>Tasks</span>
-                    <span class="pull-right-container">                  
+                    <span class="pull-right-container">
                       <small class="label pull-right bg-red">
-                            <?php if (isset($tasksCount)) {
-                                echo $tasksCount;
-                              } else {
-                                echo '0';
-                              } ?>
+                        <?php if (isset($tasksCount)) {
+                            echo $tasksCount;
+                          } else {
+                            echo '0';
+                          } ?>
                       </small>
                     </span>
                   </a>
@@ -232,13 +289,13 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   <a href="<?php echo base_url(); ?>finishedtasks">
                     <i class="fa fa-tasks"></i>
                     <span>Finished Tasks</span>
-                    <span class="pull-right-container">                  
+                    <span class="pull-right-container">
                       <small class="label pull-right bg-green">
-                            <?php if (isset($finishedTasksCount)) {
-                                echo $finishedTasksCount;
-                              } else {
-                                echo '0';
-                              } ?>
+                        <?php if (isset($finishedTasksCount)) {
+                            echo $finishedTasksCount;
+                          } else {
+                            echo '0';
+                          } ?>
                       </small>
                     </span>
                   </a>
@@ -252,22 +309,21 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                     </span>
                   </a>
                 </li>
-            <?php
+              <?php
               }
-            if($role == ROLE_EMPLOYEE)
-            {
-            ?>
+              if ($role == ROLE_EMPLOYEE) {
+                ?>
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>tasks">
                     <i class="fa fa-tasks"></i>
                     <span>Tasks</span>
                     <small class="label pull-right bg-green">
-                        <?php if (isset($mytasksCount)) {
-                            echo $mytasksCount;
-                          } else {
-                            echo '0';
-                          } ?>
-                  </small>
+                      <?php if (isset($mytasksCount)) {
+                          echo $mytasksCount;
+                        } else {
+                          echo '0';
+                        } ?>
+                    </small>
                   </a>
                 </li>
                 <li class="treeview">
@@ -275,30 +331,29 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                     <i class="fa fa-tasks"></i>
                     <span>Finished Tasks</span>
                     <small class="label pull-right bg-red">
-                        <?php if (isset($myfinishedTasksCount)) {
-                            echo $myfinishedTasksCount;
-                          } else {
-                            echo '0';
-                          } ?>
-                  </small>
+                      <?php if (isset($myfinishedTasksCount)) {
+                          echo $myfinishedTasksCount;
+                        } else {
+                          echo '0';
+                        } ?>
+                    </small>
                   </a>
                 </li>
-                <?php
-                }
-                if($role == ROLE_CLIENT)
-                {
-               ?>                
+              <?php
+              }
+              if ($role == ROLE_CLIENT) {
+                ?>
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>clientBendingTasks">
                     <i class="fa fa-clock-o"></i>
                     <span>Bending Tasks</span>
-                    <span class="pull-right-container">                  
+                    <span class="pull-right-container">
                       <small class="label pull-right bg-yellow">
-                            <?php if (isset($ClientBendingTasksCount)) {
-                                echo $ClientBendingTasksCount;
-                              } else {
-                                echo '011';
-                              } ?>
+                        <?php if (isset($ClientBendingTasksCount)) {
+                            echo $ClientBendingTasksCount;
+                          } else {
+                            echo '011';
+                          } ?>
                       </small>
                     </span>
                   </a>
@@ -307,13 +362,13 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   <a href="<?php echo base_url(); ?>clientOpenedTasks">
                     <i class="fa fa-tasks"></i>
                     <span>Opened Tasks</span>
-                    <span class="pull-right-container">                  
+                    <span class="pull-right-container">
                       <small class="label pull-right bg-red">
-                            <?php if (isset($ClientOpenedTasksCount)) {
-                                echo $ClientOpenedTasksCount;
-                              } else {
-                                echo '011';
-                              } ?>
+                        <?php if (isset($ClientOpenedTasksCount)) {
+                            echo $ClientOpenedTasksCount;
+                          } else {
+                            echo '011';
+                          } ?>
                       </small>
                     </span>
                   </a>
@@ -322,13 +377,13 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   <a href="<?php echo base_url(); ?>clientFinishedTasks">
                     <i class="fa fa-tasks"></i>
                     <span>Finished Tasks</span>
-                    <span class="pull-right-container">                  
+                    <span class="pull-right-container">
                       <small class="label pull-right bg-green">
-                            <?php if (isset($ClientFinishedTasksCount)) {
-                                echo $ClientFinishedTasksCount;
-                              } else {
-                                echo '011';
-                              } ?>
+                        <?php if (isset($ClientFinishedTasksCount)) {
+                            echo $ClientFinishedTasksCount;
+                          } else {
+                            echo '011';
+                          } ?>
                       </small>
                     </span>
                   </a>
@@ -343,95 +398,85 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   </a>
                 </li>
               <?php
-                }                
-               ?>
+              }
+              ?>
 
-              </ul>
-            </li>                                  
-            <?php            
-            if($role === ROLE_EMPLOYEE || $role === ROLE_MANAGER)
-            {
+            </ul>
+          </li>
+          <?php
+          if ($role === ROLE_EMPLOYEE || $role === ROLE_MANAGER) {
             ?>
-              <li class="treeview">
-                <a href="<?php echo base_url(); ?>userStars">
-                  <i class="fa fa-star"></i>
-                  <span>My Bonus</span>
-                  <small class="label pull-right bg-yellow">
-                        <?php if (isset($myBonus)) {
-                            echo $myBonus;
-                          } else {
-                            echo '0';
-                          } ?>
-                  </small>
-                </a>
-              </li>
-            <?php
-            }
-            if($role == ROLE_ADMIN)
-            {
+            <li class="treeview">
+              <a href="<?php echo base_url(); ?>userStars">
+                <i class="fa fa-star"></i>
+                <span>My Bonus</span>
+                <small class="label pull-right bg-yellow">
+                  <?php if (isset($myBonus)) {
+                      echo $myBonus;
+                    } else {
+                      echo '0';
+                    } ?>
+                </small>
+              </a>
+            </li>
+          <?php
+          }
+          if ($role == ROLE_ADMIN) {
             ?>
-              <li class="treeview">
-                <a href="<?php echo base_url(); ?>userListing">
-                  <i class="fa fa-users"></i>
-                  <span>Users</span>
-                </a>
-              </li>
+            <li class="treeview">
+              <a href="<?php echo base_url(); ?>userListing">
+                <i class="fa fa-users"></i>
+                <span>Users</span>
+              </a>
+            </li>
 
-              <li class="treeview">
+            <li class="treeview">
               <a href="<?php echo base_url(); ?>dailylogs">
                 <i class="fa fa-archive"></i>
                 <span>Today Log Records</span>
               </a>
-            </li> 
-              <?php
-              }?>
-
-            <li class="treeview">
-              <a href="<?php echo base_url(); ?>log-history">
-                <i class="fa fa-archive"></i>
-                <span>Log Records</span>
-              </a>
-            </li>            
-
-
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-gear"></i>
-                <span>General Settings</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                  <li class="treeview">
-                    <a href="<?php echo base_url(); ?>general">
-                      <i class="fa fa-cog"></i>
-                      <span>Theme Settings</span>
-                    </a>
-                  </li>
-
-                  <?php            
-                    if($role === ROLE_ADMIN)
-                    {
-                    ?>                  
-                      <li class="treeview">
-                        <a href="<?php echo base_url(); ?>log-history-upload">
-                          <i class="fa fa-upload"></i>
-                          <span>log history upload</span>
-                        </a>
-                      </li>
-                      <li class="treeview">
-                        <a href="<?php echo base_url(); ?>log-history-backup">
-                          <i class="fa fa-archive"></i>
-                          <span>log history backup</span>
-                        </a>
-                      </li>
-                      <?php            
-                    }
-                  ?>
-              </ul>
             </li>
-            
+          <?php
+          } ?>
+
+          <li class="treeview">
+            <a href="<?php echo base_url(); ?>log-history">
+              <i class="fa fa-archive"></i>
+              <span>Log Records</span>
+            </a>
+          </li>
+
+
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-gear"></i>
+              <span>General Settings</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <?php
+              if ($role === ROLE_ADMIN) {
+                ?>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>log-history-upload">
+                    <i class="fa fa-upload"></i>
+                    <span>log history upload</span>
+                  </a>
+                </li>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>log-history-backup">
+                    <i class="fa fa-archive"></i>
+                    <span>log history backup</span>
+                  </a>
+                </li>
+              <?php
+              }
+              ?>
+            </ul>
+          </li>
+
         </ul>
       </section>
       <!-- /.sidebar -->

@@ -501,7 +501,7 @@ class User_model extends CI_Model
     }
 
     /**
-     * This function is used to get tasks
+     * This function is used to get bending tasks
      */
     function getBendingTasks()
     {
@@ -1080,7 +1080,7 @@ class User_model extends CI_Model
     }
     
     /**
-     * This function is used to get tasks
+     * This function is used to get latest tasks
      */
     function getLatestTasks($userId = '')
     {
