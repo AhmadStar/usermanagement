@@ -40,6 +40,12 @@ table.table-bordered.dataTable .logs-hover tr:hover {
     max-height: 45px;    
 }
 
+
+.products-list .product-img img {  
+  border-radius: 50%;
+}
+
+
 .user-picture{    
   background-color: #222d32;
 }

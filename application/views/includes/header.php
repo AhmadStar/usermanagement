@@ -119,11 +119,11 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                 ?></span>
              </a>
              <ul class="dropdown-menu">
-              <li class="header">You have <?php 
-                  if ($role == ROLE_EMPLOYEE) echo $mytasksCount;
-                  if ($role == ROLE_ADMIN || $role == ROLE_MANAGER) echo $BendingTasksCount;
-                  if ($role == ROLE_CLIENT ) echo $ClientBendingTasksCount;                                
-                ?> tasks</li>
+              <li class="header"><?php 
+                  if ($role == ROLE_EMPLOYEE) echo 'You have '.$mytasksCount.' Tasks';
+                  if ($role == ROLE_ADMIN || $role == ROLE_MANAGER) echo 'We have '.$BendingTasksCount.' Bending Tasks';
+                  if ($role == ROLE_CLIENT ) echo 'We have '.$ClientBendingTasksCount.' Bending Tasks';                            
+                ?></li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
@@ -134,12 +134,21 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                     <a href="<?php echo base_url() . 'showTask/' . $task->id; ?>">
                       <h3>
                         <?php echo $task->title?>
+                        <small class="pull-right">since
+                          <?php 
+                            $since = strtotime(date("H:i:s")) - strtotime($task->createdDtm);
+                            $days = floor($since / 86400);
+                            $hours = floor($since / 3600);
+                            if($hours > 24 )
+                              $hours = $hours % 24;
+                            $minutes = floor(($since / 60) % 60);
+                            $seconds = $since % 60;
+                            if($days != 0) echo $days.' days ';
+                            if($hours != 0) echo $hours.':';
+                            if($minutes != 0) echo $minutes.':';
+                            if($seconds != 0) echo $seconds;                            
+                        ?></small>
                       </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-aqua" style="width: 100%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">100% Complete</span>
-                        </div>
-                      </div>
                     </a>
                   </li>
                 <?php } ?>
@@ -147,7 +156,13 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                 </ul>
               </li>
               <li class="footer">
-                <a href="<?php echo base_url() . 'Bendingtasks' ?>">View all tasks</a>
+                  <?php if ($role == ROLE_EMPLOYEE){?>
+                    <a href="<?php echo base_url() . 'tasks' ?>">view my tasks</a>
+                  <?php }if ($role == ROLE_ADMIN || $role == ROLE_MANAGER){?>
+                    <a href="<?php echo base_url() . 'Bendingtasks' ?>">view bending tasks</a>
+                  <?php }if ($role == ROLE_CLIENT ){?>
+                    <a href="<?php echo base_url() . 'clientBendingTasks' ?>">view bending tasks</a>
+                  <?php }?>
               </li>
              </ul>
             </li>
