@@ -529,12 +529,12 @@ class User extends BaseController
         $userProfile = array('education'=>$education, 'location'=>$location, 'experience'=>$experience, 
                 'notes'=> $notes , 'user_id' => $this->session->userdata('userId'));
                             
-        $result = $this->user_model->editProfile($userProfile,$userId);
+        $result = $this->user_model->editProfile($userProfile,$this->session->userdata('userId'));
         
         if($result > 0)
         {
             if($oldSkills != NULL){
-                $previuosSkills = $this->user_model->getUserSkills($userId);
+                $previuosSkills = $this->user_model->getUserSkills($this->session->userdata('userId'));
                 // var_dump($previuosSkills);
                 // var_dump($oldSkills);die();
                 foreach($previuosSkills as $key=>$skill){
@@ -547,12 +547,12 @@ class User extends BaseController
                     }
                 }                
             }else{
-                $this->user_model->deleteUserSkills( $userId );
+                $this->user_model->deleteUserSkills( $this->session->userdata('userId') );
             }
 
             if($skills != NULL){
                 foreach($skills as $skill){
-                    $userSkill = array('user_id'=>$userId , 'text'=> $skill);
+                    $userSkill = array('user_id'=>$this->session->userdata('userId') , 'text'=> $skill);
                     if($skill != "")
                         $this->user_model->addUserSkill($userSkill);
                 }
