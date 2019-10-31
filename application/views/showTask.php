@@ -9,6 +9,7 @@ $employee_id = '';
 $groupName = '';
 $createdBy = '';
 $finish_detail = '';
+$createdDtm = '';
 
 if (!empty($taskInfo)) {
     foreach ($taskInfo as $uf) {
@@ -21,6 +22,7 @@ if (!empty($taskInfo)) {
         $groupName = $uf->groupName;
         $createdBy = $uf->createdBy;
         $finish_detail = $uf->finish_detail;
+        $createdDtm = $uf->createdDtm;
     }
 }
 
@@ -96,7 +98,7 @@ if (!empty($taskInfo)) {
                                 <h2 class="section-title mb-2 h3">Task Links</h2>
                                 <p class="text-center text-muted h5"></p>
                                 <div class="row mt-5">
-                                    <?php foreach ($tasks_links as $key => $link) { ?>
+                                    <?php foreach ($task_links as $key => $link) { ?>
                                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                                             <div class="card">
                                                 <div class="card-block block-1">
@@ -113,13 +115,13 @@ if (!empty($taskInfo)) {
                         <!-- /Links section -->
 
                         <!-- files section -->
-                        <!-- <section class="files padding-lg" style="<?php if (count($tasks_images) == 0) echo 'visibility: hidden' ?>">
+                        <!-- <section class="files padding-lg" style="<?php if (count($task_images) == 0) echo 'visibility: hidden' ?>">
                             <div class="container">
                                 <div class="row heading heading-icon">
                                     <h2>Task Files</h2>
                                 </div>
                                 <ul class="row">
-                                    <?php foreach ($tasks_images as $image) { ?>
+                                    <?php foreach ($task_images as $image) { ?>
                                         <li class="col-12 col-md-6 col-lg-3">
                                             <div class="cnt-block equal-hight" style="height: 349px;">
                                                 <figure><img src="<?php
@@ -144,9 +146,9 @@ if (!empty($taskInfo)) {
                         </section> -->
                         <!-- /files section -->
 
-                        <div class="box-footer" style="<?php if (count($tasks_images) == 0) echo 'visibility: hidden' ?>">
+                        <div class="box-footer" style="<?php if (count($task_images) == 0) echo 'visibility: hidden' ?>">
                             <ul class="mailbox-attachments clearfix">
-                                <?php foreach ($tasks_images as $image) { ?>
+                                <?php foreach ($task_images as $image) { ?>
                                     <li>
                                      <?php
                                         $ext = pathinfo($image->name, PATHINFO_EXTENSION);
@@ -173,6 +175,56 @@ if (!empty($taskInfo)) {
                                 <?php } ?>
                             </ul>
                         </div>
+
+                        <ul class="timeline">
+                            <!-- timeline time label -->
+                            <li class="time-label">
+                                <span class="bg-red">
+                                <?php echo $createdDtm;?>
+                                </span>
+                            </li>
+                            <!-- /.timeline-label -->
+                            
+                            <?php foreach ($task_stages as $stage) { ?>
+                                <!-- timeline item -->
+                                <li>
+                                <i class="fa fa-user bg-aqua"></i>
+
+                                <div class="timeline-item">                    
+                                    <small class="time"><i class="fa fa-clock-o"></i>
+                                        <?php 
+                                            $since = strtotime(date("H:i:s")) - strtotime($stage->create_date);
+                                            $days = floor($since / 86400);
+                                            $hours = floor($since / 3600);
+                                            if($hours > 24 )
+                                            $hours = $hours % 24;
+                                            $minutes = floor(($since / 60) % 60);                            
+                                            if($days != 0) echo $days.' days ';
+                                            else{
+                                            if($hours != 0) echo $hours.':';
+                                            if($hours == 0)
+                                                echo $minutes.' mins ';
+                                            else echo $minutes.' hours';
+                                            }
+                                        ?> ago</small>
+
+                                    <h3 class="timeline-header no-border"><a href="<?php echo base_url() . 'log-history/' . $stage->user_id; ?>"><?php echo $user_list[$stage->user_id];?></a> <?php echo $stage->description?></h3>
+                                </div>
+                                </li>
+                                <!-- END timeline item -->
+                            <?php }?>
+                            
+                            <!-- timeline time label -->
+                            <li class="time-label">
+                                <span class="bg-green">
+                                    <?php echo $createdDtm;?>
+                                </span>
+                            </li>
+                            <!-- /.timeline-label -->            
+                            <li>
+                            <i class="fa fa-clock-o bg-gray"></i>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

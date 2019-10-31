@@ -607,7 +607,7 @@ class User_model extends CI_Model
     /**
      * This function is used to get task prioritys
      */
-    function getTasksPrioritys()
+    function getTaskPrioritys()
     {
         $this->db->select('*');
         $this->db->from('tbl_tasks_prioritys');
@@ -619,7 +619,7 @@ class User_model extends CI_Model
     /**
      * This function is used to get task situations
      */
-    function getTasksSituations()
+    function getTaskSituations()
     {
         $this->db->select('*');
         $this->db->from('tbl_tasks_situations');
@@ -631,7 +631,7 @@ class User_model extends CI_Model
     /**
      * This function is used to get task Images
      */
-    function getTasksImages($taskId)
+    function getTaskImages($taskId)
     {
         $this->db->select('*');
         $this->db->from('task_files');
@@ -644,11 +644,50 @@ class User_model extends CI_Model
     /**
      * This function is used to get task Links
      */
-    function getTasksLinks($taskId)
+    function getTaskLinks($taskId)
     {
         $this->db->select('*');
         $this->db->from('links');
         $this->db->where('task_id', $taskId);
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+
+    /**
+     * This function is used to get task Links
+     */
+    function getUserSkills($userId)
+    {
+        $this->db->select('*');
+        $this->db->from('skills');
+        $this->db->where('user_id', $userId);
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+
+    /**
+     * This function is used to get task stages
+     */
+    function getTaskStages($taskId)
+    {
+        $this->db->select('*');
+        $this->db->from('task_stage');
+        $this->db->where('task_id', $taskId);
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+
+    /**
+     * This function is used to get user data
+     */
+    function getUserData($userId)
+    {
+        $this->db->select('*');
+        $this->db->from('user_data');
+        $this->db->where('user_id', $userId);
         $query = $this->db->get();
         
         return $query->result();
@@ -677,6 +716,21 @@ class User_model extends CI_Model
     {
         $this->db->trans_start();
         $this->db->insert('links', $taskLink);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
+
+    /**
+     * This function is used to add user skill
+     */
+    function addUserSkill($userSkill)
+    {
+        $this->db->trans_start();
+        $this->db->insert('skills', $userSkill);
         
         $insert_id = $this->db->insert_id();
         
@@ -766,6 +820,33 @@ class User_model extends CI_Model
     }
 
     /**
+     * This function is used to edit user profile
+     */
+    function editProfile($userProfile, $userId)
+    {
+        $this->db->select('*');
+        $this->db->from('user_data');
+        $this->db->where('user_id', $userId);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0){
+            $this->db->where('user_id', $userId);
+            $this->db->update('user_data', $userProfile);
+            
+            return $this->db->affected_rows();
+        }else{
+            $this->db->trans_start();
+            $this->db->insert('user_data', $userProfile);
+            
+            $insert_id = $this->db->insert_id();
+            
+            $this->db->trans_complete();
+            
+            return $insert_id;
+        }        
+    }
+
+    /**
      * This function is used to edit link
      */
     function updateLink($Link, $linkId)
@@ -774,7 +855,7 @@ class User_model extends CI_Model
         $this->db->update('links', $Link);
         
         return $this->db->affected_rows();
-    }
+    }    
 
     /**
      * This function is used to delete link
@@ -803,6 +884,37 @@ class User_model extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->delete('task_files');
+        return TRUE;
+    }
+
+    /**
+     * This function is used to edit skill
+     */
+    function updateSkill($skill, $skillId)
+    {
+        $this->db->where('id', $skillId);
+        $this->db->update('skills', $skill);
+        
+        return $this->db->affected_rows();
+    }
+
+    /**
+     * This function is used to delete skill
+     */
+    function deleteSkill($skillId)
+    {
+        $this->db->where('id', $skillId);
+        $this->db->delete('skills');
+        return TRUE;        
+    }
+
+    /**
+     * This function is used to delete all user skills
+     */
+    function deleteUserSkills($userId)
+    {
+        $this->db->where('user_id', $userId);
+        $this->db->delete('skills');
         return TRUE;
     }
 
@@ -888,6 +1000,21 @@ class User_model extends CI_Model
         $this->db->update('tbl_task', $taskInfo);
         
         return $this->db->affected_rows();
+    }
+
+    /**
+     * This function is used to add stage for task
+     */
+    function saveStage($stageInfo)
+    {
+        $this->db->trans_start();
+        $this->db->insert('task_stage', $stageInfo);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
     }
 
     /**

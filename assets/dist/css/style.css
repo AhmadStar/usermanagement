@@ -45,6 +45,13 @@ table.table-bordered.dataTable .logs-hover tr:hover {
   border-radius: 50%;
 }
 
+.profile-user-img{
+  margin: 0 auto;
+    width: 100px;
+    padding: 3px;
+    border: 3px solid #d2d6de;
+}
+
 
 .user-picture{    
   background-color: #222d32;

@@ -152,8 +152,11 @@
                             <i class="fa fa-eye"></i>
                           </a>
                           <?php if ($role !== ROLE_CLIENT) { ?>
-                          <a class="btn btn-sm btn-success finishtask" href="#" data-taskid="<?php echo $record->id; ?>" title="End Task">
+                            <a class="btn btn-sm btn-success finishtask" href="#" data-taskid="<?php echo $record->id; ?>" title="End Task">
                             <i class="fa fa-check-circle"></i>
+                          </a>
+                          <a class="btn btn-sm btn-warning " id="addstage" href="#" data-taskid="<?php echo $record->id; ?>" title="add stage">
+                            <i class="fa fa-gavel"></i>
                           </a>
                           <?php }?>
                         </td>
@@ -182,7 +185,7 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title w-100" id="myModalLabel">ADD Note Before Finish Task<span id="bonus_user_name"></span></h4>
+                <h4 class="modal-title w-100" id="myModalLabel">ADD Note Before Finish Task</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -198,6 +201,36 @@
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" id="finish_task" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Full Height Modal -->
+
+<!-- Full Height Modal -->
+<div class="modal fade" id="task_stage_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-full-height" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">ADD a stage for task</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="md-form">
+                    <input type="hidden" class="form-control" id="taskid">
+                </div>
+                <div class="md-form">
+                    <input type="text" class="form-control" id="stageDetail">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="save_stage" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

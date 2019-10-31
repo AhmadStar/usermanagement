@@ -181,10 +181,10 @@ class Manager extends BaseController
         }
         
         $data['taskInfo'] = $this->user_model->getTaskInfoEdit($taskId);        
-        $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
-        $data['tasks_situations'] = $this->user_model->getTasksSituations();
-        $data['tasks_images'] = $this->user_model->getTasksImages($taskId);
-        $data['tasks_links'] = $this->user_model->getTasksLinks($taskId);
+        $data['tasks_prioritys'] = $this->user_model->getTaskPrioritys();
+        $data['tasks_situations'] = $this->user_model->getTaskSituations();
+        $data['tasks_images'] = $this->user_model->getTaskImages($taskId);
+        $data['tasks_links'] = $this->user_model->getTaskLinks($taskId);
 
         $data['groups'] = $this->user_model->getUserGroups();
         

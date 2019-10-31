@@ -39,7 +39,7 @@ if (!empty($taskInfo)) {
                     <!-- /.box-header -->
                     <!-- form start -->
                     <?php $this->load->helper("form"); ?>
-                    <form role="form" id="addNewTask" action="<?php echo base_url() ?>editTask" method="post" role="form" enctype="multipart/form-data">
+                    <form role="form" id="editTask" action="<?php echo base_url() ?>editTask" method="post" enctype="multipart/form-data">
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-4">

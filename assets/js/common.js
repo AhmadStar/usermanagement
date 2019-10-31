@@ -105,6 +105,33 @@ jQuery(document).ready(function(){
 		});
 	});
 
+	jQuery(document).on("click", "#addstage", function(){
+		var taskid = $(this).data("taskid")
+	
+	$("#task_stage_modal").on("shown.bs.modal", function () {			
+		$("#taskid").val(taskid);
+		}).modal('show');			
+	});
+
+	jQuery(document).on("click", "#save_stage", function(){
+		var stageDetail = $('#stageDetail').val(),
+		taskId = $('#taskid').val();		
+		
+		hitURL = baseURL + "saveStage",
+		jQuery.ajax({
+		type : "POST",
+		dataType : "json",
+		url : hitURL,
+		data : {taskId : taskId , stageDetail : stageDetail } 
+		}).done(function(data){
+			console.log(data);
+			if(data.status = true) { alert("successfully stage added "); }
+			else if(data.status = false) { alert("Failed add stage"); }
+			else { alert("Access denied..!"); }
+			location.reload(true);
+		});
+	});
+
 	jQuery(document).on("click", ".addbonus", function(){
 			var userId = $(this).data("userid"),
 			userName = $(this).data("name")

@@ -58,6 +58,7 @@ $route['pageNotFound'] = "user/pageNotFound";
 $route['checkEmailExists'] = "user/checkEmailExists";
 $route['checkUsernameExists'] = "user/checkUsernameExists";
 $route['endTask'] = "user/endTask";
+$route['saveStage'] = "user/saveStage";
 $route['showTask/(:num)'] = "user/showTask/$1";
 $route['tasks'] = "user/tasks";
 $route['groupTasks/(:any)'] = "user/grouptasks/$1";
@@ -75,6 +76,8 @@ $route['total'] = "user/total";
 $route['employee_list'] = "user/employee_list";
 $route['getMonthHours'] = "user/getMonthHours";
 $route['getUserMonthHours'] = "user/getUserMonthHours";
+$route['profile'] = "user/profile";
+$route['editProfile'] = "user/editProfile";
 
 /*********** LOGIN CONTROLLER ROUTES *******************/
 $route['forgotPassword'] = "login/forgotPassword";

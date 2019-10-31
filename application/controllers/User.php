@@ -319,6 +319,29 @@ class User extends BaseController
         }
     }
 
+
+    /**
+     * This function is used to save Stage of tasks.
+     */
+    function saveStage()
+    {
+        $taskId = $this->input->post('taskId');
+        $stageDetail = $this->input->post('stageDetail');
+
+        $stageInfo = array('description' => $stageDetail ,
+                        'user_id' => $this->session->userdata('userId') ,
+                        'task_id' => $taskId);
+        
+        $result = $this->user_model->saveStage($stageInfo);
+        
+        if ($result > 0) {
+            echo(json_encode(array('status'=>TRUE)));
+            }
+        else {
+            echo(json_encode(array('status'=>FALSE)));
+        }
+    }
+
     /**
      * This function is used to show task
      */
@@ -331,8 +354,9 @@ class User extends BaseController
         
         $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);
         $data['user_list']=$this->_employee_list();
-        $data['tasks_images'] = $this->user_model->getTasksImages($taskId);
-        $data['tasks_links'] = $this->user_model->getTasksLinks($taskId);
+        $data['task_images'] = $this->user_model->getTaskImages($taskId);
+        $data['task_links'] = $this->user_model->getTaskLinks($taskId);
+        $data['task_stages'] = $this->user_model->getTasksStages($taskId);
         
         $this->global['pageTitle'] = 'DAS : Show Task';
         
@@ -469,6 +493,78 @@ class User extends BaseController
         
         //output to json format
             echo json_encode($data);
+    }
+
+    /**
+     * This function used to user profile
+     */
+    public function profile()
+    {
+        $data['themes'] = '';
+        $this->global['pageTitle'] = 'DAS : User Profile';
+        $picture = $this->user_model->get_picture($this->session->userdata('userId'));
+        $data['userData'] = $this->user_model->getUserData($this->session->userdata('userId'));
+        $data['user_skills'] = $this->user_model->getUserSkills($this->session->userdata('userId'));
+        $data['picture'] = $picture->picture;
+        
+        $this->loadViews("profile", $this->global, $data, NULL);
+    }
+
+    /**
+     * This function is used to edit user profile
+     */
+    function editProfile()
+    {
+        $userId = $this->input->post('userId');
+        $education = $this->input->post('education');        
+        $location = $this->input->post('location');
+        $experience = $this->input->post('experience');
+        $notes = $this->input->post('notes');
+        $skills = $this->input->post('skills');
+        $oldSkills = $this->input->post('oldSkills');
+
+        // var_dump($this->input->post());die();
+
+        
+        $userProfile = array('education'=>$education, 'location'=>$location, 'experience'=>$experience, 
+                'notes'=> $notes , 'user_id' => $this->session->userdata('userId'));
+                            
+        $result = $this->user_model->editProfile($userProfile,$userId);
+        
+        if($result > 0)
+        {
+            if($oldSkills != NULL){
+                $previuosSkills = $this->user_model->getUserSkills($userId);
+                // var_dump($previuosSkills);
+                // var_dump($oldSkills);die();
+                foreach($previuosSkills as $key=>$skill){
+                    if (array_key_exists($skill->id,$oldSkills))
+                    {                                                  
+                        $editedSkill = array('text'=> $oldSkills[$skill->id]);
+                        $this->user_model->updateSkill( $editedSkill, $skill->id);                        
+                    }else{
+                        $this->user_model->deleteSkill( $skill->id );
+                    }
+                }                
+            }else{
+                $this->user_model->deleteUserSkills( $userId );
+            }
+
+            if($skills != NULL){
+                foreach($skills as $skill){
+                    $userSkill = array('user_id'=>$userId , 'text'=> $skill);
+                    if($skill != "")
+                        $this->user_model->addUserSkill($userSkill);
+                }
+            }
+                        
+            $this->session->set_flashdata('success', 'Profile Edited Successfully');
+        }
+        else
+        {
+            $this->session->set_flashdata('error', 'Profile editing failed');
+        }
+            redirect('profile');
     }
 
     /**

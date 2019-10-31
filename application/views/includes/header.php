@@ -133,21 +133,32 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   <li><!-- Task item -->
                     <a href="<?php echo base_url() . 'showTask/' . $task->id; ?>">
                       <h3>
-                        <?php echo $task->title?>
-                        <small class="pull-right">since
+                      <span class="label label-<?php
+                        if ($task->priorityId == '1')
+                          echo 'danger';
+                        else if ($task->priorityId == '2')
+                          echo 'warning';
+                        else if ($task->priorityId == '3')
+                          echo 'info'
+                          ?>">
+                          <?php echo $task->title?>                                                
+                        </span>
+                        <small class="pull-right"><i class="fa fa-clock-o"></i>
                           <?php 
                             $since = strtotime(date("H:i:s")) - strtotime($task->createdDtm);
                             $days = floor($since / 86400);
                             $hours = floor($since / 3600);
                             if($hours > 24 )
                               $hours = $hours % 24;
-                            $minutes = floor(($since / 60) % 60);
-                            $seconds = $since % 60;
+                            $minutes = floor(($since / 60) % 60);                            
                             if($days != 0) echo $days.' days ';
-                            if($hours != 0) echo $hours.':';
-                            if($minutes != 0) echo $minutes.':';
-                            if($seconds != 0) echo $seconds;                            
-                        ?></small>
+                            else{
+                              if($hours != 0) echo $hours.':';
+                              if($hours == 0)
+                                echo $minutes.' mins ';
+                              else echo $minutes.' hours';
+                            }
+                        ?> ago</small>
                       </h3>
                     </a>
                   </li>
@@ -206,7 +217,10 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                       </a>
                     </div>
                     <div class="col-xs-6 text-center">
-                      <a href="#">Profile</a>
+                        <a href="<?php echo base_url(); ?>profile">
+                          <i class="fa fa-user"></i>
+                          <span>profile</span>
+                        </a>
                     </div>
                   </div>
                   <!-- /.row -->
