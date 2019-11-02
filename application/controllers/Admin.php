@@ -559,13 +559,14 @@ class Admin extends BaseController
     }
 
 
-          /**
+    /**
    * user_bonus()
    * returns a list of all users bonus .
    */ 
   public function user_bonus()
   {
     $bonuses = $this->user_model->get_bonus();    
+    $bonus_list[] = '';
     foreach ($bonuses as $bonus) 
     {
       $bonus_list[$bonus->user_id]=  html_escape($bonus->stars);

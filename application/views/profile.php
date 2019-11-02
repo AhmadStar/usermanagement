@@ -290,7 +290,7 @@
                                         <div class="col-sm-10" id="repeater">
                                             <div class="col-md-12">
                                                 <div class="repeater-heading" align="right">
-                                                    <button type="button" class="btn btn-primary repeater-add-btn">Add More Links</button>
+                                                    <button type="button" class="btn btn-primary repeater-add-btn">Add More Skills</button>
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div>

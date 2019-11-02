@@ -356,7 +356,7 @@ class User extends BaseController
         $data['user_list']=$this->_employee_list();
         $data['task_images'] = $this->user_model->getTaskImages($taskId);
         $data['task_links'] = $this->user_model->getTaskLinks($taskId);
-        $data['task_stages'] = $this->user_model->getTasksStages($taskId);
+        $data['task_stages'] = $this->user_model->getTaskStages($taskId);
         
         $this->global['pageTitle'] = 'DAS : Show Task';
         
