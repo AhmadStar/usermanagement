@@ -92,6 +92,7 @@ class Client extends BaseController
   public function employee_list()
   {
     $employees = $this->employee_model->get_employees();
+    $employee_list[] = '';
     foreach ($employees as $employee) 
     {
       $employee_list[$employee->userId]=  html_escape($employee->name);
@@ -105,7 +106,8 @@ class Client extends BaseController
    */ 
   public function group_list()
   {
-    $groups = $this->user_model->get_groups();    
+    $groups = $this->user_model->get_groups();
+    $group_list[] = '';
     foreach ($groups as $group) 
     {
       $group_list[$group->id]=  html_escape($group->name);

@@ -599,8 +599,11 @@ class User_model extends CI_Model
         $this->db->select('id , title , description , date');
         $this->db->from('bonus');
         $this->db->where('user_id', $user_id);
+        $now = new \DateTime('now');
+		$month = $now->format('m');		
+        $this->db->where('month(bonus.date)', $month);
         $query = $this->db->get();
-        $result = $query->result();        
+        $result = $query->result();
         return $result;
     }
 

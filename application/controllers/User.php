@@ -630,13 +630,14 @@ class User extends BaseController
   }
 
 
-        /**
+    /**
    * group_list()
    * returns a list of group.
    */ 
   public function group_list()
   {
-    $groups = $this->user_model->get_groups();    
+    $groups = $this->user_model->get_groups();
+    $group_list[] = '';
     foreach ($groups as $group) 
     {
       $group_list[$group->id]=  html_escape($group->name);

@@ -464,9 +464,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                 <i class="fa fa-archive"></i>
                 <span>Today Log Records</span>
               </a>
-            </li>
-          <?php
-          } ?>
+            </li>          
 
           <li class="treeview">
             <a href="<?php echo base_url(); ?>log-history">
@@ -505,6 +503,8 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
               ?>
             </ul>
           </li>
+          <?php
+          } ?>
 
         </ul>
       </section>
