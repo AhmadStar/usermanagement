@@ -113,39 +113,8 @@ if (!empty($taskInfo)) {
                             </div>
                         </section>
                         <!-- /Links section -->
-
+                                                                        
                         <!-- files section -->
-                        <!-- <section class="files padding-lg" style="<?php if (count($task_images) == 0) echo 'visibility: hidden' ?>">
-                            <div class="container">
-                                <div class="row heading heading-icon">
-                                    <h2>Task Files</h2>
-                                </div>
-                                <ul class="row">
-                                    <?php foreach ($task_images as $image) { ?>
-                                        <li class="col-12 col-md-6 col-lg-3">
-                                            <div class="cnt-block equal-hight" style="height: 349px;">
-                                                <figure><img src="<?php
-                                                                        $ext = pathinfo($image->name, PATHINFO_EXTENSION);
-                                                                        if ($ext == 'pdf')
-                                                                            echo base_url() . 'uploads/' . 'pdf.png';
-                                                                        else
-                                                                            echo base_url() . 'uploads/' . $image->name;
-                                                                        ?>" class="img-responsive" alt=""></figure>
-                                                <ul class="follow-us clearfix">
-                                                    <li>
-                                                        <a download="<?php echo $image->name ?>" href="<?php echo base_url() . 'uploads/' . $image->name; ?>" data-rel="lightbox" class="expand">
-                                                            <i class="fa fa-download"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    <?php } ?>
-                                </ul>
-                            </div>
-                        </section> -->
-                        <!-- /files section -->
-
                         <div class="box-footer" style="<?php if (count($task_images) == 0) echo 'visibility: hidden' ?>">
                             <ul class="mailbox-attachments clearfix">
                                 <?php foreach ($task_images as $image) { ?>
@@ -157,24 +126,25 @@ if (!empty($taskInfo)) {
                                         <?php }if ($ext == 'docx'){?>
                                              <span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span>
                                         <?php }if($ext == 'png' || $ext == 'jpeg' || $ext == 'jpg'){?>
-                                             <span class="mailbox-attachment-icon has-img"><img src="<?php echo base_url() . 'uploads/' . $image->name; ?>" alt="Attachment"></span>
+                                             <span class="mailbox-attachment-icon has-img"><img src="<?php echo base_url().$image->name; ?>" alt="Attachment"></span>
                                         <?php }?>     
 
                                         <div class="mailbox-attachment-info">
-                                            <a href="<?php echo base_url() . 'uploads/' . $image->name; ?>" target="blank" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> <?php echo $image->name; ?></a>
+                                            <a href="<?php echo base_url().$image->name; ?>" target="blank" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> <?php echo $image->name; ?></a>
                                             <span class="mailbox-attachment-size">
                                                 <!-- <?php
                                                     $this->load->helper('file');
-                                                    $file_path = __DIR__ . '/uploads/'.$image->name;
+                                                    $file_path =__DIR__.$image->name;
                                                     $size      = filesize($file_path);
                                                 ?>                                                 -->
-                                                <a download="<?php echo $image->name ?>" href="<?php echo base_url() . 'uploads/' . $image->name; ?>" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
+                                                <a download="<?php echo $image->name ?>" href="<?php echo base_url().$image->name; ?>" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
                                             </span>
                                         </div>
                                     </li>
                                 <?php } ?>
                             </ul>
                         </div>
+                        <!-- /files section -->
 
                         <ul class="timeline">
                             <!-- timeline time label -->
@@ -208,7 +178,20 @@ if (!empty($taskInfo)) {
                                             }
                                         ?> ago</small>
 
-                                    <h3 class="timeline-header no-border"><a href="<?php echo base_url() . 'log-history/' . $stage->user_id; ?>"><?php echo $user_list[$stage->user_id];?></a> <?php echo $stage->description?></h3>
+                                    <h3 class="timeline-header no-border">
+                                        <a href="<?php echo base_url() . 'log-history/' . $stage->user_id; ?>">
+                                        <?php echo $user_list[$stage->user_id];?></a> <?php echo $stage->description?>
+                                    </h3>                                    
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                        <?php foreach ($stage->files as $key => $file) { ?>
+                                            <div class="col-sm-3">
+                                                <img class="img-responsive" src="<?php echo base_url(). $file; ?>" alt="Photo">                                                                                        
+                                            </div>
+                                        <?php }?>
+                                        </div>
+                                        <!-- /.row -->
+                                    </div>                                   
                                 </div>
                                 </li>
                                 <!-- END timeline item -->

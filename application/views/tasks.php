@@ -235,12 +235,17 @@
                 </button>
             </div>
             <div class="modal-body">
+            <form role="form" action="" name="devis" id="devis" method="post" enctype="multipart/form-data">
                 <div class="md-form">
                     <input type="hidden" class="form-control" id="taskid">
                 </div>
                 <div class="md-form">
                     <input type="text" class="form-control" id="stageDetail">
                 </div>
+                <div class="md-form">
+                    <input type="file" id="files" name="files[]" multiple="multiple" accept="image/*" />
+                </div>
+            </form>
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

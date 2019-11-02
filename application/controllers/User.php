@@ -146,12 +146,14 @@ class User extends BaseController
 
             if(empty($password))
             {
-                if($_FILES['picture']['tmp_name']){
-                    $path='uploads/';
-                    $config['upload_path']          = './uploads/';
+                if($_FILES['picture']['tmp_name']){                   
+                    $config['upload_path']  = 'uploads/user_profile/';
+                    if(!file_exists($config['upload_path'])){
+                        mkdir($config['upload_path'],0777);
+                    }
                     $config['file_name']            = $userId.'_profile_picture';
-                    $config['allowed_types']        = 'gif|jpg|png|pdf|doc';
-                    $config['overwrite']            =TRUE;
+                    $config['allowed_types']        = 'jpeg|jpg|png';
+                    $config['overwrite']            =TRUE;                 
                     $config['max_size']             = 500;
                     $config['max_width']            = 1024;
                     $config['max_height']           = 768;
@@ -166,9 +168,9 @@ class User extends BaseController
                     else
                     {
                         $data = array('upload_data' => $this->upload->data());
-                        $picture = $path.''.$data['upload_data']['file_name'];
+                        $filename = $data['upload_data']['file_name'];
                         $userInfo = array('email'=>$email,'name'=>$name,
-                            'mobile'=>$mobile, 'status'=>1, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $picture);                      
+                            'mobile'=>$mobile, 'status'=>1, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $config['upload_path'].$filename);                      
                     }
                 }else{
                     $userInfo = array('email'=>$email,'name'=>$name,
@@ -187,11 +189,13 @@ class User extends BaseController
                 else
                 {
                 //upload picture
-                if($_FILES['picture']['tmp_name']){
-                    $path='uploads/';
-                    $config['upload_path']          = './uploads/';
+                if($_FILES['picture']['tmp_name']){                    
+                    $config['upload_path']  = 'uploads/user_profile/';
+                    if(!file_exists($config['upload_path'])){
+                        mkdir($config['upload_path'],0777);
+                    }
                     $config['file_name']            = $userId.'_profile_picture';
-                    $config['allowed_types']        = 'gif|jpg|png|pdf|doc';
+                    $config['allowed_types']        = 'jpeg|jpg|png';
                     $config['overwrite']            =TRUE;
                     $config['max_size']             = 500;
                     $config['max_width']            = 1024;
@@ -206,11 +210,11 @@ class User extends BaseController
                     }
                     else
                     {
-                        $data = array('upload_data' => $this->upload->data());
-                        $picture = $path.''.$data['upload_data']['file_name'];
+                        $data = array('upload_data' => $this->upload->data());                        
+                        $filename = $data['upload_data']['file_name'];
                         $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password),
                         'name'=>ucwords($name), 'mobile'=>$mobile,'status'=>1, 'updatedBy'=>$this->vendorId, 
-                        'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $picture);                        
+                        'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $config['upload_path'].$filename);                        
                     }
                 }else{
                     $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password),
@@ -329,15 +333,50 @@ class User extends BaseController
         $stageDetail = $this->input->post('stageDetail');
 
         $stageInfo = array('description' => $stageDetail ,
-                        'user_id' => $this->session->userdata('userId') ,
-                        'task_id' => $taskId);
+                           'user_id' => $this->session->userdata('userId') ,
+                           'task_id' => $taskId);
         
         $result = $this->user_model->saveStage($stageInfo);
         
-        if ($result > 0) {
-            echo(json_encode(array('status'=>TRUE)));
+        if($result > 0 ){
+            // Count total files
+            $countfiles = count($_FILES['files']['name']);
+            // Looping all files            
+            for ($i = 0; $i < $countfiles; $i++) {
+
+                if (!empty($_FILES['files']['name'][$i])) {
+
+                    // Define new $_FILES array - $_FILES['file']                    
+                    $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+                    $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+                    $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                    $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+                    $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+
+                    // Set preference
+                    $config['upload_path']  = 'uploads/task'.$taskId.'_stage_files/';
+                    if(!file_exists($config['upload_path'])){
+                        mkdir($config['upload_path'],0777);
+                    }
+                    $config['allowed_types'] = 'jpg|jpeg|png|gif|txt|pdf';
+                    $config['max_size'] = '5000'; // max_size in kb
+                    $config['file_name'] = $taskId . 'file' . $i;
+
+                    //Load upload library
+                    $this->load->library('upload', $config);
+                    // File upload
+                    if ($this->upload->do_upload('file')) {
+                        // Get data about the file
+                        $uploadData = $this->upload->data();                        
+                        $stageFile = array('stage_id' => $result, 'name' => $config['upload_path'].$uploadData['file_name']);
+                        $this->user_model->addStageFiles($stageFile);
+                    } else {
+                            // $error = array('error' => $this->upload->display_errors());
+                    }
+                }
             }
-        else {
+            echo(json_encode(array('status'=>TRUE)));
+        }else{
             echo(json_encode(array('status'=>FALSE)));
         }
     }
@@ -418,7 +457,7 @@ class User extends BaseController
     }
 
     /**
-     * This function is used to show task of group
+     * This function is used to show tasks of group
      */
     function grouptasks($group = NULL)
     {

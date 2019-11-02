@@ -127,7 +127,10 @@ class Manager extends BaseController
                         $_FILES['file']['size'] = $_FILES['files']['size'][$i];
 
                         // Set preference
-                        $config['upload_path']  = './uploads/';
+                        $config['upload_path']  = 'uploads/task'.$result.'_files/';
+                        if(!file_exists($config['upload_path'])){
+                            mkdir($config['upload_path'],0777);
+                        }
                         $config['allowed_types'] = 'jpg|jpeg|png|gif|txt|pdf';
                         $config['max_size'] = '5000'; // max_size in kb
                         $config['file_name'] = $result . 'file' . $i;
@@ -140,7 +143,7 @@ class Manager extends BaseController
                             // Get data about the file
                             $uploadData = $this->upload->data();
                             $filename = $uploadData['file_name'];
-                            $taskFile = array('task_id' => $result, 'name' => $filename);
+                            $taskFile = array('task_id' => $result, 'name' => $config['upload_path'].$filename);
                             $linkresult = $this->user_model->addTaskFiles($taskFile);
                         } else { {
                                 $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
@@ -260,8 +263,11 @@ class Manager extends BaseController
                         $_FILES['file']['error'] = $_FILES['files']['error'][$i];
                         $_FILES['file']['size'] = $_FILES['files']['size'][$i];
 
-                        // Set preference
-                        $config['upload_path']  = './uploads/';
+                        // Set preference                        
+                        $config['upload_path']  = 'uploads/task'.$taskId.'_files/';
+                        if(!file_exists($config['upload_path'])){
+                            mkdir($config['upload_path'],0777);
+                        }
                         $config['allowed_types'] = 'jpg|jpeg|png|gif|txt|pdf';
                         $config['max_size'] = '5000'; // max_size in kb
                         $config['file_name'] = $taskId . 'file' . $i;
@@ -274,7 +280,7 @@ class Manager extends BaseController
                             // Get data about the file
                             $uploadData = $this->upload->data();
                             $filename = $uploadData['file_name'];
-                            $taskFile = array('task_id' => $taskId, 'name' => $filename);
+                            $taskFile = array('task_id' => $taskId, 'name' => $config['upload_path'].$filename);
                             $linkresult = $this->user_model->addTaskFiles($taskFile);
                         } else { {
                                 $this->form_validation->set_error_delimiters('<p class="error">', '</p>');

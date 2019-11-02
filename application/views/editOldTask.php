@@ -114,7 +114,7 @@ if (!empty($taskInfo)) {
                                                 <li id="<?php echo $image->id ?>" style="float:left; width: 33.33333%; padding: 5px;">
                                                     <a href="#" class="remove_picture" style="float: none" title="Remove the selected picture">&times;</a>
                                                     <div class="thumbnail" style="width: 120px; height: 140px;">
-                                                        <img src="<?php echo base_url() . 'uploads/' . $image->name; ?>" />
+                                                        <img src="<?php echo base_url().$image->name; ?>" />
                                                     </div>
                                                 </li>
                                             <?php } ?>

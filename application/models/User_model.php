@@ -679,8 +679,36 @@ class User_model extends CI_Model
         $this->db->from('task_stage');
         $this->db->where('task_id', $taskId);
         $query = $this->db->get();
+        $result = $query->result();
+
+        // to count the work hout for every day or record
+        foreach ($result as $key => $stage) {
+			$item = new stdClass();
+            $item->id = $stage->id;
+            $item->user_id = $stage->user_id;
+			$item->description = $stage->description;
+            $item->create_date = $stage->create_date;
+            $item->task_id = $stage->task_id;
+            // invoke to get the file of stage
+                $this->db->select('*');
+                $this->db->from('stage_files');
+                $this->db->where('stage_id', $stage->id);
+                $query1 = $this->db->get();
+                $result1 = $query1->result();
+                $files = array();
+                if (count($result1) > 0){
+                    foreach ($result1 as $key1 => $file) {
+                        $files[$key1] = $file->name;
+                    }
+                }
+			$item->files = $files;
+			$result[$key] = $item;
+        }
         
-        return $query->result();
+        // var_dump($result);die();
+
+
+        return $result;
     }
 
     /**
@@ -749,6 +777,21 @@ class User_model extends CI_Model
     {
         $this->db->trans_start();
         $this->db->insert('task_files', $taskFile);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
+
+    /**
+     * This function is used to add files of stage
+     */
+    function addStageFiles($stageFile)
+    {
+        $this->db->trans_start();
+        $this->db->insert('stage_files', $stageFile);
         
         $insert_id = $this->db->insert_id();
         

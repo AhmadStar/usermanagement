@@ -114,15 +114,29 @@ jQuery(document).ready(function(){
 	});
 
 	jQuery(document).on("click", "#save_stage", function(){
-		var stageDetail = $('#stageDetail').val(),
-		taskId = $('#taskid').val();		
+		var stageDetail = $('#stageDetail').val();
+		taskId = $('#taskid').val();
+		hitURL = baseURL + "saveStage";
+		var fd = new FormData();
+		var ins = $('#files')[0].files.length;
+		for (var x = 0; x < ins; x++) {
+			fd.append("files[]", document.getElementById('files').files[x]);
+		}
+		// fd.append('files',files);
+		fd.append('taskId',taskId);
+		fd.append('stageDetail',stageDetail);
 		
-		hitURL = baseURL + "saveStage",
+		console.log(fd)
+		
+		
 		jQuery.ajax({
 		type : "POST",
-		dataType : "json",
+		// dataType : "json",
+		contentType: false,
+		processData: false,
 		url : hitURL,
-		data : {taskId : taskId , stageDetail : stageDetail } 
+		data : fd
+		// data : {taskId : taskId , stageDetail : stageDetail } 
 		}).done(function(data){
 			console.log(data);
 			if(data.status = true) { alert("successfully stage added "); }
