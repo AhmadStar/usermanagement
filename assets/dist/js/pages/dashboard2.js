@@ -323,5 +323,5 @@ $(function () {
   });
 
   //The Calender
-  $("#calendar").datepicker();
+  $("#calendar").datepicker('setDate', 'now');
 });

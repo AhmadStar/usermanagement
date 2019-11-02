@@ -51,7 +51,7 @@ class Manager extends BaseController
      */
     function addNewTask()
     {
-        $data['tasks_prioritys'] = $this->user_model->getTasksPrioritys();
+        $data['tasks_prioritys'] = $this->user_model->getTaskPrioritys();
         $data['user_list'] = $this->_user_list();
         $data['groups'] = $this->user_model->getUserGroups();
 
