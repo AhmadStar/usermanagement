@@ -347,6 +347,9 @@ class User_model extends CI_Model
         $this->db->select('*');
         $this->db->from('tbl_log as BaseTbl');
         $this->db->group_by('userId , userName , day(createdDtm)');
+        $now = new \DateTime('now');
+		$month = $now->format('m');		
+        $this->db->where('month(BaseTbl.createdDtm)', $month);
 
         if ($userId == NULL)
         {
@@ -398,6 +401,9 @@ class User_model extends CI_Model
         $this->db->select('*');        
         $this->db->from('tbl_log as BaseTbl');
         $this->db->group_by('userId , userName , day(createdDtm)');
+        $now = new \DateTime('now');
+		$month = $now->format('m');		
+        $this->db->where('month(BaseTbl.createdDtm)', $month);
 
         if ($userId == NULL)
         {
@@ -1177,6 +1183,9 @@ class User_model extends CI_Model
         if($userId != '')
             $this->db->where('userId', $userId);
         $this->db->group_by('userId , userName , day(createdDtm)');
+        $now = new \DateTime('now');
+		$month = $now->format('m');		
+        $this->db->where('month(BaseTbl.createdDtm)', $month);
         $query = $this->db->get();
         return $query->num_rows();
     }

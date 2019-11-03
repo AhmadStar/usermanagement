@@ -146,18 +146,20 @@ class User extends BaseController
 
             if(empty($password))
             {
-                if($_FILES['picture']['tmp_name']){                   
+                // var_dump('empty passs');die();
+                if($_FILES['picture']['tmp_name']){
                     $config['upload_path']  = 'uploads/user_profile/';
                     if(!file_exists($config['upload_path'])){
                         mkdir($config['upload_path'],0777);
                     }
                     $config['file_name']            = $userId.'_profile_picture';
                     $config['allowed_types']        = 'jpeg|jpg|png';
-                    $config['overwrite']            =TRUE;                 
+                    $config['overwrite']            = TRUE;                 
                     $config['max_size']             = 500;
                     $config['max_width']            = 1024;
                     $config['max_height']           = 768;
                     $this->load->library('upload', $config);
+                    $this->upload->overwrite = true;
                     if ( ! $this->upload->do_upload('picture'))
                     {                            
                         $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
@@ -201,6 +203,7 @@ class User extends BaseController
                     $config['max_width']            = 1024;
                     $config['max_height']           = 768;
                     $this->load->library('upload', $config);
+                    $this->upload->overwrite = true;
                     if ( ! $this->upload->do_upload('picture'))
                     {                            
                         $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
