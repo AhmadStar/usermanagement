@@ -721,11 +721,15 @@ class User_model extends CI_Model
      * This function is used to get user data
      */
     function getUserData($userId)
-    {
-        $this->db->select('*');
-        $this->db->from('user_data');
+    {        
+        $this->db->select('id, education, location, experience, notes, picture , name , role');
+        $this->db->from('tbl_users');
+        $this->db->join('user_data','tbl_users.userId = user_data.user_id');
+        $this->db->join('tbl_roles','tbl_roles.roleId = tbl_users.roleId');
         $this->db->where('user_id', $userId);
         $query = $this->db->get();
+
+        // var_dump($query->result());die();
         
         return $query->result();
     }

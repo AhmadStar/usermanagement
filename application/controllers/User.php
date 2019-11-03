@@ -543,11 +543,9 @@ class User extends BaseController
     public function profile()
     {
         $data['themes'] = '';
-        $this->global['pageTitle'] = 'DAS : User Profile';
-        $picture = $this->user_model->get_picture($this->session->userdata('userId'));
+        $this->global['pageTitle'] = 'DAS : User Profile';        
         $data['userData'] = $this->user_model->getUserData($this->session->userdata('userId'));
-        $data['user_skills'] = $this->user_model->getUserSkills($this->session->userdata('userId'));
-        $data['picture'] = $picture->picture;
+        $data['user_skills'] = $this->user_model->getUserSkills($this->session->userdata('userId'));        
         
         $this->loadViews("profile", $this->global, $data, NULL);
     }

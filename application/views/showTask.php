@@ -9,7 +9,7 @@ $employee_id = '';
 $groupName = '';
 $createdBy = '';
 $finish_detail = '';
-$createdDtm = '';
+// $createdDtm = '';
 
 if (!empty($taskInfo)) {
     foreach ($taskInfo as $uf) {
@@ -150,7 +150,11 @@ if (!empty($taskInfo)) {
                             <!-- timeline time label -->
                             <li class="time-label">
                                 <span class="bg-red">
-                                <?php echo $createdDtm;?>
+                                <?php
+                                echo date("N",strtotime($createdDtm)).' '.
+                                date("M",strtotime($createdDtm)).'. '.
+                                date("Y",strtotime($createdDtm));                                
+                                ?>
                                 </span>
                             </li>
                             <!-- /.timeline-label -->
@@ -199,8 +203,13 @@ if (!empty($taskInfo)) {
                             
                             <!-- timeline time label -->
                             <li class="time-label">
-                                <span class="bg-green">
-                                    <?php echo $createdDtm;?>
+                                <span class="bg-red">
+                                <?php
+                                $now = new \DateTime('now');
+                                echo $now->format('N').' '.
+                                $now->format('M').'. '.
+                                $now->format('Y');                                
+                                ?>
                                 </span>
                             </li>
                             <!-- /.timeline-label -->            

@@ -114,6 +114,7 @@ jQuery(document).ready(function(){
 	});
 
 	jQuery(document).on("click", "#save_stage", function(){
+		$("#overlay").fadeIn(1);
 		var stageDetail = $('#stageDetail').val();
 		taskId = $('#taskid').val();
 		hitURL = baseURL + "saveStage";
@@ -124,27 +125,28 @@ jQuery(document).ready(function(){
 		}
 		// fd.append('files',files);
 		fd.append('taskId',taskId);
-		fd.append('stageDetail',stageDetail);
-		
-		console.log(fd)
-		
-		
+		fd.append('stageDetail',stageDetail);			
+				
 		jQuery.ajax({
-		type : "POST",
-		// dataType : "json",
+		type : "POST",		
 		contentType: false,
 		processData: false,
 		url : hitURL,
-		data : fd
-		// data : {taskId : taskId , stageDetail : stageDetail } 
+		data : fd		
 		}).done(function(data){
-			console.log(data);
+			setTimeout(function(){
+				$("#overlay").fadeOut(1);
+			},500);
 			if(data.status = true) { alert("successfully stage added "); }
 			else if(data.status = false) { alert("Failed add stage"); }
-			else { alert("Access denied..!"); }
+			else { alert("Access denied..!"); }			
 			location.reload(true);
 		});
 	});
+
+	// $(document).ajaxSend(function() {
+	// 	$("#overlay").fadeIn(300);
+	// });
 
 	jQuery(document).on("click", ".addbonus", function(){
 			var userId = $(this).data("userid"),

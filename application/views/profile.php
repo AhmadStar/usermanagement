@@ -1,9 +1,12 @@
 <?php
+
     $id = '';
     $education = '';
     $location = '';
     $experience = '';
     $notes = '';
+    $role = '';
+    $picture = '';
 
     if (!empty($userData)) {
         foreach ($userData as $ud) {
@@ -12,6 +15,8 @@
             $location = $ud->location;
             $experience = $ud->experience;
             $notes = $ud->notes;
+            $role = $ud->role;
+            $picture = $ud->picture;
         }
     }
 ?>  
@@ -38,9 +43,9 @@
                     <div class="box-body box-profile">
                         <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url() . $picture; ?>" alt="User profile picture">
 
-                        <h3 class="profile-username text-center">Nina Mcintire</h3>
+                        <h3 class="profile-username text-center"><?php echo $name ; ?></h3>
 
-                        <p class="text-muted text-center">Software Engineer</p>
+                        <p class="text-muted text-center"><?php echo $role ; ?></p>
 
                         <ul class="list-group list-group-unbordered">
                             <li class="list-group-item">
@@ -93,9 +98,16 @@
 
                         <hr>
 
+                        <strong><i class="fa fa-history margin-r-5"></i> Experience</strong>
+
+                        <p><?php echo $experience?>.</p>
+
+                        <hr>
+
                         <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
 
                         <p><?php echo $notes?>.</p>
+                        
                     </div>
                     <!-- /.box-body -->
                 </div>

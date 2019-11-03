@@ -228,6 +228,11 @@
     <div class="modal-dialog modal-full-height" role="document">
 
         <div class="modal-content">
+          <div id="overlay">
+            <div class="cv-spinner">
+              <span class="spinner"></span>
+            </div>
+          </div>
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">ADD a stage for task</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
