@@ -311,7 +311,14 @@ class Employee_model extends CI_Model {
 			$minutes = floor(($sum / 60) % 60);
 			$seconds = $sum % 60;
 
-			$sum = "$hours:$minutes:$seconds";
+			if($hours > 0 )
+				$hours = $hours." hours & ";
+			if($hours > 0 )
+				$minutes = $minutes." minutes & ";
+			if($hours > 0 )
+				$seconds = $seconds." seconds";
+
+			$sum = $hours.$minutes.$seconds;
 			
 			return $sum;
 		}		

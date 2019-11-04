@@ -230,8 +230,6 @@ $(document).ready(function() {
           year : $('#year').datepicker({ dateFormat: 'yy' ,viewMode: "years", minViewMode: "years"}).val()               
             }            
 
-            // console.log(mydata.month);
-
 		$.ajax({
         url: '<?php echo site_url('total')?>',
         type: 'POST',
@@ -240,17 +238,24 @@ $(document).ready(function() {
         success: function(data) {
             if(data === 'empty')
               $("#total").html('Please Select a user');
-            else{              
-              current_month = new Date().getMonth()+1;
+            else{
+              current_month = new Date().getMonth();
               current_year = new Date().getFullYear();
               if(mydata.month != '')
                 current_month = mydata.month;
               if(mydata.year != '')
                 current_year = mydata.year;
-
+                
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                  ];
 
               $("#total").html('Total work hours of '+ 
-              $("#userName  option:selected" ).text() +'  '+data+' at '+current_month+' '+ current_year);                            
+              $("#userName  option:selected" ).text() +'  '+
+              
+              data
+              
+              +' at '+monthNames[current_month]+' , '+ current_year);                            
             }
         }
     });
