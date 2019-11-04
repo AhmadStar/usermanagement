@@ -130,7 +130,7 @@ if (!empty($taskInfo)) {
                                         <?php }?>     
 
                                         <div class="mailbox-attachment-info">
-                                            <a href="<?php echo base_url().$image->name; ?>" target="blank" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> <?php echo $image->name; ?></a>
+                                            <a href="<?php echo base_url().$image->name; ?>" target="blank" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> <?php ?></a>
                                             <span class="mailbox-attachment-size">
                                                 <!-- <?php
                                                     $this->load->helper('file');

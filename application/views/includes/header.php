@@ -464,7 +464,10 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                 <i class="fa fa-archive"></i>
                 <span>Today Log Records</span>
               </a>
-            </li>          
+            </li> 
+            <?php
+          }          
+            ?>         
 
           <li class="treeview">
             <a href="<?php echo base_url(); ?>log-history">
@@ -473,7 +476,9 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
             </a>
           </li>
 
-
+          <?php          
+          if ($role == ROLE_ADMIN) {
+            ?>
           <li class="treeview">
             <a href="#">
               <i class="fa fa-gear"></i>

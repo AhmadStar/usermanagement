@@ -469,14 +469,14 @@
 
 
         <?php
-          $btn = array('black','silver','blue','navy','teal','green'
-          ,'olive','lime','orange','red','fuchsia','maroon','darken-4','lighten-1','lighten-3');
+          $btn = array('silver','blue','navy','teal','green'
+          ,'olive','lime','orange','red','fuchsia','maroon');
           foreach($groups as $group){            
             ?>
             <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
               <!-- small box -->
-              <div class="small-box bg-<?php echo $btn[rand(0 , 14)]?>">
+              <div class="small-box bg-<?php echo $btn[rand(0 , 10)]?>">
                 <div class="inner">
                   <h3><?php echo $this->user_model->groupTaskCount($group->id);?></h3>
                   <p><?php echo $group->name?> Tasks</p>

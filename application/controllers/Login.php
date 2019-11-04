@@ -203,6 +203,7 @@ class Login extends BaseController
                 $data['createdDtm'] = date('Y-m-d H:i:s');
                 $data['agent'] = getBrowserAgent();
                 $data['client_ip'] = $this->input->ip_address();
+                $data['expire'] = date("Y-m-d H:i:s", strtotime('+2 hours'));
                 
                 $save = $this->login_model->resetPasswordUser($data);                
                 
@@ -255,12 +256,22 @@ class Login extends BaseController
         // Check activation id in database
         $is_correct = $this->login_model->checkActivationDetails($email, $activation_id);
         
+        
         $data['email'] = $email;
         $data['activation_code'] = $activation_id;
         
         if ($is_correct == 1)
-        {
-            $this->load->view('user/newPassword', $data);
+        {   
+            // Check activation id in database
+            $not_expired = $this->login_model->checkActivationDetailsExpire($email, $activation_id);
+            if ($not_expired == 1)
+            {   
+                $this->load->view('user/newPassword', $data);
+            }else{
+                $status = 'error';
+                setFlashData($status, "your reset password link has expired.");
+                redirect('/login');                
+            }
         }
         else
         {

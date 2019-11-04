@@ -96,9 +96,27 @@ class Login_model extends CI_Model
         $this->db->from('tbl_reset_password');
         $this->db->where('email', $email);
         $this->db->where('activation_id', $activation_id);
-        $query = $this->db->get();        
+        $query = $this->db->get();
         return $query->num_rows();
     }
+
+    /**
+     * This function used to check correct activation deatails for forget password.
+     * @param string $email : Email id of user
+     * @param string $activation_id : This is activation string
+     */
+    function checkActivationDetailsExpire($email, $activation_id)
+    {
+        $this->db->select('id');
+        $this->db->from('tbl_reset_password');
+        $this->db->where('email', $email);
+        $this->db->where('activation_id', $activation_id);
+        $this->db->where('expire >', date("Y-m-d H:i:s"));
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    
 
     // This function used to create new password by reset link
     function createPasswordUser($email, $password)
