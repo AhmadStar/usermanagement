@@ -60,7 +60,7 @@ class Admin extends BaseController
 
         $this->global['pageTitle'] = 'DAS : User List';
         
-        $this->loadViews("users", $this->global, $data, NULL);
+        $this->loadViews("admin/users", $this->global, $data, NULL);
     }
 
     /**
@@ -76,7 +76,7 @@ class Admin extends BaseController
         // $item->name = 'Not In Group';
         // array_push($data['groups'], $item); 
         $this->global['pageTitle'] = 'DAS : Add User';
-        $this->loadViews("addNew", $this->global, $data, NULL);
+        $this->loadViews("admin/addNew", $this->global, $data, NULL);
     }
 
 
@@ -156,7 +156,7 @@ class Admin extends BaseController
 
         $this->global['pageTitle'] = 'DAS : Edit User';
         
-        $this->loadViews("editOld", $this->global, $data, NULL);
+        $this->loadViews("admin/editOld", $this->global, $data, NULL);
     }
 
 
@@ -275,7 +275,7 @@ class Admin extends BaseController
 
         $this->global['pageTitle'] = 'DAS : User Bonus';
         
-        $this->loadViews("userBonus", $this->global, $data, NULL);      
+        $this->loadViews("user/userBonus", $this->global, $data, NULL);      
     }
 
     /**
@@ -336,7 +336,7 @@ class Admin extends BaseController
 
         $this->global['pageTitle'] = 'DAS : Edit Bonus';
         
-        $this->loadViews("editBonus", $this->global, $data, NULL);
+        $this->loadViews("admin/editBonus", $this->global, $data, NULL);
     }
     
 
@@ -352,7 +352,7 @@ class Admin extends BaseController
 
         $this->global['pageTitle'] = 'DAS : User Login History';
         
-        $this->loadViews("logHistorysingle", $this->global, $data, NULL);      
+        $this->loadViews("admin/logHistorysingle", $this->global, $data, NULL);      
     }
     
     /**
@@ -400,7 +400,7 @@ class Admin extends BaseController
 
         $this->global['pageTitle'] = 'DAS : User Backup Entry History';
         
-        $this->loadViews("logHistoryBackup", $this->global, $data, NULL);
+        $this->loadViews("admin/logHistoryBackup", $this->global, $data, NULL);
     }
 
     /**
@@ -434,7 +434,7 @@ class Admin extends BaseController
 
             $this->global['pageTitle'] = 'DAS : User Log Download';
             
-            $this->loadViews("logHistoryUpload", $this->global, $data, NULL);      
+            $this->loadViews("admin/logHistoryUpload", $this->global, $data, NULL);      
     }
 
     /**
@@ -540,8 +540,7 @@ class Admin extends BaseController
 
 
     /**
-     * This function used to show log history every day
-     * @param number $userId : This is user id
+     * This function used to show log history every day     
      */
     function dailylogs()
     {
@@ -555,7 +554,7 @@ class Admin extends BaseController
 
         $this->global['pageTitle'] = 'DAS : Daily Login History';
         
-        $this->loadViews("dailylogHistory", $this->global, $data, NULL);
+        $this->loadViews("admin/dailylogHistory", $this->global, $data, NULL);
     }
 
 
@@ -563,15 +562,15 @@ class Admin extends BaseController
    * user_bonus()
    * returns a list of all users bonus .
    */ 
-  public function user_bonus()
-  {
-    $bonuses = $this->user_model->get_bonus();    
-    $bonus_list[] = '';
-    foreach ($bonuses as $bonus) 
+    public function user_bonus()
     {
-      $bonus_list[$bonus->user_id]=  html_escape($bonus->stars);
+        $bonuses = $this->user_model->get_bonus();    
+        $bonus_list[] = '';
+        foreach ($bonuses as $bonus) 
+        {
+            $bonus_list[$bonus->user_id]=  html_escape($bonus->stars);
+        }
+        return $bonus_list;
     }
-    return $bonus_list;
-  }
 }
 

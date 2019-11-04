@@ -373,6 +373,9 @@ class User_model extends CI_Model
     {
         $this->db->select('*');        
         $this->db->from('bonus as BaseTbl');
+        $now = new \DateTime('now');
+		$month = $now->format('m');		
+        $this->db->where('month(BaseTbl.date)', $month);
 
         if ($userId == NULL)
         {

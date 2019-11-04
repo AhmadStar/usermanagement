@@ -37,7 +37,7 @@ class Login extends BaseController
         
         if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
         {
-            $this->load->view('login');
+            $this->load->view('user/login');
         }
         else
         {            
@@ -54,7 +54,7 @@ class Login extends BaseController
         $this->datas();
 
         $this->load->view ( 'includes/header', $this->global );
-		$this->load->view ( 'access' );
+		$this->load->view ( 'user/access' );
 		$this->load->view ( 'includes/footer' );
     }
 
@@ -67,7 +67,7 @@ class Login extends BaseController
         
         if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
         {
-            $this->load->view('login');
+            $this->load->view('user/login');
         }
         else
         {
@@ -166,7 +166,7 @@ class Login extends BaseController
         
         if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
         {
-            $this->load->view('forgotPassword');
+            $this->load->view('user/forgotPassword');
         }
         else
         {
@@ -260,7 +260,7 @@ class Login extends BaseController
         
         if ($is_correct == 1)
         {
-            $this->load->view('newPassword', $data);
+            $this->load->view('user/newPassword', $data);
         }
         else
         {
@@ -297,11 +297,7 @@ class Login extends BaseController
             
             if($is_correct == 1)
             {               
-                $this->login_model->createPasswordUser($email, $password);
-                
-                // $process = 'Şifre Resetma';
-                // $processFunction = 'Login/createPasswordUser';
-                // $this->logrecord($process,$processFunction);
+                $this->login_model->createPasswordUser($email, $password);                                
 
                 $status = 'success';
                 $message = 'Password changed successfully';

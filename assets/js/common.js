@@ -19,8 +19,7 @@ jQuery(document).ready(function(){
 			dataType : "json",
 			url : hitURL,
 			data : { userId : userId } 
-			}).done(function(data){
-				console.log(data);
+			}).done(function(data){				
 				currentRow.parents('tr').remove();
 				if(data.status = true) { alert("User successfully deleted"); }
 				else if(data.status = false) { alert("User deletion failed"); }
@@ -43,8 +42,7 @@ jQuery(document).ready(function(){
 			dataType : "json",
 			url : hitURL,
 			data : { taskId : taskId } 
-			}).done(function(data){
-				console.log(data);
+			}).done(function(data){				
 				currentRow.parents('tr').remove();
 				if(data.status = true) { alert("Task successfully deleted"); }
 				else if(data.status = false) { alert("Task deletion failed"); }
@@ -68,12 +66,12 @@ jQuery(document).ready(function(){
 			dataType : "json",
 			url : hitURL,
 			data : { taskId : taskId }
-			}).done(function(data){
-				console.log(data);
+			}).done(function(data){				
 				currentRow.parents('tr').remove();
 				if(data.status = true) { alert("Task successfully confirmed"); }
 				else if(data.status = false) { alert("Task confirmation failed"); }
 				else { alert("Access denied..!"); }
+				location.reload(true);
 			});
 		}
 	});
@@ -96,8 +94,7 @@ jQuery(document).ready(function(){
 		dataType : "json",
 		url : hitURL,
 		data : {taskId : taskId , finishDetail : finishDetail } 
-		}).done(function(data){
-			console.log(data);				
+		}).done(function(data){			
 			if(data.status = true) { alert("successfully task finished"); }
 			else if(data.status = false) { alert("Failed finish task"); }
 			else { alert("Access denied..!"); }
@@ -163,8 +160,6 @@ jQuery(document).ready(function(){
 		var title = $('#bonus-title').val(),
 		userId = $('#userId').val(),
 		desc = $('#bonus-desc').val();
-
-		console.log(title+' '+userId +' '+ desc);
 		
 		hitURL = baseURL + "addbonus",
 		jQuery.ajax({
@@ -172,8 +167,7 @@ jQuery(document).ready(function(){
 		dataType : "json",
 		url : hitURL,
 		data : { title : title , userId : userId , desc : desc } 
-		}).done(function(data){
-			console.log(data);				
+		}).done(function(data){			
 			if(data.status = true) { alert("successfully bonus added"); }
 			else if(data.status = false) { alert("Failed add bonus"); }
 			else { alert("Access denied..!"); }
@@ -195,8 +189,7 @@ jQuery(document).ready(function(){
 			dataType : "json",
 			url : hitURL,
 			data : { bonusid : bonusid } 
-			}).done(function(data){
-				console.log(data);
+			}).done(function(data){				
 				currentRow.parents('tr').remove();
 				if(data.status = true) { alert("Bonus successfully deleted"); }
 				else if(data.status = false) { alert("Bonus deletion failed"); }

@@ -43,7 +43,7 @@ class Manager extends BaseController
 
         $this->global['pageTitle'] = 'DAS : All Bending Tasks';
 
-        $this->loadViews("bendingTasks", $this->global, $data, NULL);
+        $this->loadViews("manager/bendingTasks", $this->global, $data, NULL);
     }
 
     /**
@@ -63,7 +63,7 @@ class Manager extends BaseController
 
         $this->global['pageTitle'] = 'DAS : Add Task';
 
-        $this->loadViews("addNewTask", $this->global, $data, NULL);
+        $this->loadViews("manager/addNewTask", $this->global, $data, NULL);
     }
 
     /**
@@ -160,7 +160,7 @@ class Manager extends BaseController
                 $this->session->set_flashdata('error', 'Task creation failed');
             }
 
-            redirect('addNewTask');
+            redirect('manager/addNewTask');
         }
     }
 
@@ -170,7 +170,7 @@ class Manager extends BaseController
     function editOldTask($taskId = NULL)
     {
         if ($taskId == null) {
-            redirect('tasks');
+            redirect('user/tasks');
         }
 
         $data['taskInfo'] = $this->user_model->getTaskInfoEdit($taskId);
@@ -185,7 +185,7 @@ class Manager extends BaseController
 
         $this->global['pageTitle'] = 'DAS : Edit Task';
 
-        $this->loadViews("editOldTask", $this->global, $data, NULL);
+        $this->loadViews("manager/editOldTask", $this->global, $data, NULL);
     }
 
     /**
@@ -296,9 +296,9 @@ class Manager extends BaseController
                 $this->session->set_flashdata('error', 'Task editing failed');
             }
             if ($this->role === ROLE_CLIENT)
-                redirect('clientTasks');
+                redirect('manager/clientTasks');
             else
-                redirect('tasks');
+                redirect('user/tasks');
         }
     }
 

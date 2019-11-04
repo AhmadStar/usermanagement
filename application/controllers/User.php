@@ -63,7 +63,7 @@ class User extends BaseController
 
         $data['groups'] = $this->user_model->getUserGroups();
 
-        $this->loadViews("dashboard", $this->global, $data , NULL);
+        $this->loadViews("user/dashboard", $this->global, $data , NULL);
     }
 
     /**
@@ -111,7 +111,7 @@ class User extends BaseController
         
         $data['userInfo'] = $this->user_model->getUserInfo($this->vendorId);
 
-        $this->loadViews("userEdit", $this->global, $data, NULL);
+        $this->loadViews("user/userEdit", $this->global, $data, NULL);
     }
 
     /**
@@ -291,7 +291,7 @@ class User extends BaseController
         }
 
         $this->global['pageTitle'] = 'DAS : Change Password';        
-        $this->loadViews("changePassword", $this->global, NULL, NULL);
+        $this->loadViews("user/changePassword", $this->global, NULL, NULL);
     }
 
     /**
@@ -301,7 +301,7 @@ class User extends BaseController
     {
         $this->global['pageTitle'] = 'DAS : 404 - Page Not Found';
         
-        $this->loadViews("404", $this->global, NULL, NULL);
+        $this->loadViews("user/404", $this->global, NULL, NULL);
     }
 
     /**
@@ -402,7 +402,7 @@ class User extends BaseController
         
         $this->global['pageTitle'] = 'DAS : Show Task';
         
-        $this->loadViews("showTask", $this->global, $data, NULL);
+        $this->loadViews("user/showTask", $this->global, $data, NULL);
     }
 
     /**
@@ -419,7 +419,7 @@ class User extends BaseController
         
         $this->global['pageTitle'] = 'DAS : Show Bonus';
         
-        $this->loadViews("showBonus", $this->global, $data, NULL);
+        $this->loadViews("user/showBonus", $this->global, $data, NULL);
     }
 
     /**
@@ -435,10 +435,9 @@ class User extends BaseController
         $data['user_list']=$this->_employee_list();
         $data['group_list']=$this->group_list();
         $this->global['pageTitle'] = 'DAS : All Tasks';
-
-        // var_dump($data['taskRecords']);die();
         
-        $this->loadViews("tasks", $this->global, $data, NULL);
+        
+        $this->loadViews("user/tasks", $this->global, $data, NULL);
     }
 
     /**
@@ -456,7 +455,7 @@ class User extends BaseController
 
         $this->global['pageTitle'] = 'DAS : All Finished Tasks';        
         
-        $this->loadViews("finishedTasks", $this->global, $data, NULL);
+        $this->loadViews("user/finishedTasks", $this->global, $data, NULL);
     }
 
     /**
@@ -470,7 +469,7 @@ class User extends BaseController
 
         $this->global['pageTitle'] = 'DAS : Group Tasks';
         
-        $this->loadViews("tasks", $this->global, $data, NULL);
+        $this->loadViews("user/tasks", $this->global, $data, NULL);
     }
 
     /**
@@ -480,7 +479,7 @@ class User extends BaseController
     {
         $data['bonusRecords'] = $this->user_model->getUserStars($this->session->userdata('userId'));
         $this->global['pageTitle'] = 'DAS : All User Bonus';
-        $this->loadViews("userStars", $this->global, $data, NULL);
+        $this->loadViews("user/userStars", $this->global, $data, NULL);
     }
 
      /**
@@ -507,7 +506,7 @@ class User extends BaseController
 
         $this->global['pageTitle'] = 'DAS : User Login History';
         
-        $this->loadViews("logHistory", $this->global, $data, NULL);
+        $this->loadViews("user/logHistory", $this->global, $data, NULL);
     }
 
     /**
@@ -519,7 +518,7 @@ class User extends BaseController
         $data['themes'] = '';
         $this->global['pageTitle'] = 'DAS : General Settings';
         
-        $this->loadViews("general", $this->global, $data, NULL);
+        $this->loadViews("user/general", $this->global, $data, NULL);
     }
 
      /**
@@ -547,7 +546,7 @@ class User extends BaseController
         $data['userData'] = $this->user_model->getUserData($this->session->userdata('userId'));
         $data['user_skills'] = $this->user_model->getUserSkills($this->session->userdata('userId'));        
         
-        $this->loadViews("profile", $this->global, $data, NULL);
+        $this->loadViews("user/profile", $this->global, $data, NULL);
     }
 
     /**
@@ -561,9 +560,7 @@ class User extends BaseController
         $experience = $this->input->post('experience');
         $notes = $this->input->post('notes');
         $skills = $this->input->post('skills');
-        $oldSkills = $this->input->post('oldSkills');
-
-        // var_dump($this->input->post());die();
+        $oldSkills = $this->input->post('oldSkills');        
 
         
         $userProfile = array('education'=>$education, 'location'=>$location, 'experience'=>$experience, 
@@ -574,9 +571,7 @@ class User extends BaseController
         if($result > 0)
         {
             if($oldSkills != NULL){
-                $previuosSkills = $this->user_model->getUserSkills($this->session->userdata('userId'));
-                // var_dump($previuosSkills);
-                // var_dump($oldSkills);die();
+                $previuosSkills = $this->user_model->getUserSkills($this->session->userdata('userId'));                
                 foreach($previuosSkills as $key=>$skill){
                     if (array_key_exists($skill->id,$oldSkills))
                     {                                                  
@@ -653,53 +648,53 @@ class User extends BaseController
           echo json_encode($output);
     }
 
-      /**
-   * _employee_list()
-   * returns a list of employee.
-   */ 
-  public function _employee_list($employee_id='')
-  {
-    $employees = $this->employee_model->get_employees($employee_id);
-    if($employee_id == '')
-        $employee_list['']= 'Choose Employee';
-    foreach ($employees as $employee) 
+    /**
+    * _employee_list()
+    * returns a list of employee.
+    */ 
+    public function _employee_list($employee_id='')
     {
-      $employee_list[$employee->userId]=  html_escape($employee->name);
+        $employees = $this->employee_model->get_employees($employee_id);
+        if($employee_id == '')
+            $employee_list['']= 'Choose Employee';
+        foreach ($employees as $employee) 
+        {
+        $employee_list[$employee->userId]=  html_escape($employee->name);
+        }
+        return $employee_list;
     }
-    return $employee_list;
-  }
 
 
     /**
-   * group_list()
-   * returns a list of group.
-   */ 
-  public function group_list()
-  {
-    $groups = $this->user_model->get_groups();
-    $group_list[] = '';
-    foreach ($groups as $group) 
+    * group_list()
+    * returns a list of group.
+    */ 
+    public function group_list()
     {
-      $group_list[$group->id]=  html_escape($group->name);
+        $groups = $this->user_model->get_groups();
+        $group_list[] = '';
+        foreach ($groups as $group) 
+        {
+        $group_list[$group->id]=  html_escape($group->name);
+        }
+        return $group_list;
     }
-    return $group_list;
-  }
 
-   /**
-   * user_list()
-   * returns a list of employee.
-   */ 
-  public function user_list()
-  {
-    $users = $this->user_model->get_users();    
-    return $users;
-  }
+    /**
+    * user_list()
+    * returns a list of employee.
+    */ 
+    public function user_list()
+    {
+        $users = $this->user_model->get_users();    
+        return $users;
+    }
 
 
-  /**
-     * 
-     * MOnth Hours for chart
-     */
+    /**
+    * 
+    * MOnth Hours for chart
+    */
     public function getMonthHours()
     {
         if($this->role === ROLE_ADMIN){            
@@ -714,7 +709,7 @@ class User extends BaseController
 
     /**
      * 
-     * MOnth Hours for chart
+     * Month Hours for chart
      */
     public function getUserMonthHours()
     {

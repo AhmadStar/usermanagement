@@ -39,7 +39,7 @@ class Client extends BaseController
 
         $this->global['pageTitle'] = 'DAS : Client Bending Tasks';
         
-        $this->loadViews("bendingTasks", $this->global, $data, NULL);
+        $this->loadViews("manager/bendingTasks", $this->global, $data, NULL);
     }
 
     /**
@@ -53,7 +53,7 @@ class Client extends BaseController
 
         $this->global['pageTitle'] = 'DAS : Client Opened Tasks';
         
-        $this->loadViews("tasks", $this->global, $data, NULL);
+        $this->loadViews("user/tasks", $this->global, $data, NULL);
     }
 
     /**
@@ -67,7 +67,7 @@ class Client extends BaseController
 
         $this->global['pageTitle'] = 'DAS : Client Finished Tasks';
         
-        $this->loadViews("finishedTasks", $this->global, $data, NULL);
+        $this->loadViews("user/finishedTasks", $this->global, $data, NULL);
     }
 
   /**
