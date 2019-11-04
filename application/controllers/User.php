@@ -550,6 +550,19 @@ class User extends BaseController
     }
 
     /**
+     * This function used to add to do item.
+     */
+    public function todo()
+    {
+        $data['themes'] = '';
+        $this->global['pageTitle'] = 'DAS : User Profile';        
+        $data['userData'] = $this->user_model->getUserData($this->session->userdata('userId'));
+        $data['user_skills'] = $this->user_model->getUserSkills($this->session->userdata('userId'));        
+        
+        $this->loadViews("user/profile", $this->global, $data, NULL);
+    }
+
+    /**
      * This function is used to edit user profile
      */
     function editProfile()
