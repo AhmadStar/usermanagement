@@ -145,12 +145,11 @@ class Manager extends BaseController
                             $filename = $uploadData['file_name'];
                             $taskFile = array('task_id' => $result, 'name' => $config['upload_path'].$filename);
                             $linkresult = $this->user_model->addTaskFiles($taskFile);
-                        } else { {
+                        } else {
                                 $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
                                 $error = array('error' => $this->upload->display_errors());
                                 $this->session->set_flashdata('error', $error['error']);
-                                redirect('addNewTask');
-                            }
+                                redirect('addNewTask');                            
                         }
                     }
                 }
@@ -160,7 +159,7 @@ class Manager extends BaseController
                 $this->session->set_flashdata('error', 'Task creation failed');
             }
 
-            redirect('manager/addNewTask');
+            redirect('addNewTask');
         }
     }
 
@@ -170,7 +169,7 @@ class Manager extends BaseController
     function editOldTask($taskId = NULL)
     {
         if ($taskId == null) {
-            redirect('user/tasks');
+            redirect('tasks');
         }
 
         $data['taskInfo'] = $this->user_model->getTaskInfoEdit($taskId);
@@ -219,7 +218,7 @@ class Manager extends BaseController
 
             $taskInfo = array(
                 'title' => $title, 'comment' => $comment, 'priorityId' => $priorityId,
-                'statusId' => $statusId, 'permalink' => $permalink, 'createdBy' => $this->vendorId,
+                'statusId' => $statusId, 'permalink' => $permalink,
                 'employee_id' => $employee_id, 'group_id' => $group
             );
 
@@ -296,9 +295,9 @@ class Manager extends BaseController
                 $this->session->set_flashdata('error', 'Task editing failed');
             }
             if ($this->role === ROLE_CLIENT)
-                redirect('manager/clientTasks');
+                redirect('clientOpenedTasks');
             else
-                redirect('user/tasks');
+                redirect('tasks');
         }
     }
 

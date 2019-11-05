@@ -729,7 +729,33 @@
       <?php
       }
       ?>
-          
+        
+      <!-- To do  -->
+      <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header ui-sortable-handle" style="cursor: move;">
+              <i class="ion ion-clipboard"></i>
+
+              <h3 class="box-title">To Do List</h3>
+
+              <div class="box-tools pull-right">
+                <ul class="pagination pagination-sm inline" id="pagination_link">
+                </ul>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <ul class="todo-list ui-sortable" id="pagination_data">
+              </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+              <button type="button" class="btn btn-default pull-right addTodo"><i class="fa fa-plus"></i> Add item</button>
+            </div>
+          </div>      
+     </div>
+
       <!-- calander box -->
       <div class="col-md-6">
         <div class="box box-solid bg-green-gradient">
@@ -969,30 +995,7 @@
         </div>
       </div>
 
-      <div class="col-md-6">
-        <div class="box box-primary">
-            <div class="box-header ui-sortable-handle" style="cursor: move;">
-              <i class="ion ion-clipboard"></i>
-
-              <h3 class="box-title">To Do List</h3>
-
-              <div class="box-tools pull-right">
-                <ul class="pagination pagination-sm inline" id="pagination_link">
-                </ul>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <ul class="todo-list ui-sortable" id="pagination_data">
-              </ul>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix no-border">
-              <button type="button" class="btn btn-default pull-right addTodo"><i class="fa fa-plus"></i> Add item</button>
-            </div>
-          </div>      
-     </div>
+      
     </div>
   </section>
 </div>
@@ -1036,7 +1039,7 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title w-100" id="myModalLabel">Edit Todo</h4>
+                <h4 class="modal-title w-100" id="myModalLabel">Add Todo</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
