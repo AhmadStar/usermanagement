@@ -312,3 +312,8 @@ hr {
 .datepicker thead tr:first-child th, .datepicker tfoot tr th {    
     color: #000000;
 }
+
+
+.product-info .pull-right{
+	margin-left: 5px;
+}

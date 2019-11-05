@@ -1365,7 +1365,7 @@ class User_model extends CI_Model
         $this->db->join('tbl_roles as Roles','Roles.roleId = Users.roleId');
         $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = TaskTbl.statusId');
         $this->db->join('tbl_tasks_prioritys as Prioritys','Prioritys.priorityId = TaskTbl.priorityId');
-        $this->db->order_by('TaskTbl.statusId ASC, TaskTbl.priorityId');
+        $this->db->order_by('TaskTbl.createdDtm DESC');
         $this->db->where('TaskTbl.statusId', 1);
         if($userId != '')
             $this->db->where('employee_id', $userId);

@@ -657,10 +657,29 @@
                         ?>">
                         <?php echo $task->priority ?>
                       </span>
+                      <?php
+                        $since = strtotime(date("H:i:s")) - strtotime($task->createdDtm);
+                        $days = floor($since / 86400);
+                        $hours = floor($since / 3600);
+                        if($hours > 24 )
+                            $hours = $hours % 24;
+                        $minutes = floor(($since / 60) % 60);
+                        $since = '';
+                        if($days != 0)
+                            $since .= $days.' days ';
+                        else{
+                        if($hours != 0) $since .=  $hours.':';
+                        if($hours == 0)
+                            $since .= $minutes.' mins ';
+                        else $since .=  $minutes.' hours';
+                        }
+                        $label = array('danger','success','info','warning','primary');
+                      ?>
+                    <small class="pull-right label label-<?php echo $label[rand(0,4)]?>"> <i class="fa fa-clock-o"></i><?php echo $since?></small>
                     </a>
                     <span class="product-description">
-                      <?php echo $task->comment ?>
-                    </span>
+                      <?php echo $task->comment ?>                      
+                    </span>                    
                   </div>
                 </li>
               <?php } ?>
