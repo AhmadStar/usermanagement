@@ -569,7 +569,7 @@ class User extends BaseController
                 
         $todo_data .= "";
         $label = array('danger','success','info','warning','primary');
-        $status = array('window-close','fa-check');
+        $status = array('times','check');
         $status_text = array('Not finished yet','finished');
 
 

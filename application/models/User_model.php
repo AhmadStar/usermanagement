@@ -311,6 +311,9 @@ class User_model extends CI_Model
         $this->db->select('*');
         $this->db->from('todo');
         $this->db->where('user_id', $user_id);
+        $now = new \DateTime('now');
+		$month = $now->format('m');		
+        $this->db->where('month(date)', $month);
         $this->db->order_by('date', 'DESC');
         $this->db->limit($record_per_page , $start_from);
         $query = $this->db->get();                
@@ -328,7 +331,10 @@ class User_model extends CI_Model
         $record_per_page = 5;
         $this->db->select('*');
         $this->db->from('todo');
-        $this->db->where('user_id', $user_id);        
+        $this->db->where('user_id', $user_id);
+        $now = new \DateTime('now');
+		$month = $now->format('m');		
+        $this->db->where('month(date)', $month);
         $query = $this->db->get();
         $total_pages = ceil($query->num_rows()/$record_per_page);
         return $total_pages;

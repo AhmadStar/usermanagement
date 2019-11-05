@@ -757,7 +757,7 @@
      </div>
 
       <!-- calander box -->
-      <div class="col-md-6">
+      <div class="col-md-3">
         <div class="box box-solid bg-green-gradient">
           <div class="box-header ui-sortable-handle" style="cursor: move;">
             <i class="fa fa-calendar"></i>

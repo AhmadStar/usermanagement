@@ -225,12 +225,13 @@ jQuery(document).ready(function(){
 
 	jQuery(document).on("click", ".editTodo", function(){
 		var todoid = $(this).data("todoid");
+		var todotext = $(this).closest('li').find(".text").text();
 
-		console.log($(this).parents('li:eq(1)'));
+		// console.log($(this).closest('li').find(".text").text());
 
 		$("#edit_todo_modal").on("shown.bs.modal", function () {
 			$("#todoid").val(todoid);
-			$("#todo-text").val('dasdas dasd asd asd asdas das dasd asd as d');
+			$("#todo-text").val(todotext);
 			}).modal('show');
 	});
 
