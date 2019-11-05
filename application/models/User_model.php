@@ -46,7 +46,7 @@ class User_model extends CI_Model
         $this->db->limit($page, $segment);
         $query = $this->db->get();
         
-        $result = $query->result();        
+        $result = $query->result();
 
         return $result;
     }
@@ -239,6 +239,19 @@ class User_model extends CI_Model
     }
 
     /**
+     * This function is used to delete to do 
+     * @param number $bonusid : This is todo id
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteTodo($todoid)
+    {
+        $this->db->where('id', $todoid);
+        $this->db->delete('todo');
+        
+        return $this->db->affected_rows();
+    }
+
+    /**
      * This function is used to delete bonus
      * @param number $bonusid : This is bonus id
      * @return boolean $result : TRUE / FALSE
@@ -284,6 +297,43 @@ class User_model extends CI_Model
         return $query->row();
     }
 
+
+    /**
+     * This function used to get user bonus by id
+     * @param number $userId : This is user id
+     * @return array $result : This is user information
+     */
+    function getUserTodo($user_id , $page)
+    {
+        $record_per_page = 5;
+        $start_from = ($page - 1) * $record_per_page;
+
+        $this->db->select('*');
+        $this->db->from('todo');
+        $this->db->where('user_id', $user_id);
+        $this->db->order_by('date', 'DESC');
+        $this->db->limit($record_per_page , $start_from);
+        $query = $this->db->get();                
+
+        return $query->result();
+    }
+
+    /**
+     * This function used to get total pages number of todo for pagination
+     * @param number $userId : This is user id
+     * @return array $result : This is total pages information
+     */
+    function todoPages($user_id)
+    {
+        $record_per_page = 5;
+        $this->db->select('*');
+        $this->db->from('todo');
+        $this->db->where('user_id', $user_id);        
+        $query = $this->db->get();
+        $total_pages = ceil($query->num_rows()/$record_per_page);
+        return $total_pages;
+    }
+
     /**
      * This function is used to update the user bonus
      * @param array $bonusInfo : This is bonus updated information
@@ -293,6 +343,19 @@ class User_model extends CI_Model
     {
         $this->db->where('id', $bonusId);
         $this->db->update('bonus', $bonusInfo);
+        
+        return TRUE;
+    }
+
+    /**
+     * This function is used to update the user todo 
+     * @param array $bonusInfo : This is bonus updated information
+     * @param number $userId : This is user id
+     */
+    function editTodo($todoinfo, $todoid)
+    {
+        $this->db->where('id', $todoid);
+        $this->db->update('todo', $todoinfo);
         
         return TRUE;
     }
@@ -1076,6 +1139,22 @@ class User_model extends CI_Model
         return $insert_id;
     }
 
+
+    /**
+     * This function is used to add user todo item.
+     */
+    function saveTodo($todoInfo)
+    {
+        $this->db->trans_start();
+        $this->db->insert('todo', $todoInfo);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
+
     /**
      * This function is used to get the tasks count
      * @return array $result : This is result
@@ -1285,6 +1364,19 @@ class User_model extends CI_Model
         if($userId != '')
             $this->db->where('employee_id', $userId);
         $this->db->limit(4);
+        $query = $this->db->get();
+        $result = $query->result();        
+        return $result;
+    }
+
+    /**
+     * This function is used to get user todo list
+     */
+    function getTodoList($userId)
+    {
+        $this->db->select('*');
+        $this->db->from('todo');        
+        $this->db->where('user_id', $userId);        
         $query = $this->db->get();
         $result = $query->result();        
         return $result;

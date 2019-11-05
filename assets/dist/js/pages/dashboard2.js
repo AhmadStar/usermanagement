@@ -12,7 +12,24 @@ $(function () {
       $( "#my_location" ).attr("href", "https://maps.google.com/?q="+data.latitude+","+data.longitude+"")
   });
 
+// Make the dashboard widgets sortable Using jquery UI
+$('.connectedSortable').sortable({
+  containment         : $('section.content'),
+  placeholder         : 'sort-highlight',
+  connectWith         : '.connectedSortable',
+  handle              : '.box-header, .nav-tabs',
+  forcePlaceholderSize: true,
+  zIndex              : 999999
+});
+$('.connectedSortable .box-header, .connectedSortable .nav-tabs-custom').css('cursor', 'move');
 
+// jQuery UI sortable for the todo list
+$('.todo-list').sortable({
+  placeholder         : 'sort-highlight',
+  handle              : '.handle',
+  forcePlaceholderSize: true,
+  zIndex              : 999999
+});
 
   //-----------------------
   //- MONTHLY SALES CHART -

@@ -688,7 +688,7 @@
 
          <!-- Browse Usage -->
          <div class="col-md-6">
-          <div class="box box-default">
+          <div class="box box-danger">
               <div class="box-header with-border">
                 <h3 class="box-title">Browser Usage</h3>
 
@@ -977,112 +977,110 @@
               <h3 class="box-title">To Do List</h3>
 
               <div class="box-tools pull-right">
-                <ul class="pagination pagination-sm inline">
-                  <li><a href="#">«</a></li>
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">»</a></li>
+                <ul class="pagination pagination-sm inline" id="pagination_link">
                 </ul>
               </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <ul class="todo-list ui-sortable">
-                
-                <li>
-                      <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <input type="checkbox" value="">
-                  <span class="text">Make the theme responsive</span>
-                  <small class="label label-info"><i class="fa fa-clock-o"></i> 4 hours</small>
-                  <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                  </div>
-                </li><li class="" style="">
-                  <!-- drag handle -->
-                  <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <!-- checkbox -->
-                  <input type="checkbox" value="">
-                  <!-- todo text -->
-                  <span class="text">Design a nice theme</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-                  <!-- General tools such as edit or delete-->
-                  <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                  </div>
-                </li>
-                <li>
-                      <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <input type="checkbox" value="">
-                  <span class="text">Let theme shine like a star</span>
-                  <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 day</small>
-                  <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                  </div>
-                </li>
-                <li>
-                      <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <input type="checkbox" value="">
-                  <span class="text">Let theme shine like a star</span>
-                  <small class="label label-success"><i class="fa fa-clock-o"></i> 3 days</small>
-                  <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                  </div>
-                </li>
-                <li>
-                      <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <input type="checkbox" value="">
-                  <span class="text">Check your messages and notifications</span>
-                  <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 week</small>
-                  <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                  </div>
-                </li>
-                <li>
-                      <span class="handle ui-sortable-handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <input type="checkbox" value="">
-                  <span class="text">Let theme shine like a star</span>
-                  <small class="label label-default"><i class="fa fa-clock-o"></i> 1 month</small>
-                  <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                  </div>
-                </li>
+              <ul class="todo-list ui-sortable" id="pagination_data">
               </ul>
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix no-border">
-              <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
+              <button type="button" class="btn btn-default pull-right addTodo"><i class="fa fa-plus"></i> Add item</button>
             </div>
-          </div>
-
-      
+          </div>      
      </div>
     </div>
   </section>
 </div>
+
+<!-- Full Height Modal -->
+<div class="modal fade" id="edit_todo_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-full-height" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">Edit Todo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="md-form">
+                    <input type="hidden" class="form-control" id="todoid">
+                </div>
+                <div class="md-form">
+                    <input type="text" class="form-control" id="todo-text">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="saveTodo" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Full Height Modal -->
+
+
+<!-- Full Height Modal -->
+<div class="modal fade" id="add_todo_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-full-height" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">Edit Todo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="md-form">
+                    <input type="text" class="form-control" id="add-todo-text">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="addNewTodo" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Full Height Modal -->
+
+<script>
+
+$(document).ready(function(){
+  load_data();  
+  function load_data(page)  
+  {  
+        hitURL = baseURL + "todo";
+        $.ajax({
+            url: hitURL,  
+            method:"POST",  
+            data:{page:page},
+            dataType: "json",
+            success:function(data){
+              // console.log(data)
+              $('#pagination_data').html(data['todo_data']);
+              $('#pagination_link').html(data['links']);
+            }  
+        })  
+  }
+
+  jQuery(document).on("click", "#pagination_link li a", function(){      
+      load_data($(this).text());
+  });
+
+});
+
+</script>
+
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/common.js" charset="utf-8"></script>

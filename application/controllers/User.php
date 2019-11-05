@@ -61,6 +61,8 @@ class User extends BaseController
             redirect('changePassword');
         }
 
+        $data['todoList'] = $this->user_model->getTodoList($this->session->userdata('userId'));
+
         $data['groups'] = $this->user_model->getUserGroups();
 
         $this->loadViews("user/dashboard", $this->global, $data , NULL);
@@ -550,16 +552,145 @@ class User extends BaseController
     }
 
     /**
-     * This function used to add to do item.
+     * This function used to show user to do items.
      */
     public function todo()
-    {
-        $data['themes'] = '';
-        $this->global['pageTitle'] = 'DAS : User Profile';        
-        $data['userData'] = $this->user_model->getUserData($this->session->userdata('userId'));
-        $data['user_skills'] = $this->user_model->getUserSkills($this->session->userdata('userId'));        
+    {        
+        $page = '';        
+        $links = '';
+        $todo_data = '';
+        if(isset($_POST["page"])){
+            $page = $_POST["page"];
+        }else{
+            $page = 1;
+        }
+
+        $data['data'] = $this->user_model->getUserTodo($this->session->userdata('userId') , $page);
+                
+        $todo_data .= "";
+        $label = array('danger','success','info','warning','primary');
+        $status = array('window-close','fa-check');
+        $status_text = array('Not finished yet','finished');
+
+
+        foreach ($data['data'] as $item){
+            $since = strtotime(date("H:i:s")) - strtotime($item->date);
+            $days = floor($since / 86400);
+            $hours = floor($since / 3600);
+            if($hours > 24 )
+                $hours = $hours % 24;
+            $minutes = floor(($since / 60) % 60);
+            $since = '';
+            if($days != 0)
+                $since .= $days.' days ';
+            else{
+            if($hours != 0) $since .=  $hours.':';
+            if($hours == 0)
+                $since .= $minutes.' mins ';
+            else $since .=  $minutes.' hours';
+            }
+                $todo_data .= '<li>
+                <span class="handle ui-sortable-handle">
+                <i class="fa fa-ellipsis-v"></i>
+                <i class="fa fa-ellipsis-v"></i>
+                </span> 
+                    <span class="text">'.$item->name.'
+                    </span>
+                    <small class="label label-'.$label[rand(0,4)].'"><i class="fa fa-clock-o"></i> '.$since.'</small>
+                    <small class="label label-'.$label[$item->status].'"><i class="fa fa-'.$status[$item->status].'"></i> '.$status_text[$item->status].'</small>
+                    <div class="tools">
+                    <i class="fa fa-flag-checkered finishTodo" data-todoid='.$item->id.'></i>
+                    <i class="fa fa-edit editTodo" data-todoid='.$item->id.'></i>
+                    <i class="fa fa-trash-o deleteTodo" data-todoid='.$item->id.'></i>
+                    </div>
+                </li>';
+        }
+
+        $data['total_pages'] = $this->user_model->todoPages($this->session->userdata('userId'));
         
-        $this->loadViews("user/profile", $this->global, $data, NULL);
+        for($i=1; $i<=$data['total_pages']; $i++)
+        {
+            $links .= '<li><a>'.$i.'</a></li>';
+        }
+
+        $output = array(
+            "todo_data" => $todo_data,
+            "links" => $links,
+        );
+
+        echo json_encode($output);
+    }
+
+    /**
+     * This function is used to user todo item.
+     */
+    function addTodo()
+    {
+        $text = $this->input->post('text');
+
+        $todoInfo = array( 'name' => $text ,
+                           'user_id' => $this->session->userdata('userId'));
+        
+        $result = $this->user_model->saveTodo($todoInfo);
+        
+        if($result > 0 ){            
+            echo(json_encode(array('status'=>TRUE)));
+        }else{
+            echo(json_encode(array('status'=>FALSE)));
+        }
+    }
+
+    /**
+     * This function is used to edit Todo
+     * @return boolean $result : TRUE / FALSE
+     */
+    function editTodo()
+    {
+        $todoid = $this->input->post('todoid');
+        $text = $this->input->post('text');
+        $todoinfo = array('name'=>$text);
+        $result = $this->user_model->editTodo($todoinfo , $todoid);
+        
+        if ($result == true) {
+            echo(json_encode(array('status'=>TRUE)));
+            }
+        else {
+            echo(json_encode(array('status'=>FALSE)));
+        }
+    }
+
+    /**
+     * This function is used to delete user todo item
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteTodo()
+    {
+        $todoid = $this->input->post('todoid');        
+        
+        $result = $this->user_model->deleteTodo($todoid);
+        
+        if ($result > 0) {
+                echo(json_encode(array('status'=>TRUE)));
+            }
+        else { echo(json_encode(array('status'=>FALSE))); }
+    }
+
+    /**
+     * This function is used to finish user todo item
+     * @return boolean $result : TRUE / FALSE
+     */
+    function finishTodo()
+    {
+        $todoid = $this->input->post('todoid');        
+        $todoinfo = array('status'=>1);
+        $result = $this->user_model->editTodo($todoinfo , $todoid);
+        
+        if ($result == true) {
+            echo(json_encode(array('status'=>TRUE)));
+            }
+        else {
+            echo(json_encode(array('status'=>FALSE)));
+        }
     }
 
     /**

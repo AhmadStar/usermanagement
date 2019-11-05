@@ -197,6 +197,97 @@ jQuery(document).ready(function(){
 			});
 		}
 	});
+
+	jQuery(document).on("click", ".addTodo", function(){
+		$("#add_todo_modal").on("shown.bs.modal", function () {
+
+		}).modal('show');
+	});
+
+	jQuery(document).on("click", "#addNewTodo", function(){
+		var text = $('#add-todo-text').val();					
+
+		console.log(text);
+
+		hitURL = baseURL + "addTodo",
+		jQuery.ajax({
+		type : "POST",
+		dataType : "json",
+		url : hitURL,
+		data : {text : text} 
+		}).done(function(data){			
+			if(data.status = true) { alert("successfully added"); }
+			else if(data.status = false) { alert("Failed add todo"); }
+			else { alert("Access denied..!"); }
+			location.reload(true);
+		});
+	});
+
+	jQuery(document).on("click", ".editTodo", function(){
+		var todoid = $(this).data("todoid");
+
+		console.log($(this).parents('li:eq(1)'));
+
+		$("#edit_todo_modal").on("shown.bs.modal", function () {
+			$("#todoid").val(todoid);
+			$("#todo-text").val('dasdas dasd asd asd asdas das dasd asd as d');
+			}).modal('show');
+	});
+
+	jQuery(document).on("click", "#saveTodo", function(){
+		var text = $('#todo-text').val(),
+		todoid = $('#todoid').val();				
+
+		hitURL = baseURL + "editTodo",
+		jQuery.ajax({
+		type : "POST",
+		dataType : "json",
+		url : hitURL,
+		data : { todoid : todoid , text : text } 
+		}).done(function(data){			
+			if(data.status = true) { alert("successfully edited"); }
+			else if(data.status = false) { alert("Failed edit todo"); }
+			else { alert("Access denied..!"); }
+			location.reload(true);
+		});
+	});
+
+	jQuery(document).on("click", ".deleteTodo", function(){
+		var todoid = $(this).data("todoid");	
+		currentRow = $(this);
+		hitURL = baseURL + "deleteTodo",
+		jQuery.ajax({
+		type : "POST",
+		dataType : "json",
+		url : hitURL,
+		data : { todoid : todoid}
+		}).done(function(data){
+			if(data.status = true) {
+				alert("successfully TODO deleted"); 
+				currentRow.parents('li').remove();
+			}
+			else if(data.status = false) { alert("Failed to delet"); }
+			else { alert("Access denied..!"); }			
+		});
+	});
+
+	jQuery(document).on("click", ".finishTodo", function(){
+		var todoid = $(this).data("todoid");		
+		hitURL = baseURL + "finishTodo",
+		jQuery.ajax({
+		type : "POST",
+		dataType : "json",
+		url : hitURL,
+		data : { todoid : todoid}
+		}).done(function(data){
+			if(data.status = true) { 
+				alert("successfully TODO finished");
+				location.reload(true);
+			}
+			else if(data.status = false) { alert("Failed to finish"); }
+			else { alert("Access denied..!"); }			
+		});
+	});
 	
 	$(".favourite_icon").click(function(){
 		$(this).css({"color": "yellow"});
