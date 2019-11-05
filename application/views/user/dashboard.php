@@ -575,6 +575,50 @@
             </a>
           </div>
         </div>
+        <!-- Connected User -->
+        <div class="col-md-6">
+          <!-- USERS LIST -->
+          <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title">Connected Users</h3>
+
+              <div class="box-tools pull-right">
+                <span class="label label-danger"><?php if (isset($connectedUsersCount)) {
+                                                      echo $connectedUsersCount;
+                                                    } else {
+                                                      echo '0';
+                                                    } ?> Online</span>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <ul class="users-list clearfix">
+                <?php foreach ($connectedUsers as $user) { ?>
+                  <li>
+                    <a href="<?= base_url() . 'log-history/' . $user->userId; ?>"><img src="<?php echo $user->picture ?>" alt="User Image"></a>
+                    <a class="users-list-name" href="<?= base_url() . 'log-history/' . $user->userId; ?>"><?php echo $user->name ?></a>
+                    <span class="users-list-date"><?php echo $user->role ?></span>
+                    <span class="users-list-date"><?php echo date('Y-m-d', strtotime($user->last_login));
+                                                      echo date('l', strtotime($user->last_login)); ?></span>
+                  </li>
+                <?php } ?>
+              </ul>
+              <!-- /.users-list -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer text-center">
+              <a href="<?php echo base_url(); ?>userListing" class="small-box-footer">View All Users
+                <i class="fa fa-arrow-circle-right"></i>
+              </a>
+            </div>
+            <!-- /.box-footer -->
+          </div>
+          <!--/.box -->
+        </div>
       <?php }?>
 
       <?php      
@@ -640,50 +684,7 @@
       }
       if ($role == ROLE_ADMIN) {
         ?>
-        <!-- Connected User -->
-        <div class="col-md-6">
-          <!-- USERS LIST -->
-          <div class="box box-danger">
-            <div class="box-header with-border">
-              <h3 class="box-title">Connected Users</h3>
-
-              <div class="box-tools pull-right">
-                <span class="label label-danger"><?php if (isset($connectedUsersCount)) {
-                                                      echo $connectedUsersCount;
-                                                    } else {
-                                                      echo '0';
-                                                    } ?> Online</span>
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <ul class="users-list clearfix">
-                <?php foreach ($connectedUsers as $user) { ?>
-                  <li>
-                    <a href="<?= base_url() . 'log-history/' . $user->userId; ?>"><img src="<?php echo $user->picture ?>" alt="User Image"></a>
-                    <a class="users-list-name" href="<?= base_url() . 'log-history/' . $user->userId; ?>"><?php echo $user->name ?></a>
-                    <span class="users-list-date"><?php echo $user->role ?></span>
-                    <span class="users-list-date"><?php echo date('Y-m-d', strtotime($user->last_login));
-                                                      echo date('l', strtotime($user->last_login)); ?></span>
-                  </li>
-                <?php } ?>
-              </ul>
-              <!-- /.users-list -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer text-center">
-              <a href="<?php echo base_url(); ?>userListing" class="small-box-footer">View All Users
-                <i class="fa fa-arrow-circle-right"></i>
-              </a>
-            </div>
-            <!-- /.box-footer -->
-          </div>
-          <!--/.box -->
-        </div>
+        
 
          <!-- Browse Usage -->
          <div class="col-md-6">
@@ -1081,8 +1082,7 @@
           </div>
 
       
-      </div>
-
+     </div>
     </div>
   </section>
 </div>
