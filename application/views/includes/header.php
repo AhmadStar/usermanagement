@@ -219,7 +219,7 @@ $label = array('' , 'danger','warning','info');
                     <div class="col-xs-6 text-center">
                         <a href="<?php echo base_url(); ?>profile">
                           <i class="fa fa-user"></i>
-                          <span>profile</span>
+                          <span>Profile</span>
                         </a>
                     </div>
                   </div>
@@ -233,7 +233,7 @@ $label = array('' , 'danger','warning','info');
                   </div>
                   <div class="pull-right">
                     <a href="<?php echo base_url(); ?>logout" class="btn btn-default btn-flat">
-                      <i class="fa fa-sign-out"></i> logout</a>
+                      <i class="fa fa-sign-out"></i> Logout</a>
                   </div>
                 </li>
               </ul>

@@ -9,7 +9,8 @@ $employee_id = '';
 $groupName = '';
 $createdBy = '';
 $finish_detail = '';
-// $createdDtm = '';
+$createdDtm = '';
+$endDtm = '';
 
 if (!empty($taskInfo)) {
     foreach ($taskInfo as $uf) {
@@ -23,6 +24,7 @@ if (!empty($taskInfo)) {
         $createdBy = $uf->createdBy;
         $finish_detail = $uf->finish_detail;
         $createdDtm = $uf->createdDtm;
+        $endDtm = $uf->endDtm;
     }
 }
 
@@ -81,6 +83,20 @@ if (!empty($taskInfo)) {
                         <h4 class=""><span>Task Status :</span>
                             <?php
                             echo $status;
+                            ?>
+                        </h4>
+                        <h4 class=""><span>Task Creation Date :</span>
+                            <?php
+                            echo $createdDtm;
+                            ?>
+                        </h4>
+                        <h4 class=""><span>Task Finished Date :</span>
+                            <?php
+                            if ($finish_detail) {
+                                echo $endDtm;
+                            } else {
+                                echo 'Not finished yet';
+                            }
                             ?>
                         </h4>
                         <h4 class=""><span>Finish Details :</span>

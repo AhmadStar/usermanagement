@@ -339,3 +339,12 @@ hr {
 .navbar-custom-menu>.navbar-nav>li>.item-menu{
 	width: 350px;
 }
+
+.datepicker table tr td.day:hover, .datepicker table tr td.day.focused {
+    background: #0052cc;
+    cursor: pointer;
+}
+
+.datepicker table tr:first-child th:hover, .datepicker table tr:first-child th.focused {
+    background: #0052cc;    
+}

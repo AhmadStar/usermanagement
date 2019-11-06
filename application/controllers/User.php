@@ -176,9 +176,7 @@ class User extends BaseController
                         
                         //Thumbnail Image Upload - Start                        
                         $source_path = $_SERVER['DOCUMENT_ROOT'].'/monitor/'.$config['upload_path'].$filename;
-                        $target_path = $_SERVER['DOCUMENT_ROOT'].'/monitor/'.$config['upload_path'].'thumbnail/';
-                        
-                        // var_dump($source_path);var_dump($target_path);die();
+                        $target_path = $config['upload_path'].'thumbnail/'.$filename;                                                
 
                         $config_manip = array(
                             'image_library' => 'gd2',
@@ -186,7 +184,8 @@ class User extends BaseController
                             'new_image' => $target_path,
                             'maintain_ratio' => TRUE,
                             'create_thumb' => TRUE,
-                            'thumb_marker' => '_thumb',
+                            'overwrite' => TRUE ,
+                            'thumb_marker' => '',
                             'width' => 150,
                             'height' => 150,                            
                         );                        
@@ -200,13 +199,12 @@ class User extends BaseController
                         if ( ! $this->image_lib->resize()) {
                             echo $this->image_lib->display_errors();
                         }
-                        var_dump($source_path);
-                        die();
+
                         $this->image_lib->clear();
                         //Thumbnail Image Upload - End
                         
                         $userInfo = array('email'=>$email,'name'=>$name,
-                            'mobile'=>$mobile, 'status'=>1, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $config['upload_path'].$filename);                      
+                            'mobile'=>$mobile, 'status'=>1, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $config['upload_path'].'thumbnail/'.$filename);                      
                     }
                 }else{
                     $userInfo = array('email'=>$email,'name'=>$name,
@@ -252,9 +250,7 @@ class User extends BaseController
                         
                         //Thumbnail Image Upload - Start                        
                         $source_path = $_SERVER['DOCUMENT_ROOT'].'/monitor/'.$config['upload_path'].$filename;
-                        $target_path = $_SERVER['DOCUMENT_ROOT'].'/monitor/'.$config['upload_path'].'thumbnail/';
-                        
-                        // var_dump($source_path);var_dump($target_path);die();
+                        $target_path = $config['upload_path'].'thumbnail/'.$filename;                                                
 
                         $config_manip = array(
                             'image_library' => 'gd2',
@@ -262,7 +258,8 @@ class User extends BaseController
                             'new_image' => $target_path,
                             'maintain_ratio' => TRUE,
                             'create_thumb' => TRUE,
-                            'thumb_marker' => '_thumb',
+                            'overwrite' => TRUE ,
+                            'thumb_marker' => '',
                             'width' => 150,
                             'height' => 150,                            
                         );                        
@@ -276,14 +273,13 @@ class User extends BaseController
                         if ( ! $this->image_lib->resize()) {
                             echo $this->image_lib->display_errors();
                         }
-                        var_dump($source_path);
-                        die();
+                        
                         $this->image_lib->clear();
                         //Thumbnail Image Upload - End
                         
                         $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password),
                         'name'=>ucwords($name), 'mobile'=>$mobile,'status'=>1, 'updatedBy'=>$this->vendorId, 
-                        'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $config['upload_path'].$filename);                        
+                        'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $config['upload_path'].'thumbnail/'.$filename);                        
                     }
                 }else{
                     $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password),
