@@ -80,7 +80,7 @@ if ($role === ROLE_CLIENT) {
 }
 
 $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
-
+$label = array('' , 'danger','warning','info');
 ?>
 
 <body class="<?php echo $theme ?> sidebar-mini">
@@ -119,7 +119,7 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                   if ($role == ROLE_CLIENT ) echo $ClientBendingTasksCount;                                
                 ?></span>
              </a>
-             <ul class="dropdown-menu">
+             <ul class="dropdown-menu item-menu">
               <li class="header"><?php 
                   if ($role == ROLE_EMPLOYEE) echo 'You have '.$mytasksCount.' Tasks';
                   if ($role == ROLE_ADMIN || $role == ROLE_MANAGER) echo 'We have '.$BendingTasksCount.' Bending Tasks';
@@ -131,37 +131,36 @@ $myBonus = $this->user_model->userStars($this->session->userdata('userId'));
                 <?php                 
                 
                 foreach ($tasks as $task) { ?>
-                  <li><!-- Task item -->
-                    <a href="<?php echo base_url() . 'showTask/' . $task->id; ?>">
-                      <h3>
-                      <span class="label label-<?php
-                        if ($task->priorityId == '1')
-                          echo 'danger';
-                        else if ($task->priorityId == '2')
-                          echo 'warning';
-                        else if ($task->priorityId == '3')
-                          echo 'info'
-                          ?>">
-                          <?php echo $task->title?>                                                
-                        </span>
-                        <small class="pull-right"><i class="fa fa-clock-o"></i>
-                          <?php 
-                            $since = strtotime(date("H:i:s")) - strtotime($task->createdDtm);
-                            $days = floor($since / 86400);
-                            $hours = floor($since / 3600);
-                            if($hours > 24 )
-                              $hours = $hours % 24;
-                            $minutes = floor(($since / 60) % 60);                            
-                            if($days != 0) echo $days.' days ';
-                            else{
-                              if($hours != 0) echo $hours.':';
-                              if($hours == 0)
-                                echo $minutes.' mins ';
-                              else echo $minutes.' hours';
-                            }
-                        ?> ago</small>
-                      </h3>
-                    </a>
+                  <li class="task-item"><!-- Task item -->                                      
+                  <div class="task-img">
+                    <img src="<?php echo base_url().$task->picture ?>" alt="Product Image">
+                  </div>
+                  <div class="task-info">
+                    <a href="<?php echo base_url() . 'showTask/' . $task->id; ?>" class="product-title"><?php echo $task->title ?>
+                      <span class="pull-right label label-<?php echo $label[$task->priorityId]?>">
+                        <?php echo $task->priority ?>
+                      </span>
+                      <?php
+                        $since = strtotime(date("H:i:s")) - strtotime($task->createdDtm);
+                        $days = floor($since / 86400);
+                        $hours = floor($since / 3600);
+                        if($hours > 24 )
+                            $hours = $hours % 24;
+                        $minutes = floor(($since / 60) % 60);
+                        $since = '';
+                        if($days != 0)
+                            $since .= $days.' days ';
+                        else{
+                        if($hours != 0) $since .=  $hours.':';
+                        if($hours == 0)
+                            $since .= $minutes.' mins ';
+                        else $since .=  $minutes.' hours';
+                        }
+                        $label1 = array('danger','success','info','warning','primary');
+                      ?>
+                    <small class="pull-right label label-<?php echo $label1[rand(0,4)]?>"> <i class="fa fa-clock-o"></i><?php echo $since?></small>
+                    </a>                   
+                  </div>
                   </li>
                 <?php } ?>
                   <!-- end task item -->

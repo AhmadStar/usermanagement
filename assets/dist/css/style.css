@@ -317,3 +317,25 @@ hr {
 .product-info .pull-right{
 	margin-left: 5px;
 }
+
+.task-item{
+	padding: 10px;
+}
+
+.task-img{
+	float: left;
+}
+
+.task-img img {
+	border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+
+.task-item .task-info span{
+	margin-left: 5px;
+}
+
+.navbar-custom-menu>.navbar-nav>li>.item-menu{
+	width: 350px;
+}

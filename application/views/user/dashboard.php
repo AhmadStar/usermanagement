@@ -640,21 +640,16 @@
           <!-- /.box-header -->
           <div class="box-body">
             <ul class="products-list product-list-in-box">
-              <?php foreach ($latestTask as $task) { ?>
+              <?php foreach ($latestTask as $task) { 
+                $label = array('No','danger','warning','info');
+                ?>
                 <li class="item">
                   <div class="product-img">
                     <img src="<?php echo $task->picture ?>" alt="Product Image">
                   </div>
                   <div class="product-info">
                     <a href="<?php echo base_url() . 'showTask/' . $task->id; ?>" class="product-title"><?php echo $task->title ?>
-                      <span class="pull-right label label-<?php
-                      if ($task->priorityId == '1')
-                        echo 'danger';
-                      else if ($task->priorityId == '2')
-                        echo 'warning';
-                      else if ($task->priorityId == '3')
-                        echo 'info'
-                        ?>">
+                      <span class="pull-right label label-<?php echo $label[$task->priorityId]?>">
                         <?php echo $task->priority ?>
                       </span>
                       <?php
