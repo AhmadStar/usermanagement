@@ -173,6 +173,38 @@ class User extends BaseController
                     {
                         $data = array('upload_data' => $this->upload->data());
                         $filename = $data['upload_data']['file_name'];
+                        
+                        //Thumbnail Image Upload - Start                        
+                        $source_path = $_SERVER['DOCUMENT_ROOT'].'/monitor/'.$config['upload_path'].$filename;
+                        $target_path = $_SERVER['DOCUMENT_ROOT'].'/monitor/'.$config['upload_path'].'thumbnail/';
+                        
+                        // var_dump($source_path);var_dump($target_path);die();
+
+                        $config_manip = array(
+                            'image_library' => 'gd2',
+                            'source_image' => $source_path,
+                            'new_image' => $target_path,
+                            'maintain_ratio' => TRUE,
+                            'create_thumb' => TRUE,
+                            'thumb_marker' => '_thumb',
+                            'width' => 150,
+                            'height' => 150,                            
+                        );                        
+                        
+                        //load resize library
+                        $this->load->library('image_lib');
+                        // Set your config up
+                        $this->image_lib->initialize($config_manip);
+
+                        // $this->load->library('image_lib', $config_manip);
+                        if ( ! $this->image_lib->resize()) {
+                            echo $this->image_lib->display_errors();
+                        }
+                        var_dump($source_path);
+                        die();
+                        $this->image_lib->clear();
+                        //Thumbnail Image Upload - End
+                        
                         $userInfo = array('email'=>$email,'name'=>$name,
                             'mobile'=>$mobile, 'status'=>1, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $config['upload_path'].$filename);                      
                     }
@@ -193,7 +225,7 @@ class User extends BaseController
                 else
                 {
                 //upload picture
-                if($_FILES['picture']['tmp_name']){                    
+                if($_FILES['picture']['tmp_name']){
                     $config['upload_path']  = 'uploads/user_profile/';
                     if(!file_exists($config['upload_path'])){
                         mkdir($config['upload_path'],0777);
@@ -215,8 +247,40 @@ class User extends BaseController
                     }
                     else
                     {
-                        $data = array('upload_data' => $this->upload->data());                        
+                        $data = array('upload_data' => $this->upload->data());
                         $filename = $data['upload_data']['file_name'];
+                        
+                        //Thumbnail Image Upload - Start                        
+                        $source_path = $_SERVER['DOCUMENT_ROOT'].'/monitor/'.$config['upload_path'].$filename;
+                        $target_path = $_SERVER['DOCUMENT_ROOT'].'/monitor/'.$config['upload_path'].'thumbnail/';
+                        
+                        // var_dump($source_path);var_dump($target_path);die();
+
+                        $config_manip = array(
+                            'image_library' => 'gd2',
+                            'source_image' => $source_path,
+                            'new_image' => $target_path,
+                            'maintain_ratio' => TRUE,
+                            'create_thumb' => TRUE,
+                            'thumb_marker' => '_thumb',
+                            'width' => 150,
+                            'height' => 150,                            
+                        );                        
+                        
+                        //load resize library
+                        $this->load->library('image_lib');
+                        // Set your config up
+                        $this->image_lib->initialize($config_manip);
+
+                        // $this->load->library('image_lib', $config_manip);
+                        if ( ! $this->image_lib->resize()) {
+                            echo $this->image_lib->display_errors();
+                        }
+                        var_dump($source_path);
+                        die();
+                        $this->image_lib->clear();
+                        //Thumbnail Image Upload - End
+                        
                         $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password),
                         'name'=>ucwords($name), 'mobile'=>$mobile,'status'=>1, 'updatedBy'=>$this->vendorId, 
                         'updatedDtm'=>date('Y-m-d H:i:s') , 'picture' => $config['upload_path'].$filename);                        
@@ -555,7 +619,7 @@ class User extends BaseController
      * This function used to show user to do items.
      */
     public function todo()
-    {        
+    {
         $page = '';        
         $links = '';
         $todo_data = '';
