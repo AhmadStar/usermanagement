@@ -8,7 +8,7 @@
 
   <section class="content">
   <?php
-      if ($role !== ROLE_MANAGER){
+      if ($role != ROLE_MANAGER && $role != ROLE_CLIENT){
   ?>
     <div class="">
     <!--  Sales Chart -->
