@@ -36,6 +36,10 @@ $route['log-history-upload'] = "admin/logHistoryUpload";
 $route['logHistoryUploadFile'] = "admin/logHistoryUploadFile";
 $route['getBrowseData'] = "admin/getBrowseData";
 $route['dailylogs'] = "admin/dailylogs";
+$route['addUserLog'] = "admin/addUserLog";
+$route['maintainUsersLogs'] = "admin/maintainUsersLogs";
+$route['usersLogs'] = "admin/usersLogs";
+$route['deleteLogRecord'] = "admin/deleteLogRecord";
 
 /*********** MANAGER CONTROLLER ROUTES *******************/
 $route['addNewTask'] = "manager/addNewTask";
@@ -67,8 +71,6 @@ $route['userStars'] = "user/userStars";
 $route['showBonus/(:num)'] = "user/showBonus/$1";
 $route['userEdit'] = "user/loadUserEdit";
 $route['updateUser'] = "user/updateUser";
-
-
 $route['log-history'] = "user/logHistory";
 $route['general'] = "user/general";
 $route['todo'] = "user/todo";

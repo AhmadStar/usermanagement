@@ -111,9 +111,21 @@ class Employee_model extends CI_Model {
 		return $list;
 	}
 
+	public function get_users_datatables()
+	{
+		$this->_get_datatables_query();
+		if($_POST['length'] != -1)
+		$this->db->limit($_POST['length'], $_POST['start']);		
+		$query = $this->db->get();
+		$list = $query->result();		
+
+		return $list;
+	}
+
 	public function get_day_logins($id , $date)
 	{
-		$this->db->where('userId', $id);		
+		$this->db->where('userId', $id);
+		$this->db->order_by('createdDtm', 'ASC');
 		$this->db->from($this->table);
 		$query = $this->db->get();
 		$list = $query->result();
@@ -167,6 +179,14 @@ class Employee_model extends CI_Model {
 				$temp_pageno[] = $pageno;
 			}
 		}
+		return count($list);
+	}
+
+	public function count_users_logs_filtered()
+	{
+		$this->_get_datatables_query();
+		$query = $this->db->get();
+		$list = $query->result();
 		return count($list);
 	}
 

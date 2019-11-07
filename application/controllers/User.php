@@ -562,9 +562,7 @@ class User extends BaseController
             $data['employee_list']=$this->_employee_list($this->session->userdata('userId'));
             }else{
             $data['employee_list']=$this->_employee_list();
-            }
-
-        $data['userRecords'] = $this->user_model->logHistory($userId);
+            }        
 
         $this->global['pageTitle'] = 'DAS : User Login History';
         

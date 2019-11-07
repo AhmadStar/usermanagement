@@ -69,16 +69,10 @@ class Admin extends BaseController
     function addNew()
     {
         $data['roles'] = $this->user_model->getUserRoles();
-        $data['groups'] = $this->user_model->getUserGroups();
-        // for first item
-        // $item = new stdClass();
-        // $item->id = 4;
-        // $item->name = 'Not In Group';
-        // array_push($data['groups'], $item); 
+        $data['groups'] = $this->user_model->getUserGroups();        
         $this->global['pageTitle'] = 'DAS : Add User';
         $this->loadViews("admin/addNew", $this->global, $data, NULL);
     }
-
 
     /**
      * This function is used to add new user to the system
@@ -132,7 +126,6 @@ class Admin extends BaseController
             redirect('userListing');
         }
     }
-
 
      /**
      * This function is used load user edit information
@@ -354,6 +347,112 @@ class Admin extends BaseController
         
         $this->loadViews("admin/logHistorysingle", $this->global, $data, NULL);      
     }
+
+    /**
+     * This function used to show users log history     
+     */
+    function maintainUsersLogs()
+    {
+        $data['employee_list']=$this->_employee_list();
+        // $data['userRecords'] = $this->user_model->logHistory();
+        $data['userRecords'] = '';
+        $this->global['pageTitle'] = 'DAS : User Login History';        
+        $this->loadViews("admin/maintainUsersLogs", $this->global, $data, NULL);
+    }
+
+    // get data for users logs 
+    public function usersLogs()
+    {
+        $list = $this->employee_model->get_users_datatables();
+        $data = array();
+        $no = $_POST['start'];        
+        foreach ($list as $employee){
+            $no++;
+            $actions = '';
+            $row = array();      
+            $row[] = $no;      
+            $row[] = $employee->userName;       
+            $row[] = $employee->userId;
+            $row[] = $employee->process;
+            $row[] = $employee->createdDtm;        
+            $row[] = date('l', strtotime($employee->createdDtm));            
+            $actions .= '<span class="glyphicon glyphicon-remove deleteLog" title="Delete Log" data-logid='.$employee->id.'></span>';                   
+            $row[] = $actions;
+
+            $data[] = $row;
+        }
+  
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->employee_model->count_all(),
+            "recordsFiltered" => $this->employee_model->count_users_logs_filtered(),
+            "data" => $data,
+        );
+          //output to json format
+          echo json_encode($output);
+    }
+
+    /**
+     * This function is used to add new user to the system
+     */
+    function addUserLog()
+    {
+        $data['users'] = $this->_user_list();
+        if($this->input->post()){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('user_id', 'user name', 'required');
+            $this->form_validation->set_rules('createdDtm', 'date is required', 'required');            
+            
+            if($this->form_validation->run() == FALSE)
+            {
+                redirect('addUserLog');
+            }
+            else
+            {
+                $user_id = $this->input->post('user_id');
+                $createdDtm = $this->input->post('createdDtm');
+                $process = $this->input->post('process');                
+                $logInfo = array('userId'=>$user_id,'userName'=>$data['users'][$user_id],
+                    'process'=>$process,'createdDtm'=>$createdDtm);
+                
+                $this->load->model('login_model');
+                $result = $this->login_model->loginsert($logInfo);
+                                
+
+                if($result > 0)
+                {                
+                    $this->session->set_flashdata('success', $result.'log successfully added');
+                }
+                else
+                {
+                    $this->session->set_flashdata('error', 'log creation failed');
+                }
+                
+                redirect('addUserLog');
+            }
+        }
+        
+        $this->global['pageTitle'] = 'DAS : Add User';
+        $this->loadViews("admin/addUserLog", $this->global, $data, NULL);
+    }
+
+    /**
+     * This function is used to delete log record
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteLogRecord()
+    {
+        $logid = $this->input->post('logid');        
+        
+        $result = $this->user_model->deleteLogRecord($logid);
+        
+        if ($result > 0){
+            echo(json_encode(array('status'=>TRUE)));
+        }
+        else{
+            echo(json_encode(array('status'=>FALSE)));
+        }
+    }
     
     /**
      * This function used to backup and delete log table
@@ -525,19 +624,17 @@ class Admin extends BaseController
             }
     }
 
-
     /**
      * This function used to show log history
      * @param number $userId : This is user id
      */
-    public function getBrowseData()
+    function getBrowseData()
     {
         $data = $this->user_model->get_browse_data();
         
         //output to json format
             echo json_encode($data);
     }    
-
 
     /**
      * This function used to show log history every day     
@@ -557,11 +654,10 @@ class Admin extends BaseController
         $this->loadViews("admin/dailylogHistory", $this->global, $data, NULL);
     }
 
-
     /**
    * user_bonus()
    * returns a list of all users bonus .
-   */ 
+   */
     public function user_bonus()
     {
         $bonuses = $this->user_model->get_bonus();    
@@ -571,6 +667,35 @@ class Admin extends BaseController
             $bonus_list[$bonus->user_id]=  html_escape($bonus->stars);
         }
         return $bonus_list;
+    }
+
+    /**
+    * _employee_list()
+    * returns a list of employee.
+    */ 
+    public function _employee_list()
+    {
+        $employees = $this->employee_model->get_employees();
+        $employee_list['']= 'Choose Employee';
+        foreach ($employees as $employee) 
+        {
+            $employee_list[$employee->userId]=  html_escape($employee->name);
+        }
+        return $employee_list;
+    }
+
+    /**
+     * _user_list()
+     * returns a list of users.
+     */
+    public function _user_list()
+    {
+        $users = $this->user_model->get_all_users();
+        $user_list[''] ='Choose User';        
+        foreach ($users as $user) {
+            $user_list[$user->userId] =  html_escape($user->name);
+        }
+        return $user_list;
     }
 }
 

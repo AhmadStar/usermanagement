@@ -19,14 +19,12 @@
   <!-- Datatables style -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/b-flash-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/fc-3.2.4/fh-3.1.3/kt-2.3.2/r-2.2.1/rg-1.0.2/rr-1.2.3/sc-1.4.4/sl-1.2.5/datatables.min.css" />
   <!-- Theme style -->
-  <!-- <link href="<?php echo base_url(); ?>assets/plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" /> -->
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/jquery.datetimepicker.min.css"> 
 
-
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" /> -->
   <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
   <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
-
   <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />
   <style>
     .error {
@@ -34,9 +32,11 @@
       font-weight: normal;
     }
   </style>
+  
   <!-- jQuery 3.4.1 -->
   <script src="<?php echo base_url(); ?>assets/js/jquery-3.4.1.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/jQueryUI/jquery-ui-1.10.3.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/jquery.datetimepicker.full.min.js"></script>
   <script type="text/javascript">
     var baseURL = "<?php echo base_url(); ?>";
   </script>
@@ -481,6 +481,29 @@ $label = array('' , 'danger','warning','info');
             ?>
           <li class="treeview">
             <a href="#">
+              <i class="fa fa-sign-in"></i>
+              <span>Manipulate Users Logs</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>addUserLog">
+                    <i class="fa fa-plus-circle"></i>
+                    <span>Add User Log</span>
+                  </a>
+                </li>
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>maintainUsersLogs">
+                    <i class="fa fa-archive"></i>
+                    <span>Maintain Users logs</span>
+                  </a>
+                </li>              
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="#">
               <i class="fa fa-gear"></i>
               <span>General Settings</span>
               <span class="pull-right-container">
@@ -488,24 +511,18 @@ $label = array('' , 'danger','warning','info');
               </span>
             </a>
             <ul class="treeview-menu">
-              <?php
-              if ($role === ROLE_ADMIN) {
-                ?>
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>log-history-upload">
                     <i class="fa fa-upload"></i>
-                    <span>log history upload</span>
+                    <span>Log History Upload</span>
                   </a>
                 </li>
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>log-history-backup">
                     <i class="fa fa-archive"></i>
-                    <span>log history backup</span>
+                    <span>Log History Backup</span>
                   </a>
-                </li>
-              <?php
-              }
-              ?>
+                </li>              
             </ul>
           </li>
           <?php

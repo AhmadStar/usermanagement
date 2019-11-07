@@ -240,13 +240,26 @@ class User_model extends CI_Model
 
     /**
      * This function is used to delete to do 
-     * @param number $bonusid : This is todo id
+     * @param number $todoid : This is todo id
      * @return boolean $result : TRUE / FALSE
      */
     function deleteTodo($todoid)
     {
         $this->db->where('id', $todoid);
         $this->db->delete('todo');
+        
+        return $this->db->affected_rows();
+    }
+
+    /**
+     * This function is used to delete log record
+     * @param number $logid : This is log record id
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteLogRecord($logid)
+    {
+        $this->db->where('id', $logid);
+        $this->db->delete('tbl_log');
         
         return $this->db->affected_rows();
     }
@@ -1340,6 +1353,14 @@ class User_model extends CI_Model
 		$this->db->select('*');		
 		$this->db->from('tbl_users');		
         $this->db->where('roleId', 3);		
+		$query = $this->db->get();
+		return $query->result();
+    }
+
+    public function get_all_users(){
+		$this->db->select('*');		
+        $this->db->from('tbl_users');
+        $this->db->where('isDeleted', 0);
 		$query = $this->db->get();
 		return $query->result();
     }
