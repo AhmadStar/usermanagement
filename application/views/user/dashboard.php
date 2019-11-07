@@ -7,6 +7,9 @@
   </section>
 
   <section class="content">
+  <?php
+      if ($role !== ROLE_MANAGER){
+  ?>
     <div class="">
     <!--  Sales Chart -->
       <div class="box box-danger">
@@ -282,7 +285,9 @@
         </div>
       </div>
     </div>
-
+    <?php
+       }
+    ?>
 
 
     <div class="row">
@@ -526,6 +531,9 @@
       if ($role !== ROLE_CLIENT) {
       ?>
 
+      <?php        
+      if ($role !== ROLE_MANAGER) {
+      ?>
       <!-- ./col log history-->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
@@ -549,6 +557,9 @@
         </div>
       </div>
       <!-- ./col -->
+      <?php
+        }      
+      ?>
 
       <?php      
       if ($role == ROLE_ADMIN) {

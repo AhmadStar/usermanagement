@@ -107,6 +107,16 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="workType">Work Type</label>
+                                        <select name="workType" class="form-control">
+                                            <option value="">Select</option>
+                                            <option value="1">Office Work</option>
+                                            <option value="2">Remote</option>
+                                        </select>
+                                    </div>                                    
+                                </div>
                             </div>
                         </div>
                         <!-- /.box-body -->

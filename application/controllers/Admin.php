@@ -88,6 +88,7 @@ class Admin extends BaseController
         $this->form_validation->set_rules('role','Role','trim|required|numeric');
         $this->form_validation->set_rules('group','Group','trim|required|numeric');
         $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]');
+        $this->form_validation->set_rules('workType','Work Type','required|numeric');
         
         if($this->form_validation->run() == FALSE)
         {
@@ -100,9 +101,12 @@ class Admin extends BaseController
             $password = $this->input->post('password');
             $roleId = $this->input->post('role');
             $mobile = $this->security->xss_clean($this->input->post('mobile'));
+            $workType = $this->input->post('workType');
             
-            $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId, 'name'=> $name,
-                                'mobile'=>$mobile, 'createdBy'=>$this->vendorId, 'createdDtm'=>date('Y-m-d H:i:s'));
+            $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 
+                                'roleId'=>$roleId, 'name'=> $name,
+                                'mobile'=>$mobile, 'createdBy'=>$this->vendorId,
+                                'createdDtm'=>date('Y-m-d H:i:s'), 'workType'=>$workType);
 
             $result = $this->user_model->addNewUser($userInfo);
             
@@ -169,6 +173,7 @@ class Admin extends BaseController
         $this->form_validation->set_rules('role','Role','trim|required|numeric');
         $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]');
         $this->form_validation->set_rules('group','Group','trim|required|numeric');
+        $this->form_validation->set_rules('workType','Work Type','required|numeric');
         
         if($this->form_validation->run() == FALSE)
         {
@@ -182,18 +187,21 @@ class Admin extends BaseController
             $roleId = $this->input->post('role');
             $mobile = $this->security->xss_clean($this->input->post('mobile'));
             $group = $this->input->post('group');
+            $workType = $this->input->post('workType');
             $userInfo = array();
             
             if(empty($password))
             {
-                $userInfo = array('email'=>$email, 'roleId'=>$roleId, 'name'=>$name,
-                                'mobile'=>$mobile, 'status'=>0, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'));
+                $userInfo = array('email'=>$email, 'roleId'=>$roleId, 
+                            'name'=>$name,'mobile'=>$mobile, 'status'=>0,
+                            'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:s'),
+                            'workType'=> $workType);
             }
             else
             {
                 $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId,
                     'name'=>ucwords($name), 'mobile'=>$mobile,'status'=>0, 'updatedBy'=>$this->vendorId, 
-                    'updatedDtm'=>date('Y-m-d H:i:s'));
+                    'updatedDtm'=>date('Y-m-d H:i:s'),'workType'=> $workType);
             }
             
             $result = $this->user_model->editUser($userInfo, $userId);

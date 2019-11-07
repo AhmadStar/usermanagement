@@ -466,7 +466,8 @@ $label = array('' , 'danger','warning','info');
               </a>
             </li> 
             <?php
-          }          
+          }
+          if ($role != ROLE_MANAGER && $role != ROLE_CLIENT){
             ?>         
 
           <li class="treeview">
@@ -476,7 +477,8 @@ $label = array('' , 'danger','warning','info');
             </a>
           </li>
 
-          <?php          
+          <?php
+          }
           if ($role == ROLE_ADMIN) {
             ?>
           <li class="treeview">
