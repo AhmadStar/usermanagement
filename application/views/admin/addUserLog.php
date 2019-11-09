@@ -20,7 +20,7 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <?php $this->load->helper("form"); ?>
-                    <form role="form" id="addUser" action="<?php echo base_url() ?>addUserLog" method="post" role="form">
+                    <form role="form" id="addUserLog" action="<?php echo base_url() ?>addUserLog" method="post" role="form">
                         <div class="box-body">
                         <div class="row">
                                 <div class="col-md-6">
@@ -32,15 +32,18 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="email">Date and Time</label>
-                                        <div class='input-group date'>
-                                            <input id="datetimepicker" name="createdDtm" autocomplete="off" class="form-control" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
+                                        <div class="input-append date form_datetime" data-date="2013-02-21T15:25:00Z">
+                                            <input size="16" type="text" value="" readonly>
+                                            <span class="add-on"><i class="icon-remove"></i></span>
+                                            <span class="add-on"><i class="icon-calendar"></i></span>
                                         </div>
                                         <script type="text/javascript">
-                                            $(function () {
-                                                $('#datetimepicker').datetimepicker();
+                                            $(".form_datetime").datetimepicker({
+                                                format: "dd MM yyyy - hh:ii",
+                                                autoclose: true,
+                                                todayBtn: true,
+                                                startDate: "2013-02-14 10:00",
+                                                minuteStep: 10
                                             });
                                         </script>
                                     </div>
@@ -99,3 +102,4 @@
         </div>
     </section>
 </div>
+<script src="<?php echo base_url(); ?>assets/js/addUserLog.js" type="text/javascript"></script>

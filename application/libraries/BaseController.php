@@ -59,7 +59,7 @@ class BaseController extends CI_Controller {
 	 * Rol definetions in application/config/constants.php
 	 */
 	function isManagerOrAdmin() {
-		if ($this->role == ROLE_ADMIN || $this->role == ROLE_MANAGER) {
+		if ($this->role == ROLE_ADMIN || $this->role == ROLE_SLAES) {
 			return true;
 		} else {
 			return false;

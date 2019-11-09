@@ -276,5 +276,5 @@ $('.todo-list').sortable({
   });
 
   //The Calender
-  $("#calendar").datepicker('setDate', 'now');
+  $("#calendar").datepicker();
 });

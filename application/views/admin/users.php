@@ -51,6 +51,7 @@
                                         <th>Telephone number</th>
                                         <th>Month Stars</th>
                                         <th>Role</th>
+                                        <th>Work Type</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -93,6 +94,10 @@
                                                 <td>
                                                     <label>Role:</label>
                                                     <?php echo $record->role ?>
+                                                </td>
+                                                <td>
+                                                    <label>Work:</label>
+                                                    <?php echo  $record->workType == 1 ? 'Office Work' : 'Remote' ?>
                                                 </td>
                                                 <td class="text-center">
                                                     <a class="btn btn-sm btn-primary" href="<?= base_url() . 'log-history/' . $record->userId; ?>" title="Log History">

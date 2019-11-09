@@ -165,7 +165,7 @@
                           <a class="btn btn-sm btn-info showtask" href="<?php echo base_url() . 'showTask/' . $record->id; ?>" data-userid="<?php echo $record->id; ?>" title="Show">
                             <i class="fa fa-eye"></i>
                           </a>
-                          <?php if ($role !== ROLE_CLIENT && $role !== ROLE_MANAGER) { ?>
+                          <?php if ($role !== ROLE_CLIENT && $role !== ROLE_SLAES) { ?>
                             <a class="btn btn-sm btn-success finishtask" href="#" data-taskid="<?php echo $record->id; ?>" title="End Task">
                             <i class="fa fa-check-circle"></i>
                           </a>

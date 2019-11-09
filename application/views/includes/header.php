@@ -19,13 +19,13 @@
   <!-- Datatables style -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/b-flash-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/fc-3.2.4/fh-3.1.3/kt-2.3.2/r-2.2.1/rg-1.0.2/rr-1.2.3/sc-1.4.4/sl-1.2.5/datatables.min.css" />
   <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/jquery.datetimepicker.min.css"> 
-
-  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" /> -->
   <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
   <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
-  <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />
+  <!-- custom style file -->
+  <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />  
+  <!-- datetimepicker  -->
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/bootstrap-datetimepicker.min.css"> 
   <style>
     .error {
       color: red;
@@ -36,7 +36,7 @@
   <!-- jQuery 3.4.1 -->
   <script src="<?php echo base_url(); ?>assets/js/jquery-3.4.1.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/jQueryUI/jquery-ui-1.10.3.js"></script>
-  <script src="<?php echo base_url(); ?>assets/js/jquery.datetimepicker.full.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
   <script type="text/javascript">
     var baseURL = "<?php echo base_url(); ?>";
   </script>
@@ -64,7 +64,7 @@ if ($role === ROLE_EMPLOYEE) {
   $myfinishedTasksCount = $this->user_model->finishedTasksCount($this->session->userdata('userId'));
 }
 
-if ($role === ROLE_ADMIN || $role == ROLE_MANAGER) {
+if ($role === ROLE_ADMIN || $role == ROLE_SLAES) {
   $tasks = $this->user_model->getBendingTasks();
   $AllTasksCount = $this->user_model->AllTasksCount();
   $BendingTasksCount = $this->user_model->BendingTasksCount();
@@ -115,14 +115,14 @@ $label = array('' , 'danger','warning','info');
               <span class="label label-danger">
                 <?php 
                   if ($role == ROLE_EMPLOYEE) echo $mytasksCount;
-                  if ($role == ROLE_ADMIN || $role == ROLE_MANAGER) echo $BendingTasksCount;
+                  if ($role == ROLE_ADMIN || $role == ROLE_SLAES) echo $BendingTasksCount;
                   if ($role == ROLE_CLIENT ) echo $ClientBendingTasksCount;                                
                 ?></span>
              </a>
              <ul class="dropdown-menu item-menu">
               <li class="header"><?php 
                   if ($role == ROLE_EMPLOYEE) echo 'You have '.$mytasksCount.' Tasks';
-                  if ($role == ROLE_ADMIN || $role == ROLE_MANAGER) echo 'We have '.$BendingTasksCount.' Bending Tasks';
+                  if ($role == ROLE_ADMIN || $role == ROLE_SLAES) echo 'We have '.$BendingTasksCount.' Bending Tasks';
                   if ($role == ROLE_CLIENT ) echo 'We have '.$ClientBendingTasksCount.' Bending Tasks';                            
                 ?></li>
               <li>
@@ -169,7 +169,7 @@ $label = array('' , 'danger','warning','info');
               <li class="footer">
                   <?php if ($role == ROLE_EMPLOYEE){?>
                     <a href="<?php echo base_url() . 'tasks' ?>">view my tasks</a>
-                  <?php }if ($role == ROLE_ADMIN || $role == ROLE_MANAGER){?>
+                  <?php }if ($role == ROLE_ADMIN || $role == ROLE_SLAES){?>
                     <a href="<?php echo base_url() . 'Bendingtasks' ?>">view bending tasks</a>
                   <?php }if ($role == ROLE_CLIENT ){?>
                     <a href="<?php echo base_url() . 'clientBendingTasks' ?>">view bending tasks</a>
@@ -280,7 +280,7 @@ $label = array('' , 'danger','warning','info');
             <ul class="treeview-menu">
               <?php
               // Rol definetion in application/config/constants.php
-              if ($role == ROLE_ADMIN || $role == ROLE_MANAGER) {
+              if ($role == ROLE_ADMIN || $role == ROLE_SLAES) {
                 ?>
                 <li class="treeview">
                   <a href="<?php echo base_url(); ?>Bendingtasks">
@@ -433,7 +433,7 @@ $label = array('' , 'danger','warning','info');
             </ul>
           </li>
           <?php
-          if ($role === ROLE_EMPLOYEE || $role === ROLE_MANAGER) {
+          if ($role === ROLE_EMPLOYEE || $role === ROLE_SLAES) {
             ?>
             <li class="treeview">
               <a href="<?php echo base_url(); ?>userStars">
@@ -467,7 +467,7 @@ $label = array('' , 'danger','warning','info');
             </li> 
             <?php
           }
-          if ($role != ROLE_MANAGER && $role != ROLE_CLIENT){
+          if ($role != ROLE_SLAES && $role != ROLE_CLIENT){
             ?>         
 
           <li class="treeview">
