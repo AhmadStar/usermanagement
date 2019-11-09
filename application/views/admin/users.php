@@ -150,10 +150,10 @@
                     <input type="hidden" class="form-control" id="userId">
                 </div>
                 <div class="md-form">
-                    <input type="text" class="form-control" id="bonus-title">
+                    <input type="text" class="form-control" id="bonus-title" placeholder="Bonus Title">
                 </div>
                 <div class="md-form">
-                    <textarea type="text" id="bonus-desc" class="form-control md-textarea" rows="3"></textarea>
+                    <textarea type="text" id="bonus-desc" class="form-control md-textarea" placeholder="Description" rows="3"></textarea>
                 </div>
             </div>
             <div class="modal-footer justify-content-center">

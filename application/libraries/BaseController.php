@@ -107,7 +107,7 @@ class BaseController extends CI_Controller {
 	function logout() {
 
 		//insert log out in logs table.
-		$process = 'logout';
+		$process = 'Logout';
         $processFunction = 'BaseController/logout';
 		$this->logrecord($process,$processFunction);
 				

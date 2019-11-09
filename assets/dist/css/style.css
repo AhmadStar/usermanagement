@@ -1,3 +1,9 @@
+
+.error {
+	color: red;
+	font-weight: normal;
+}
+
 table.table-bordered.dataTable .logs-hover tr:hover {
     background-color: #dddddd;
     cursor: pointer;

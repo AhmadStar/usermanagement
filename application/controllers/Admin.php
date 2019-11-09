@@ -406,7 +406,7 @@ class Admin extends BaseController
     function addUserLog()
     {
         $data['users'] = $this->_user_list();
-        if($this->input->post()){
+        if($this->input->post()){            
             $this->load->library('form_validation');
             $this->form_validation->set_rules('user_id', 'user name', 'required');
             $this->form_validation->set_rules('createdDtm', 'date is required', 'required');            
@@ -429,7 +429,7 @@ class Admin extends BaseController
 
                 if($result > 0)
                 {                
-                    $this->session->set_flashdata('success', $result.'log successfully added');
+                    $this->session->set_flashdata('success', 'log successfully added');
                 }
                 else
                 {

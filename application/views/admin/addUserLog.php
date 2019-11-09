@@ -32,18 +32,15 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="email">Date and Time</label>
-                                        <div class="input-append date form_datetime" data-date="2013-02-21T15:25:00Z">
-                                            <input size="16" type="text" value="" readonly>
-                                            <span class="add-on"><i class="icon-remove"></i></span>
-                                            <span class="add-on"><i class="icon-calendar"></i></span>
+                                        <div class='input-group date'>
+                                            <input id="datetimepicker" name="createdDtm" id="createdDtm" autocomplete="off" class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
                                         </div>
                                         <script type="text/javascript">
-                                            $(".form_datetime").datetimepicker({
-                                                format: "dd MM yyyy - hh:ii",
-                                                autoclose: true,
-                                                todayBtn: true,
-                                                startDate: "2013-02-14 10:00",
-                                                minuteStep: 10
+                                            $(function () {
+                                                $('#datetimepicker').datetimepicker();
                                             });
                                         </script>
                                     </div>
@@ -54,9 +51,9 @@
                                     <div class="form-group">
                                         <label for="process">process</label>
                                         <select name="process" class="form-control">
-                                            <option value="">Select</option>
-                                            <option value="logout">logout</option>
-                                            <option value="login">login</option>
+                                            <option value="">Choose a process</option>
+                                            <option value="Logout">logout</option>
+                                            <option value="Login">login</option>
                                         </select>
                                     </div>                                    
                                 </div>
