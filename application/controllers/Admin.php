@@ -69,7 +69,8 @@ class Admin extends BaseController
     function addNew()
     {
         $data['roles'] = $this->user_model->getUserRoles();
-        $data['groups'] = $this->user_model->getUserGroups();        
+        $data['groups'] = $this->user_model->getUserGroups();
+        $data['work_type_list'] = $this->work_type_list();
         $this->global['pageTitle'] = 'DAS : Add User';
         $this->loadViews("admin/addNew", $this->global, $data, NULL);
     }
@@ -79,6 +80,8 @@ class Admin extends BaseController
      */
     function addNewUser()
     {
+
+        // var_dump($this->input->post());die();
         $this->load->library('form_validation');
         
         $this->form_validation->set_rules('fname','Full Name','trim|required|max_length[128]');
@@ -142,14 +145,11 @@ class Admin extends BaseController
             redirect('userListing');
         }
         
-        $data['groups'] = $this->user_model->getUserGroups();
-        // for first item
-        // $item = new stdClass();
-        // $item->id = 4;
-        // $item->name = 'Not In Group';
-        // array_push($data['groups'], $item); 
+        $data['groups'] = $this->user_model->getUserGroups();        
         $data['roles'] = $this->user_model->getUserRoles();        
         $data['userInfo'] = $this->user_model->getUserInfo($userId);
+        $data['work_type_list'] = $this->work_type_list();
+
 
         $this->global['pageTitle'] = 'DAS : Edit User';
         
@@ -455,10 +455,10 @@ class Admin extends BaseController
         $result = $this->user_model->deleteLogRecord($logid);
         
         if ($result > 0){
-            echo(json_encode(array('status'=>TRUE)));
+            echo(json_encode(array('status'=>$result)));
         }
         else{
-            echo(json_encode(array('status'=>FALSE)));
+            echo(json_encode(array('status'=>$result)));
         }
     }
     
@@ -704,6 +704,18 @@ class Admin extends BaseController
             $user_list[$user->userId] =  html_escape($user->name);
         }
         return $user_list;
+    }
+
+    /**
+     * _user_list()
+     * returns a list of work type.
+     */
+    public function work_type_list()
+    {
+        $worktype_list[''] ='Choose Work Type';
+        $worktype_list['1'] ='Office Work';
+        $worktype_list['2'] ='Remote';
+        return $worktype_list;
     }
 }
 

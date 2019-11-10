@@ -110,11 +110,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="workType">Work Type</label>
-                                        <select name="workType" class="form-control">
-                                            <option value="">Select</option>
-                                            <option value="1">Office Work</option>
-                                            <option value="2">Remote</option>
-                                        </select>
+                                        <?php echo form_dropdown('workType',$work_type_list,'',"id='workType' class='form-control'");?>
                                     </div>                                    
                                 </div>
                             </div>

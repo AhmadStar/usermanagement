@@ -119,7 +119,7 @@
       </div>
       <div class="modal-body">
       <div id="day-detail">        
-        <ul id="populate"></ul>
+        <ul id="populate" class="log-populate"></ul>
       </div>
       </div>
       <div class="modal-footer justify-content-center">
@@ -194,13 +194,17 @@ $(document).ready(function() {
                         var li = $("<li>");
                         li.addClass("col-md-12");
                         var par1 = $("<p>");
-                        par1.addClass("col-md-6");
+                        par1.addClass("col-md-5");
                         par1.text(page['createdDtm']);
                         var par2 = $("<p>");
                         par2.text(page['process']);
-                        par2.addClass("col-md-6");
+                        par2.addClass("col-md-5");
+                        var i = $("<i>");                        
+                        i.addClass("col-md-2 fa fa-trash-o deleteLogDay");
                         li.append(par1);
                         li.append(par2);
+                        li.append(i);
+                        li.attr("id" , page['id']);
                         items.push(li);                        
                     });
                     $("#populate").html(items);
@@ -260,6 +264,34 @@ $(document).ready(function() {
         }
     });
   }
+
+
+  jQuery(document).on("click", ".deleteLogDay", function(){
+		  var logid = $(this).parent().attr("id"),		
+      currentRow = $(this);            
+		
+		var confirmation = confirm("Are you sure to delete this log ?");
+		
+    hitURL = baseURL + "deleteLogRecord";
+		if(confirmation)
+		{
+			jQuery.ajax({
+			type : "POST",
+			dataType : "json",
+			url : hitURL,
+			data : { logid : logid } 
+			}).done(function(data){
+        console.log(data);
+				currentRow.parents('li').remove();
+				if(data.status = true) { alert("log record successfully deleted"); }
+				else if(data.status = false) { alert("Bonus deletion failed"); }				
+			}).fail(function(data){
+        alert("Access denied..!");
+			});
+		}
+	});
+
+
   
   });
 

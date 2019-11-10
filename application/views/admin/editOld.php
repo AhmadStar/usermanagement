@@ -6,7 +6,7 @@ $email = '';
 $mobile = '';
 $roleId = '';
 $group_id = '';
-
+$workType = '';
 if(!empty($userInfo))
 {
     foreach ($userInfo as $uf)
@@ -17,6 +17,7 @@ if(!empty($userInfo))
         $mobile = $uf->mobile;
         $roleId = $uf->roleId;
         $group_id = $uf->group_id;
+        $workType = $uf->workType;
     }
 }
 
@@ -47,7 +48,7 @@ if(!empty($userInfo))
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-
+                        <?php $this->load->helper("form"); ?>
                         <form role="form" action="<?php echo base_url() ?>editUser" method="post" id="editUser" role="form">
                             <div class="box-body">
                                 <div class="row">
@@ -136,11 +137,7 @@ if(!empty($userInfo))
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="workType">Work Type</label>
-                                            <select name="workType" class="form-control">
-                                                <option value="">Select</option>
-                                                <option value="1">Office Work</option>
-                                                <option value="2">Remote</option>
-                                            </select>
+                                            <?php echo form_dropdown('workType', $work_type_list, set_value('workType', $workType), "id='workType' class='form-control'"); ?>
                                         </div>                                    
                                     </div>
                                 </div>
