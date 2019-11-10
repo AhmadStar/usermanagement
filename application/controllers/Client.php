@@ -62,7 +62,7 @@ class Client extends BaseController
     function clientFinishedTasks()
     {
         $data['taskRecords'] = $this->user_model->getClientTasks($this->session->userdata('userId') , 2);
-        $data['user_list']=$this->employee_list();        
+        $data['user_list']=$this->_user_list();        
         $data['group_list']=$this->group_list();
 
         $this->global['pageTitle'] = 'DAS : Client Finished Tasks';
@@ -84,6 +84,20 @@ class Client extends BaseController
         $employee_list[$employee->userId]=  html_escape($employee->name);
       }
       return $employee_list;
+    }
+
+    /**
+     * _user_list()
+     * returns a list of users.
+     */
+    public function _user_list()
+    {
+        $users = $this->user_model->get_all_users();
+        $user_list[''] ='Choose Employee';        
+        foreach ($users as $user) {
+            $user_list[$user->userId] =  html_escape($user->name);
+        }
+        return $user_list;
     }
 
     /**

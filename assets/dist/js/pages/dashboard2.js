@@ -58,8 +58,6 @@ $('.todo-list').sortable({
     ]
   };
 
-  var labels = [];
-  var values = [];
   var hitURL = baseURL + "getMonthHours";    
   $.ajax({
     async: false,
@@ -68,16 +66,41 @@ $('.todo-list').sortable({
     dataType: 'json',
     success: function(data) {
       $.each( data, function( key, var1 ){
-        labels.push(key+1);
-        values.push(var1);
+        salesChartData.labels.push(key+1);
+        salesChartData.datasets[0].data.push(var1);
       });
     }
   });
 
-  salesChartData.labels = labels;
-  salesChartData.datasets[0].data = values;
-  console.log(salesChartData.labels);
-  console.log(salesChartData.datasets[0].data);
+  // function fetchChartData() {
+  //   return new Promise((resolve, reject) => {
+  //     $.ajax({
+  //       url: hitURL,
+  //       type: 'GET',
+  //       dataType: 'json',        
+  //       success: function(data) {
+  //         resolve(data)
+  //       },
+  //       error: function(error) {
+  //         reject(error)
+  //       },
+  //     })
+  //   })
+  // }
+
+  // fetchChartData()
+  // .then(data => {
+  //     $.each( data, function( key, var1 ){
+  //       salesChartData.labels[key] = key+1;
+  //       salesChartData.datasets[0].data[key] = var1;
+  //     });      
+  // })
+  // .catch(error => {
+  //   console.log(error)
+  // })  
+
+  // console.log(salesChartData.labels);
+  // console.log(salesChartData.datasets[0].data);
   
   
   
@@ -176,6 +199,7 @@ $('.todo-list').sortable({
         label: "Navigator"
       }
     ];
+
     var hitURL = baseURL + "getBrowseData";   
     var result ; 
       $.ajax({
@@ -184,18 +208,47 @@ $('.todo-list').sortable({
         type: 'GET',      
         dataType: 'json',
         success: function(data) {
-          result = data
+          $.each( data, function( key2, var2 ){
+            $.each( PieData, function( key1, var1 ){
+              if(var1.label === var2.userAgent){
+                var1.value = parseInt(var2.count);
+              }
+            });
+          });  
         }
       });
-    
-          
-      $.each( result, function( key2, var2 ){
-        $.each( PieData, function( key1, var1 ){
-          if(var1.label === var2.userAgent){
-            var1.value = parseInt(var2.count);
-          }
-        });
-      });                
+
+  // function fetchBrowseData() {
+  //   return new Promise((resolve, reject) => {
+  //     $.ajax({
+  //       url: hitURL,
+  //       type: 'GET',
+  //       dataType: 'json',        
+  //       success: function(data) {
+  //         resolve(data)
+  //       },
+  //       error: function(error) {
+  //         reject(error)
+  //       },
+  //     })
+  //   })
+  // }
+
+  // fetchBrowseData()
+  // .then(data => {
+  //       $.each( data, function( key2, var2 ){
+  //         $.each( PieData, function( key1, var1 ){
+  //           if(var1.label === var2.userAgent){
+  //             var1.value = parseInt(var2.count);
+  //           }
+  //         });
+  //       });     
+  // })
+  // .catch(error => {
+  //   console.log(error)
+  // })
+
+  // console.log(PieData)                                  
     
   var pieOptions = {
     //Boolean - Whether we should show a stroke on each segment

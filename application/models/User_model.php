@@ -903,7 +903,8 @@ class User_model extends CI_Model
     function getTaskInfo($taskId)
     {
         $this->db->select('tbl_task.id , title , comment , users.name as createdBy, tbl_task.createdDtm ,
-             endDtm , tbl_task.employee_id , groups.name as groupName , finish_detail , Situations.status , Prioritys.priority
+             endDtm , tbl_task.employee_id , groups.name as groupName , finish_detail 
+             , Situations.status , Prioritys.priority , finished_by
         ');
         $this->db->from('tbl_task');
         $this->db->join('tbl_tasks_situations as Situations','Situations.statusId = tbl_task.statusId');

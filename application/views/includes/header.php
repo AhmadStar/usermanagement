@@ -24,9 +24,9 @@
   <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />  
   <!-- datetimepicker  -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/bootstrap-datetimepicker.min.css"> 
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/bootstrap-datepicker.css"> 
-<!-- custom style file -->
-<link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />  
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/bootstrap-datepicker.min.css"> 
+  <!-- custom style file -->
+  <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />  
 
 
   <!-- jQuery 3.4.1 -->
@@ -34,7 +34,7 @@
   <script src="<?php echo base_url(); ?>assets/jQueryUI/jquery-ui-1.10.3.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
   <script type="text/javascript">
-    var baseURL = "<?php echo base_url(); ?>";
+    var baseURL = "<?php base_url(); ?>";
   </script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

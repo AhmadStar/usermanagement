@@ -11,7 +11,7 @@ $createdBy = '';
 $finish_detail = '';
 $createdDtm = '';
 $endDtm = '';
-
+$finished_by = '';
 if (!empty($taskInfo)) {
     foreach ($taskInfo as $uf) {
         $id = $uf->id;
@@ -25,6 +25,7 @@ if (!empty($taskInfo)) {
         $finish_detail = $uf->finish_detail;
         $createdDtm = $uf->createdDtm;
         $endDtm = $uf->endDtm;
+        $finished_by = $uf->finished_by;
     }
 }
 
@@ -97,6 +98,15 @@ if (!empty($taskInfo)) {
                             } else {
                                 echo 'Not finished yet';
                             }
+                            ?>
+                        </h4>
+                        <h4 class=""><span>Task Finished By :</span>
+                            <?php
+                                if (isset($user_list[$finished_by])){
+                                    echo $user_list[$finished_by];                            
+                                } else {
+                                    echo 'Not finished yet';
+                                }
                             ?>
                         </h4>
                         <h4 class=""><span>Finish Details :</span>
