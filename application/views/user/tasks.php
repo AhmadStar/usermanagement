@@ -128,7 +128,7 @@
                           <?php echo $record->name ?>
                         </td>
                         <td>
-                          <label>for Employee</label>
+                          <label>for Employee:</label>
                           <?php
                             if (isset($user_list[$record->employee_id]))
                                 echo $user_list[$record->employee_id];

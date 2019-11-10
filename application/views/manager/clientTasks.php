@@ -53,7 +53,7 @@
                     <th>Availability</th>
                     <th>Priority</th>
                     <th>Created by</th>
-                    <th>For Employee</th>
+                    <th>For Employee:</th>
                     <th>Creation Date</th>
                     <th>End Date</th>
                     <th>Edit / Delete / Show</th>
