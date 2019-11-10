@@ -209,7 +209,7 @@
                     <input type="hidden" class="form-control" id="taskid">
                 </div>
                 <div class="md-form">
-                    <input type="text" class="form-control" id="finishDetail">
+                    <input type="text" class="form-control" id="finishDetail" placeholder="Enter finish notes">
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
@@ -245,7 +245,7 @@
                     <input type="hidden" class="form-control" id="taskid">
                 </div>
                 <div class="md-form">
-                    <input type="text" class="form-control" id="stageDetail">
+                    <input type="text" class="form-control" id="stageDetail" placeholder="Enter stage detail">
                 </div>
                 <div class="md-form">
                     <input type="file" id="files" name="files[]" multiple="multiple" accept="image/*" />

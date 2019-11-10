@@ -21,13 +21,12 @@
   <!-- Theme style -->
   <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
-  <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
-  <!-- custom style file -->
-  <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />  
+  <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />  
   <!-- datetimepicker  -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/bootstrap-datetimepicker.min.css"> 
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/bootstrap-datepicker.css"> 
-
+<!-- custom style file -->
+<link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />  
 
 
   <!-- jQuery 3.4.1 -->

@@ -309,17 +309,6 @@ hr {
   border-top: 1px solid #555;
 }
 
-
-.datepicker table tr td.old,
-.datepicker table tr td.new {
-  color: #000000;
-}
-
-.datepicker thead tr:first-child th, .datepicker tfoot tr th {    
-    color: #000000;
-}
-
-
 .product-info .pull-right{
 	margin-left: 5px;
 }
@@ -353,6 +342,14 @@ hr {
 
 .datepicker table tr:first-child th:hover, .datepicker table tr:first-child th.focused {
     background: #0052cc;    
+}
+
+.datepicker table tr td.old, .datepicker table tr td.new {
+    color: #000000;
+}
+
+.datepicker-inline {
+    width: 100%;
 }
 
 .log-populate li i {	

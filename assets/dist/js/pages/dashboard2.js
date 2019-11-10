@@ -276,5 +276,13 @@ $('.todo-list').sortable({
   });
 
   //The Calender
-  $("#calendar").datepicker();
+  // $("#calendar").datepicker({
+  //   "setDate": new Date(),
+  //       "autoclose": true
+  // });
+
+  $('#calendar').datepicker({
+        format:'mm/dd/yyyy',
+    }).datepicker("setDate",'now');
+
 });
