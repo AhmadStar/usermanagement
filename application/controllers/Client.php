@@ -70,36 +70,36 @@ class Client extends BaseController
         $this->loadViews("user/finishedTasks", $this->global, $data, NULL);
     }
 
-  /**
-   * _employee_list()
-   * returns a list of employee.
-   */ 
-  public function employee_list()
-  {
-    $employees = $this->user_model->get_employees();
-    $employee_list['']= 'Choose Employee';
-    $employee_list['0']= 'Not For Employee';
-    foreach ($employees as $employee) 
+    /**
+     * _employee_list()
+     * returns a list of employee.
+     */ 
+    public function employee_list()
     {
-      $employee_list[$employee->userId]=  html_escape($employee->name);
+      $employees = $this->user_model->get_employees();
+      $employee_list['']= 'Choose Employee';
+      $employee_list['0']= 'Not For Employee';
+      foreach ($employees as $employee) 
+      {
+        $employee_list[$employee->userId]=  html_escape($employee->name);
+      }
+      return $employee_list;
     }
-    return $employee_list;
-  }
 
-  /**
-   * group_list()
-   * returns a list of group.
-   */ 
-  public function group_list()
-  {
-    $groups = $this->user_model->get_groups();
-    $group_list[] = '';
-    foreach ($groups as $group) 
+    /**
+     * group_list()
+     * returns a list of group.
+     */ 
+    public function group_list()
     {
-      $group_list[$group->id]=  html_escape($group->name);
+      $groups = $this->user_model->get_groups();
+      $group_list[] = '';
+      foreach ($groups as $group) 
+      {
+        $group_list[$group->id]=  html_escape($group->name);
+      }
+      return $group_list;
     }
-    return $group_list;
-  }
 
 }
 

@@ -339,12 +339,12 @@ class Manager extends BaseController
     public function employee_list()
     {
         $users = $this->user_model->get_employees();
-        $user_list[''] = 'Choose Employee';
-        $user_list['0'] = 'Not For Employee';
+        $employee_list[''] = 'Choose Employee';
+        $employee_list['0'] = 'Not For Employee';
         foreach ($users as $user) {
-            $user_list[$user->userId] =  html_escape($user->name);
+            $employee_list[$user->userId] =  html_escape($user->name);
         }
-        return $user_list;
+        return $employee_list;
     }
 
     /**
