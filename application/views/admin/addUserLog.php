@@ -31,19 +31,19 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="email">Date and Time</label>
-                                        <div class='input-group date'>
-                                            <input id="datetimepicker" name="createdDtm" id="createdDtm" autocomplete="off" class="form-control" />
+                                        <label for="email">Date and Time</label>    
+                                        <div class='input-group date' id='datetimepicker'>
+                                            <input type='text' name="createdDtm" class="form-control" autocomplete="off"/>
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
                                         </div>
-                                        <script type="text/javascript">
-                                            $(function () {
-                                                $('#datetimepicker').datetimepicker();
-                                            });
-                                        </script>
-                                    </div>
+                                    </div>                                        
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            $('#datetimepicker').datetimepicker({});
+                                        });
+                                    </script>
                                 </div>
                             </div>
                             <div class="row">

@@ -25,14 +25,15 @@
   <!-- custom style file -->
   <link href="<?php echo base_url(); ?>assets/dist/css/style.css" rel="stylesheet" type="text/css" />  
   <!-- datetimepicker  -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/jquery.datetimepicker.min.css"> 
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/bootstrap-datetimepicker.min.css"> 
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/css/bootstrap-datepicker.css"> 
 
 
 
   <!-- jQuery 3.4.1 -->
   <script src="<?php echo base_url(); ?>assets/js/jquery-3.4.1.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/jQueryUI/jquery-ui-1.10.3.js"></script>
-  <script src="<?php echo base_url(); ?>assets/js/jquery.datetimepicker.full.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
   <script type="text/javascript">
     var baseURL = "<?php echo base_url(); ?>";
   </script>
