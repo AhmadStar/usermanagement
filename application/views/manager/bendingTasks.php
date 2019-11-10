@@ -114,8 +114,8 @@
                         <td>
                           <label>for Employee</label>
                           <?php
-                            if (isset($user_list[$record->employee_id]))
-                                echo $user_list[$record->employee_id];
+                            if (isset($employee_list[$record->employee_id]))
+                                echo $employee_list[$record->employee_id];
                             else
                                 echo 'Not for Employee';
                           ?>

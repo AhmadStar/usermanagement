@@ -46,7 +46,7 @@
                   <form id="form-filter" class="form-horizontal filter-body">                    
                       <div class="form-group">
                           <div class="col-md-3">                        
-                              <?php echo form_dropdown('userName',$employee_list,'',"id='userName' class='form-control'");?>
+                              <?php echo form_dropdown('userName',$user_list,'',"id='userName' class='form-control'");?>
                           </div>
                           <div class="col-md-3">
                               <input type="text" data-date-format="dd" autocomplete="off" name="day" id="day" class="form-control" placeholder="day" title='day' required />

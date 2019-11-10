@@ -361,8 +361,7 @@ class Admin extends BaseController
      */
     function maintainUsersLogs()
     {
-        $data['employee_list']=$this->_employee_list();
-        // $data['userRecords'] = $this->user_model->logHistory();
+        $data['user_list']=$this->_user_list();        
         $data['userRecords'] = '';
         $this->global['pageTitle'] = 'DAS : User Login History';        
         $this->loadViews("admin/maintainUsersLogs", $this->global, $data, NULL);
@@ -678,28 +677,13 @@ class Admin extends BaseController
     }
 
     /**
-    * _employee_list()
-    * returns a list of employee.
-    */ 
-    public function _employee_list()
-    {
-        $employees = $this->employee_model->get_employees();
-        $employee_list['']= 'Choose Employee';
-        foreach ($employees as $employee) 
-        {
-            $employee_list[$employee->userId]=  html_escape($employee->name);
-        }
-        return $employee_list;
-    }
-
-    /**
      * _user_list()
      * returns a list of users.
      */
     public function _user_list()
     {
         $users = $this->user_model->get_all_users();
-        $user_list[''] ='Choose User';        
+        $user_list[''] ='Choose Employee';        
         foreach ($users as $user) {
             $user_list[$user->userId] =  html_escape($user->name);
         }
@@ -707,7 +691,7 @@ class Admin extends BaseController
     }
 
     /**
-     * _user_list()
+     * work_type_list()
      * returns a list of work type.
      */
     public function work_type_list()

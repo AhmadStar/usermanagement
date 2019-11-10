@@ -38,7 +38,7 @@ class Manager extends BaseController
     function Bendingtasks()
     {
         $data['taskRecords'] = $this->user_model->getBendingTasks();
-        $data['user_list'] = $this->employee_list();
+        $data['employee_list'] = $this->employee_list();
         $data['group_list'] = $this->group_list();
 
         $this->global['pageTitle'] = 'DAS : All Bending Tasks';
@@ -52,14 +52,8 @@ class Manager extends BaseController
     function addNewTask()
     {
         $data['tasks_prioritys'] = $this->user_model->getTaskPrioritys();
-        $data['user_list'] = $this->_user_list();
-        $data['groups'] = $this->user_model->getUserGroups();
-
-        // for first item
-        // $item = new stdClass();
-        // $item->id = 4;
-        // $item->name = 'Not fot Group';
-        // array_push($data['groups'], $item);        
+        $data['employee_list'] = $this->employee_list();
+        $data['groups'] = $this->user_model->getUserGroups();            
 
         $this->global['pageTitle'] = 'DAS : Add Task';
 
@@ -180,7 +174,7 @@ class Manager extends BaseController
 
         $data['groups'] = $this->user_model->getUserGroups();
 
-        $data['user_list'] = $this->_user_list();
+        $data['employee_list'] = $this->employee_list();
 
         $this->global['pageTitle'] = 'DAS : Edit Task';
 
@@ -339,32 +333,18 @@ class Manager extends BaseController
     }
 
     /**
-     * _user_list()
-     * returns a list of employee.
-     */
-    public function _user_list()
-    {
-        $users = $this->user_model->get_users();
-        $user_list[''] = 'Choose Employee';
-        $user_list['0'] = 'Not For User';
-        foreach ($users as $user) {
-            $user_list[$user->userId] =  html_escape($user->name);
-        }
-        return $user_list;
-    }
-
-    /**
-     * _employee_list()
+     * employee_list()
      * returns a list of employee.
      */
     public function employee_list()
     {
-        $employees = $this->employee_model->get_employees();
-        $employee_list[] = '';
-        foreach ($employees as $employee) {
-            $employee_list[$employee->userId] =  html_escape($employee->name);
+        $users = $this->user_model->get_employees();
+        $user_list[''] = 'Choose Employee';
+        $user_list['0'] = 'Not For Employee';
+        foreach ($users as $user) {
+            $user_list[$user->userId] =  html_escape($user->name);
         }
-        return $employee_list;
+        return $user_list;
     }
 
     /**

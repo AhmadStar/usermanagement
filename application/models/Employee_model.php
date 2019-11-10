@@ -194,16 +194,7 @@ class Employee_model extends CI_Model {
 	{
 		$this->db->from($this->table);
 		return $this->db->count_all_results();
-	}
-    
-	public function get_employees($employee_id = ''){
-		$this->db->select('*');		
-		$this->db->from('tbl_users');
-		if($employee_id != '')
-			$this->db->where('userId', $employee_id);		
-		$query = $this->db->get();
-		return $query->result();
-	}
+	}    	
 
 	public function get_day_hours($id , $date)
 	{

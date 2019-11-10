@@ -51,7 +51,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="employeename">Employee</label>
-                                        <?php echo form_dropdown('employee_id',$user_list,'',"employee_id='name' class='form-control'");?>
+                                        <?php echo form_dropdown('employee_id',$employee_list,'',"employee_id='name' class='form-control'");?>
                                     </div>                                    
                                 </div>
                             </div>

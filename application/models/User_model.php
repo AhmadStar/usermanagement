@@ -1349,10 +1349,11 @@ class User_model extends CI_Model
         return $query->row();
     }    
     
-    public function get_users(){
+    public function get_employees(){
 		$this->db->select('*');		
 		$this->db->from('tbl_users');		
-        $this->db->where('roleId', 3);		
+        $this->db->where('roleId', 3);
+        $this->db->where('isDeleted', 0);		
 		$query = $this->db->get();
 		return $query->result();
     }
@@ -1364,6 +1365,16 @@ class User_model extends CI_Model
 		$query = $this->db->get();
 		return $query->result();
     }
+
+    public function get_users($employee_id = ''){
+		$this->db->select('*');		
+		$this->db->from('tbl_users');
+		if($employee_id != '')
+			$this->db->where('userId', $employee_id);
+		$this->db->where('isDeleted', 0);
+		$query = $this->db->get();
+		return $query->result();
+	}
     
     public function connectedUsers(){
         $this->db->select('userId , name , role , picture , last_login');

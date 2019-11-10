@@ -457,7 +457,7 @@ class User extends BaseController
         }
         
         $data['taskInfo'] = $this->user_model->getTaskInfo($taskId);
-        $data['user_list']=$this->_employee_list();
+        $data['user_list']=$this->user_list();
         $data['task_images'] = $this->user_model->getTaskImages($taskId);
         $data['task_links'] = $this->user_model->getTaskLinks($taskId);
         $data['task_stages'] = $this->user_model->getTaskStages($taskId);
@@ -494,7 +494,7 @@ class User extends BaseController
         }else{
             $data['taskRecords'] = $this->user_model->getTasks();
         }
-        $data['user_list']=$this->_employee_list();
+        $data['user_list']=$this->user_list();
         $data['group_list']=$this->group_list();
         $this->global['pageTitle'] = 'DAS : All Tasks';
         
@@ -512,7 +512,7 @@ class User extends BaseController
         }else{
             $data['taskRecords'] = $this->user_model->getFinishedTasks();
         }
-        $data['user_list']=$this->_employee_list();
+        $data['user_list']=$this->user_list();
         $data['group_list']=$this->group_list();
 
         $this->global['pageTitle'] = 'DAS : All Finished Tasks';        
@@ -526,7 +526,7 @@ class User extends BaseController
     function grouptasks($group = NULL)
     {
         $data['taskRecords'] = $this->user_model->getgroupTasks($group);        
-        $data['user_list']=$this->_employee_list();
+        $data['user_list']=$this->user_list();
         $data['group_list']=$this->group_list();
 
         $this->global['pageTitle'] = 'DAS : Group Tasks';
@@ -559,10 +559,10 @@ class User extends BaseController
         }            
 
         if($this->role != ROLE_ADMIN){
-            $data['employee_list']=$this->_employee_list($this->session->userdata('userId'));
-            }else{
-            $data['employee_list']=$this->_employee_list();
-            }        
+            $data['employee_list']=$this->user_list($this->session->userdata('userId'));
+        }else{
+            $data['employee_list']=$this->user_list();
+        }        
 
         $this->global['pageTitle'] = 'DAS : User Login History';
         
@@ -822,21 +822,21 @@ class User extends BaseController
     }
 
     // get data for logs 
-    public function employee_list()
+    public function UserslogHistory()
     {
-          $list = $this->employee_model->get_datatables();
-          $data = array();
-          $no = $_POST['start'];        
-          foreach ($list as $employee){
-              $no++;
+        $list = $this->employee_model->get_datatables();
+        $data = array();
+        $no = $_POST['start'];        
+        foreach ($list as $user){
+            $no++;
         $actions = '';
         $row = array();      
         $row[] = $no;      
-        $row[] = $employee->userName;       
-        $row[] = $employee->userId;
-        $row[] = $employee->createdDtm;        
-        $row[] = date('l', strtotime($employee->createdDtm));
-        $row[] = $employee->total;
+        $row[] = $user->userName;       
+        $row[] = $user->userId;
+        $row[] = $user->createdDtm;        
+        $row[] = date('l', strtotime($user->createdDtm));
+        $row[] = $user->total;
               $data[] = $row;
           }
   
@@ -851,12 +851,12 @@ class User extends BaseController
     }
 
     /**
-    * _employee_list()
-    * returns a list of employee.
+    * user_list()
+    * returns a list of users.
     */ 
-    public function _employee_list($employee_id='')
+    public function user_list($employee_id='')
     {
-        $employees = $this->employee_model->get_employees($employee_id);
+        $employees = $this->user_model->get_users($employee_id);
         if($employee_id == '')
             $employee_list['']= 'Choose Employee';
         foreach ($employees as $employee) 
@@ -881,17 +881,6 @@ class User extends BaseController
         }
         return $group_list;
     }
-
-    /**
-    * user_list()
-    * returns a list of employee.
-    */ 
-    public function user_list()
-    {
-        $users = $this->user_model->get_users();    
-        return $users;
-    }
-
 
     /**
     * 

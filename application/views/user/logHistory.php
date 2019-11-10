@@ -149,7 +149,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('employee_list')?>",
+            "url": "<?php echo site_url('UserslogHistory')?>",
             "type": "POST",
             "data": function ( data ) {                
                 data.day = $('#day').datepicker({ dateFormat: 'dd' , viewMode: "days", minViewMode: "days" }).val();

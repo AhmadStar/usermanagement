@@ -34,7 +34,7 @@ class Client extends BaseController
     function clientBendingTasks()
     {
         $data['taskRecords'] = $this->user_model->getClientTasks($this->session->userdata('userId') , 3);
-        $data['user_list']=$this->employee_list();
+        $data['employee_list']=$this->employee_list();
         $data['group_list']=$this->group_list();
 
         $this->global['pageTitle'] = 'DAS : Client Bending Tasks';
@@ -71,28 +71,14 @@ class Client extends BaseController
     }
 
   /**
-   * _user_list()
-   * returns a list of employee.
-   */
-  public function _user_list()
-  {
-      $users = $this->user_model->get_users();
-      $user_list['']= 'Choose Employee';
-      $user_list['0']= 'Not For User';
-      foreach ($users as $user){
-          $user_list[$user->userId]=  html_escape($user->name);
-      }
-      return $user_list;
-  }
-
-  /**
    * _employee_list()
    * returns a list of employee.
    */ 
   public function employee_list()
   {
-    $employees = $this->employee_model->get_employees();
-    $employee_list[] = '';
+    $employees = $this->user_model->get_employees();
+    $employee_list['']= 'Choose Employee';
+    $employee_list['0']= 'Not For Employee';
     foreach ($employees as $employee) 
     {
       $employee_list[$employee->userId]=  html_escape($employee->name);
