@@ -34,7 +34,7 @@
   <script src="<?php echo base_url(); ?>assets/jQueryUI/jquery-ui-1.10.3.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
   <script type="text/javascript">
-    var baseURL = "<?php base_url(); ?>";
+    var baseURL = "<?php echo base_url(); ?>";
   </script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
