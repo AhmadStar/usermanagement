@@ -11,7 +11,8 @@ class Login_model extends CI_Model
     function loginMe($email, $password)
     {
         $this->db->select('BaseTbl.userId, BaseTbl.password, BaseTbl.name,BaseTbl.status,
-                BaseTbl.roleId, Roles.role , BaseTbl.picture , groups.name as group_name, groups.id as groups_id');
+                BaseTbl.roleId, Roles.role , BaseTbl.picture , 
+                groups.name as group_name, groups.id as groups_id , BaseTbl.workType');
         $this->db->from('tbl_users as BaseTbl');
         $this->db->join('tbl_roles as Roles','Roles.roleId = BaseTbl.roleId');
         $this->db->join('user_group', 'user_group.user_id = BaseTbl.userId');

@@ -200,7 +200,7 @@ $(document).ready(function() {
                         par2.text(page['process']);
                         par2.addClass("col-md-5");
                         var i = $("<i>");                        
-                        i.addClass("col-md-2 fa fa-trash-o deleteLogDay");
+                        i.addClass("fa fa-trash-o deleteLogDay");
                         li.append(par1);
                         li.append(par2);
                         li.append(i);

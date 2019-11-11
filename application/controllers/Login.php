@@ -106,6 +106,11 @@ class Login extends BaseController
                     $process = 'Login';
                     $processFunction = 'Login/loginMe';
 
+                    // if work type == 1 check if it login from the office                     
+                    if($res->workType == 1 && $_SERVER['REMOTE_ADDR'] != '212.156.244.42'){
+                        $this->session->set_flashdata('error', 'you should login from office only');
+                        redirect('/login');
+                    }
 
                     if(!($token = $this->input->cookie('site_theme')))
                     {

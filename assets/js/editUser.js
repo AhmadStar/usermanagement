@@ -12,7 +12,7 @@ $(document).ready(function(){
 	var validator = editUserForm.validate({
 		
 		rules:{
-			fname :{ required : true ,remote : { url : baseURL + "checkUsernameExists", type :"post"}},
+			fname :{ required : true ,remote : { url : baseURL + "checkUsernameExists", type :"post", data : { userId : function(){ return $("#userId").val(); } } }},
 			email : { required : true, email : true, remote : { url : baseURL + "checkEmailExists", type :"post", data : { userId : function(){ return $("#userId").val(); } } } },
 			cpassword : {equalTo: "#password"},
 			mobile : { required : true, digits : true },

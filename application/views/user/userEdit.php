@@ -46,7 +46,7 @@ if(!empty($userInfo))
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="fname">User Name</label>
-                                        <input type="text" class="form-control required" value="<?php echo $name; ?>" id="fname" name="fname" maxlength="128" readonly>
+                                        <input type="text" class="form-control required" value="<?php echo $name; ?>" id="fname" name="fname" maxlength="128">
                                         <input type="hidden" value="<?php echo $userId; ?>" name="userId" id="userId" />
                                     </div>
 
@@ -55,7 +55,7 @@ if(!empty($userInfo))
                                     <div class="form-group">
                                         <label for="email">Email address</label>
                                         <input type="text" class="form-control required email" id="email" value="<?php echo $email; ?>" name="email"
-                                            maxlength="128" readonly>
+                                            maxlength="128">
                                     </div>
                                 </div>
                             </div>
@@ -63,13 +63,13 @@ if(!empty($userInfo))
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="oldpassword">Old password</label>
-                                        <input type="password" class="form-control required" placeholder="Old Password" id="oldpassword" name="oldpassword" maxlength="20">
+                                        <input type="password" class="form-control" placeholder="Old Password" id="oldpassword" name="oldpassword" maxlength="20">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="cpassword">New password</label>
-                                        <input type="password" class="form-control required equalTo" placeholder="New Password" id="cpassword" name="cpassword" maxlength="20">
+                                        <input type="password" class="form-control equalTo" placeholder="New Password" id="cpassword" name="cpassword" maxlength="20">
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@ if(!empty($userInfo))
                             <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="cpassword2">re-enter password</label>
-                                        <input type="password" class="form-control required equalTo" placeholder="re-enter Password" id="cpassword2" name="cpassword2" maxlength="20">
+                                        <input type="password" class="form-control equalTo" placeholder="re-enter Password" id="cpassword2" name="cpassword2" maxlength="20">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -193,3 +193,5 @@ if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
 }
 });
 </script>
+
+<script src="<?php echo base_url(); ?>assets/js/editMyData.js" type="text/javascript"></script>

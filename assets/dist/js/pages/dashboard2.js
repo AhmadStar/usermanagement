@@ -57,7 +57,8 @@ $('.todo-list').sortable({
       }
     ]
   };
-
+  var labels = [];
+  var values = [];
   var hitURL = baseURL + "getMonthHours";    
   $.ajax({
     async: false,
@@ -66,8 +67,8 @@ $('.todo-list').sortable({
     dataType: 'json',
     success: function(data) {
       $.each( data, function( key, var1 ){
-        salesChartData.labels.push(key+1);
-        salesChartData.datasets[0].data.push(var1);
+        labels.push(key+1);
+        values.push(var1);
       });
     }
   });
@@ -91,16 +92,18 @@ $('.todo-list').sortable({
   // fetchChartData()
   // .then(data => {
   //     $.each( data, function( key, var1 ){
-  //       salesChartData.labels[key] = key+1;
-  //       salesChartData.datasets[0].data[key] = var1;
+  //       labels.push(key+1);
+  //       values.push(var1);
   //     });      
   // })
   // .catch(error => {
   //   console.log(error)
   // })  
 
-  // console.log(salesChartData.labels);
-  // console.log(salesChartData.datasets[0].data);
+  salesChartData.labels = labels;
+  salesChartData.datasets[0].data = values;
+  console.log(salesChartData.labels);
+  console.log(salesChartData.datasets[0].data);
   
   
   

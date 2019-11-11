@@ -100,7 +100,7 @@ $(document).ready(function(){
        
        jQuery.validator.addMethod("checkUsername", function(value, element)
        {
-           var response;
+           var response = false;
            var post_url_check_username = baseurl + "user/checkUsernameExist/";
            
                $.ajax({
