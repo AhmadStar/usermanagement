@@ -811,11 +811,11 @@ class User extends BaseController
      */
     public function total()
     {
-        $userName = $this->input->post('userName');    
+        $userId = $this->input->post('userId');    
         $month = $this->input->post('month');
         $year = $this->input->post('year');    
         
-        $data = $this->employee_model->get_total($userName, $month , $year);
+        $data = $this->employee_model->get_total($userId, $month , $year);
         
         //output to json format
             echo json_encode($data);

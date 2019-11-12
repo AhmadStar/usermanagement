@@ -66,7 +66,7 @@
                               <input type="text" data-date-format="dd" autocomplete="off" name="day" id="day" class="form-control" placeholder="day" title='day' required />
                           </div> 
                           <div class="col-md-3">
-                              <input type="text" data-date-format="mm" autocomplete="off" name="month" id="month" class="form-control" placeholder="month" title='month' required />
+                              <input type="text" data-date-format="m" autocomplete="off" name="month" id="month" class="form-control" placeholder="month" title='month' required />
                           </div> 
                           <div class="col-md-3">
                               <input type="text" data-date-format="yyyy" autocomplete="off" name="year" id="year" class="form-control" placeholder="year" title='year' required />
@@ -153,13 +153,9 @@ $(document).ready(function() {
             "type": "POST",
             "data": function ( data ) {                
                 data.day = $('#day').datepicker({ dateFormat: 'dd' , viewMode: "days", minViewMode: "days" }).val();
-                data.month = $('#month').datepicker({ dateFormat: 'mm' , viewMode: "months", minViewMode: "months" }).val();                
+                data.month = $('#month').datepicker({ dateFormat: 'm' , viewMode: "months", minViewMode: "months" }).val();                
                 data.year = $('#year').datepicker({ dateFormat: 'yy' ,viewMode: "years", minViewMode: "years"}).val();
-                data.userName = $("#userName  option:selected" ).text();
-                data.userId = "<?php                                        
-                    if($this->session->userdata('userId') === '1') echo '';
-                    else echo $this->session->userdata('userId')                    
-                    ?>";
+                data.userId = $("#userName  option:selected" ).val();                
             },
         },
 
@@ -219,8 +215,29 @@ $(document).ready(function() {
 
     $('#btn-filter').click(function(){ //button filter event click
         table.ajax.reload();  //just reload table
-        loadTotal();        
+        loadTotal();
+    });    
+
+    $("#day").datepicker().on("changeDate", function(e) {
+        table.ajax.reload();  //just reload table
+        loadTotal(); 
+      });
+
+    $("#month").datepicker().on("changeDate", function(e) {
+      table.ajax.reload();  //just reload table
+      loadTotal(); 
     });
+
+    $("#year").datepicker().on("changeDate", function(e) {
+      table.ajax.reload();  //just reload table
+      loadTotal();
+    });
+
+    $( "select" )
+      .change(function () {
+        table.ajax.reload();  //just reload table
+        loadTotal();
+      });
 
     $('#btn-reset').click(function(){ //button reset event click
         $('#form-filter')[0].reset();
@@ -229,8 +246,8 @@ $(document).ready(function() {
 
     function loadTotal(){
       var mydata  = {
-          userName : $("#userName  option:selected" ).text(),
-          month : $('#month').datepicker({ dateFormat: 'mm' , viewMode: "months", minViewMode: "months" }).val(),
+          userId : $("#userName  option:selected" ).val(),
+          month : $('#month').datepicker({ dateFormat: 'm' , viewMode: "months", minViewMode: "months" }).val(),
           year : $('#year').datepicker({ dateFormat: 'yy' ,viewMode: "years", minViewMode: "years"}).val()               
             }            
 
@@ -250,7 +267,9 @@ $(document).ready(function() {
               if(mydata.year != '')
                 current_year = mydata.year;
                 
-            const monthNames = ["January", "February", "March", "April", "May", "June",
+
+                console.log(current_month);
+            const monthNames = ["","January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"
                   ];
 

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Employee_model extends CI_Model {
 
 	var $table = 'tbl_log';
-	var $column_order = array(null,'userName',null,'createdDtm'); //set column field database for datatable orderable
+	var $column_order = array(null,null,'createdDtm'); //set column field database for datatable orderable
 	var $column_search = array('userName'); //set column field database for datatable searchable 
 	var $order = array('createdDtm' => 'desc'); // default order 
 
@@ -16,14 +16,10 @@ class Employee_model extends CI_Model {
 
 	private function _get_datatables_query()
 	{
-		//add custom filter here
-		if($this->input->post('userName') && $this->input->post('userName') != 'Choose Employee')
-		{
-			$this->db->like('userName', $this->input->post('userName'));
-		}		
+		//add custom filter here		
 		if($this->input->post('userId'))
 		{
-			$this->db->where('userId', $this->input->post('userId'));
+			$this->db->where('tbl_log.userId', $this->input->post('userId'));
 		}
 
 		$now = new \DateTime('now');
@@ -32,24 +28,26 @@ class Employee_model extends CI_Model {
 
 		if($this->input->post('day'))
 		{
-			$this->db->where('day(createdDtm)', $this->input->post('day'));
+			$this->db->where('day(tbl_log.createdDtm)', $this->input->post('day'));
 		}
 
 		if($this->input->post('month'))
 		{
-			$this->db->where('month(createdDtm)', $this->input->post('month'));
+			$this->db->where('month(tbl_log.createdDtm)', $this->input->post('month'));
 		}else{
-			$this->db->where('month(createdDtm)', $month);
+			$this->db->where('month(tbl_log.createdDtm)', $month);
 		}
 
 		if($this->input->post('year'))
 		{
-			$this->db->where('year(createdDtm)', $this->input->post('year'));
+			$this->db->where('year(tbl_log.createdDtm)', $this->input->post('year'));
 		}else{
-			$this->db->where('year(createdDtm)', $year);
+			$this->db->where('year(tbl_log.createdDtm)', $year);
 		}		
 		
+		$this->db->select('tbl_log.id, tbl_log.userId, tbl_users.name as userName, tbl_log.createdDtm');
 		$this->db->from($this->table);
+		$this->db->join('tbl_users', 'tbl_users.userId = tbl_log.userId');
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -89,7 +87,7 @@ class Employee_model extends CI_Model {
 		$this->_get_datatables_query();
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
-		$this->db->group_by('userId , userName , day(createdDtm)');
+		$this->db->group_by('userId , day(tbl_log.createdDtm)');
 		$query = $this->db->get();
 		$list = $query->result();
 
@@ -226,7 +224,6 @@ class Employee_model extends CI_Model {
 		return $sum;
 	}
 
-
 	//return array all hours of every day for chart
     public function get_month_hours($userId = '')
 	{
@@ -258,7 +255,6 @@ class Employee_model extends CI_Model {
 		}
 		return $array;
 	}
-	
 
 	//return array all hours of every day as sum
     public function get_month_hours_as_sum($userId = '')
@@ -285,12 +281,12 @@ class Employee_model extends CI_Model {
 		return $sum;
     }
 
-	public function get_total($userName = '', $month = '' , $year = ''){
-		if($userName != 'Choose Employee'){
-			$this->db->select('userId, userName , createdDtm');
-			$this->db->group_by('userId , userName , day(createdDtm)');
+	public function get_total($userId = '', $month = '' , $year = ''){
+		if($userId != ''){
+			$this->db->select('userId , createdDtm');
+			$this->db->group_by('userId , day(createdDtm)');
 			$this->db->from('tbl_log');
-			$this->db->where('userName', $userName);
+			$this->db->where('userId', $userId);
 
 			$now = new \DateTime('now');
 			$current_month = $now->format('m');
@@ -322,12 +318,9 @@ class Employee_model extends CI_Model {
 			$minutes = floor(($sum / 60) % 60);
 			$seconds = $sum % 60;
 
-			if($hours > 0 )
-				$hours = $hours." hours & ";
-			if($hours > 0 )
-				$minutes = $minutes." minutes & ";
-			if($hours > 0 )
-				$seconds = $seconds." seconds";
+			$hours = $hours." hours & ";
+			$minutes = $minutes." minutes & ";
+			$seconds = $seconds." seconds";
 
 			$sum = $hours.$minutes.$seconds;
 			
@@ -339,8 +332,8 @@ class Employee_model extends CI_Model {
 	
 	
 	public function get_total_as_sum($userId = '' , $day){
-		$this->db->select('userId, userName , createdDtm');
-		$this->db->group_by('userId , userName , day(createdDtm)');
+		$this->db->select('userId , createdDtm');
+		$this->db->group_by('userId , day(createdDtm)');
 		$this->db->from('tbl_log');
 		$this->db->where('userId', $userId);
 
