@@ -72,7 +72,7 @@
                               <input type="text" onkeydown="return false" data-date-format="yyyy" autocomplete="off" name="year" id="year" class="form-control" placeholder="select year" title='year' required />
                           </div>                  
                           <div class="col-sm-4">
-                              <button type="button" id="btn-filter" class="btn btn-primary">filter</button>
+                              <!-- <button type="button" id="btn-filter" class="btn btn-primary">filter</button> -->
                               <button type="button" id="btn-reset" class="btn btn-default">Reset</button>
                           </div>
                       </div>

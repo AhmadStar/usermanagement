@@ -356,6 +356,6 @@ hr {
     cursor: pointer;
 }
 
-input  , #day , #month , #year{
+input  #daytime , #month , #year , #day , #createdDtm{
     cursor: pointer !important;
 }

@@ -33,7 +33,7 @@
                                     <div class="form-group">
                                         <label for="email">Date and Time</label>    
                                         <div class='input-group date' id='datetimepicker'>
-                                            <input type='text' name="createdDtm" class="form-control" autocomplete="off"/>
+                                            <input type='text' onkeydown="return false" name="createdDtm" id="createdDtm" class="form-control" autocomplete="off"/>
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
