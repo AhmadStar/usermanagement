@@ -355,3 +355,7 @@ hr {
 .log-populate li i {	
     cursor: pointer;
 }
+
+input  , #day , #month , #year{
+    cursor: pointer !important;
+}

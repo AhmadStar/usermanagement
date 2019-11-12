@@ -45,7 +45,7 @@ class Employee_model extends CI_Model {
 			$this->db->where('year(tbl_log.createdDtm)', $year);
 		}		
 		
-		$this->db->select('tbl_log.id, tbl_log.userId, tbl_users.name as userName, tbl_log.createdDtm');
+		$this->db->select('tbl_log.id, tbl_log.userId, tbl_users.name as userName, tbl_log.createdDtm , process');
 		$this->db->from($this->table);
 		$this->db->join('tbl_users', 'tbl_users.userId = tbl_log.userId');
 		$i = 0;

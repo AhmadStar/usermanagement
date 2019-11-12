@@ -59,21 +59,19 @@
               <div class="panel-body">
                   <form id="form-filter" class="form-horizontal filter-body">                    
                       <div class="form-group">
-                          <div class="col-md-3">                        
+                          <div class="col-md-2">                        
                               <?php echo form_dropdown('userName',$employee_list,'',"id='userName' class='form-control'");?>
                           </div>
-                          <div class="col-md-3">
-                              <input type="text" data-date-format="dd" autocomplete="off" name="day" id="day" class="form-control" placeholder="day" title='day' required />
+                          <div class="col-md-2">
+                              <input type="text" onkeydown="return false" data-date-format="dd" autocomplete="off" name="day" id="day" class="form-control" placeholder="select day" title='day' required />
                           </div> 
-                          <div class="col-md-3">
-                              <input type="text" data-date-format="m" autocomplete="off" name="month" id="month" class="form-control" placeholder="month" title='month' required />
+                          <div class="col-md-2">
+                              <input type="text" onkeydown="return false" data-date-format="m" autocomplete="off" name="month" id="month" class="form-control" placeholder="select month" title='month' required />
                           </div> 
-                          <div class="col-md-3">
-                              <input type="text" data-date-format="yyyy" autocomplete="off" name="year" id="year" class="form-control" placeholder="year" title='year' required />
+                          <div class="col-md-2">
+                              <input type="text" onkeydown="return false" data-date-format="yyyy" autocomplete="off" name="year" id="year" class="form-control" placeholder="select year" title='year' required />
                           </div>                  
-                      </div>                                                           
-                      <div class="form-group">
-                          <div class="col-sm-12">
+                          <div class="col-sm-4">
                               <button type="button" id="btn-filter" class="btn btn-primary">filter</button>
                               <button type="button" id="btn-reset" class="btn btn-default">Reset</button>
                           </div>
@@ -144,7 +142,7 @@ $(document).ready(function() {
         "searchable": true,
         "searching": true,
         "bPaginate": true,
-        "bSort" : true,
+        "bSort" : false,
         "bInfo" : true,
 
         // Load data for the table's content from an Ajax source
@@ -155,7 +153,7 @@ $(document).ready(function() {
                 data.day = $('#day').datepicker({ dateFormat: 'dd' , viewMode: "days", minViewMode: "days" }).val();
                 data.month = $('#month').datepicker({ dateFormat: 'm' , viewMode: "months", minViewMode: "months" }).val();                
                 data.year = $('#year').datepicker({ dateFormat: 'yy' ,viewMode: "years", minViewMode: "years"}).val();
-                data.userId = $("#userName  option:selected" ).val();                
+                data.userId = $("#userName  option:selected" ).val();
             },
         },
 

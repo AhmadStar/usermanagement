@@ -45,21 +45,19 @@
               <div class="panel-body">
                   <form id="form-filter" class="form-horizontal filter-body">                    
                       <div class="form-group">
-                          <div class="col-md-3">                        
+                          <div class="col-md-2">                        
                               <?php echo form_dropdown('userName',$user_list,'',"id='userName' class='form-control'");?>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                               <input type="text" data-date-format="dd" autocomplete="off" name="day" id="day" class="form-control" placeholder="day" title='day' required />
                           </div> 
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                               <input type="text" data-date-format="mm" autocomplete="off" name="month" id="month" class="form-control" placeholder="month" title='month' required />
                           </div> 
-                          <div class="col-md-3">
+                          <div class="col-md-2">
                               <input type="text" data-date-format="yyyy" autocomplete="off" name="year" id="year" class="form-control" placeholder="year" title='year' required />
-                          </div>                  
-                      </div>                                                           
-                      <div class="form-group">
-                          <div class="col-sm-12">
+                          </div>                      
+                          <div class="col-sm-4">
                               <button type="button" id="btn-filter" class="btn btn-primary">filter</button>
                               <button type="button" id="btn-reset" class="btn btn-default">Reset</button>
                           </div>
@@ -131,7 +129,7 @@ $(document).ready(function() {
         "searchable": true,
         "searching": true,
         "bPaginate": true,
-        "bSort" : true,
+        "bSort" : false,
         "bInfo" : true,
 
         // Load data for the table's content from an Ajax source
@@ -142,11 +140,7 @@ $(document).ready(function() {
                 data.day = $('#day').datepicker({ dateFormat: 'dd' , viewMode: "days", minViewMode: "days" }).val();
                 data.month = $('#month').datepicker({ dateFormat: 'mm' , viewMode: "months", minViewMode: "months" }).val();                
                 data.year = $('#year').datepicker({ dateFormat: 'yy' ,viewMode: "years", minViewMode: "years"}).val();
-                data.userName = $("#userName  option:selected" ).text();
-                data.userId = "<?php                                        
-                    if($this->session->userdata('userId') === '1') echo '';
-                    else echo $this->session->userdata('userId')                    
-                    ?>";
+                data.userId = $("#userName  option:selected" ).val();
             },
         },
 
@@ -162,8 +156,30 @@ $(document).ready(function() {
     });
 
     $('#btn-filter').click(function(){ //button filter event click
-        table.ajax.reload();  //just reload table        
+        table.ajax.reload();  //just reload table
+        loadTotal();
+    });    
+
+    $("#day").datepicker().on("changeDate", function(e) {
+        table.ajax.reload();  //just reload table
+        loadTotal(); 
+      });
+
+    $("#month").datepicker().on("changeDate", function(e) {
+      table.ajax.reload();  //just reload table
+      loadTotal(); 
     });
+
+    $("#year").datepicker().on("changeDate", function(e) {
+      table.ajax.reload();  //just reload table
+      loadTotal();
+    });
+
+    $( "select" )
+      .change(function () {
+        table.ajax.reload();  //just reload table
+        loadTotal();
+      });
 
     $('#btn-reset').click(function(){ //button reset event click
         $('#form-filter')[0].reset();
