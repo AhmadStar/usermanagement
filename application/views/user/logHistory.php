@@ -264,9 +264,7 @@ $(document).ready(function() {
                 current_month = mydata.month;
               if(mydata.year != '')
                 current_year = mydata.year;
-                
-
-                console.log(current_month);
+                                
             const monthNames = ["","January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"
                   ];
