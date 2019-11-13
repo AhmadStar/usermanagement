@@ -156,13 +156,8 @@ if (!empty($taskInfo)) {
                                         <?php }?>     
 
                                         <div class="mailbox-attachment-info">
-                                            <a href="<?php echo base_url().$image->name; ?>" target="blank" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> <?php ?></a>
-                                            <span class="mailbox-attachment-size">
-                                                <!-- <?php
-                                                    $this->load->helper('file');
-                                                    $file_path =__DIR__.$image->name;
-                                                    $size      = filesize($file_path);
-                                                ?>                                                 -->
+                                            <a href="<?php echo base_url().$image->name; ?>" target="blank" class="mailbox-attachment-name"><i class="fa fa-eye"></i> <?php ?></a>
+                                            <span class="mailbox-attachment-size">                                                
                                                 <a download="<?php echo $image->name ?>" href="<?php echo base_url().$image->name; ?>" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
                                             </span>
                                         </div>
@@ -177,7 +172,7 @@ if (!empty($taskInfo)) {
                             <li class="time-label">
                                 <span class="bg-red">
                                 <?php
-                                echo date("N",strtotime($createdDtm)).' '.
+                                echo date("d",strtotime($createdDtm)).' '.
                                 date("M",strtotime($createdDtm)).'. '.
                                 date("Y",strtotime($createdDtm));                                
                                 ?>
@@ -231,10 +226,16 @@ if (!empty($taskInfo)) {
                             <li class="time-label">
                                 <span class="bg-red">
                                 <?php
-                                $now = new \DateTime('now');
-                                echo $now->format('N').' '.
-                                $now->format('M').'. '.
-                                $now->format('Y');                                
+                                if ($finish_detail) {                                    
+                                    echo date("d",strtotime($endDtm)).' '.
+                                    date("M",strtotime($endDtm)).'. '.
+                                    date("Y",strtotime($endDtm));                                      
+                                } else {
+                                    $date = new \DateTime('now');
+                                    echo $date->format('d').' '.
+                                    $date->format('M').'. '.
+                                    $date->format('Y');  
+                                }                                                              
                                 ?>
                                 </span>
                             </li>
