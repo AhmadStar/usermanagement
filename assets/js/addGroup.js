@@ -53,13 +53,14 @@ $(document).ready(function(){
 			dataType : "json",
 			url : hitURL,
 			data : { groupId : groupId } 
-			}).done(function(data){				
-				if(data.status = true) { 
-					alert("User successfully deleted"); 
-					currentRow.parents('tr').remove();					
-				}
-				else if(data.status = false) { alert("User deletion failed"); }
-				else { alert("Access denied..!"); }
+			}).done(function(data){
+				console.log(data)
+				// if(data.status = true) { 
+				// 	alert("User successfully deleted"); 
+				// 	currentRow.parents('tr').remove();					
+				// }
+				// else if(data.status = false) { alert("User deletion failed"); }				
+				// else if(data.status = 'cant') { alert("can't delete group not empty"); }	
 			});
 		}
 	});

@@ -203,6 +203,21 @@ class User_model extends CI_Model
 
         return $query->result();
     }
+
+
+    /**
+     * This function is used to check whether Group is not empty     
+     * @return {mixed} $result : This is searched result
+     */
+    function checkGroupUsers($groupId)
+    {
+        $this->db->select("id");
+        $this->db->from("user_group");
+        $this->db->where("group_id", $groupId);
+        $query = $this->db->get();
+
+        return $query->result();
+    }
     
     
     /**

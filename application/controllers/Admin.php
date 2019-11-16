@@ -272,13 +272,20 @@ class Admin extends BaseController
     function deleteGroup()
     {
         $groupId = $this->input->post('groupId');        
-        
-        $result = $this->user_model->deleteGroup($groupId);
-        
-        if ($result > 0) {
+                
+        $result = $this->user_model->checkGroupUsers($groupId);
+
+        if(empty($result)){
+            $result = $this->user_model->deleteGroup($groupId);
+            if ($result > 0) {
                 echo(json_encode(array('status'=>TRUE)));
-            }
-        else { echo(json_encode(array('status'=>FALSE))); }
+            }else { echo(json_encode(array('status'=>FALSE))); }
+
+        }else{
+            echo(json_encode(array('status'=>'cant')));
+        }
+
+        
     }
 
     /**
@@ -346,7 +353,7 @@ class Admin extends BaseController
      * This function is used to check whether Group Name already exist or not
      */
     function checkGroupExists()
-    {    
+    {
         $groupId = $this->input->post("groupId");
         $groupName = $this->input->post("groupName");
 
