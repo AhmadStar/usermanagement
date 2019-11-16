@@ -456,6 +456,13 @@ $label = array('' , 'danger','warning','info');
             </li>
 
             <li class="treeview">
+              <a href="<?php echo base_url(); ?>groupListing">
+                <i class="fa fa-group"></i>
+                <span>Groups</span>
+              </a>
+            </li>
+
+            <li class="treeview">
               <a href="<?php echo base_url(); ?>dailylogs">
                 <i class="fa fa-archive"></i>
                 <span>Today Log Records</span>

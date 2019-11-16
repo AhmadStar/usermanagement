@@ -141,10 +141,6 @@ jQuery(document).ready(function(){
 		});
 	});
 
-	// $(document).ajaxSend(function() {
-	// 	$("#overlay").fadeIn(300);
-	// });
-
 	jQuery(document).on("click", ".addbonus", function(){
 			var userId = $(this).data("userid"),
 			userName = $(this).data("name")
@@ -225,9 +221,7 @@ jQuery(document).ready(function(){
 
 	jQuery(document).on("click", ".editTodo", function(){
 		var todoid = $(this).data("todoid");
-		var todotext = $(this).closest('li').find(".text").text();
-
-		// console.log($(this).closest('li').find(".text").text());
+		var todotext = $(this).closest('li').find(".text").text();		
 
 		$("#edit_todo_modal").on("shown.bs.modal", function () {
 			$("#todoid").val(todoid);

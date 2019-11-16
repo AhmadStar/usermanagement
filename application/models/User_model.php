@@ -51,6 +51,47 @@ class User_model extends CI_Model
         return $result;
     }
 
+    /**
+     * This function is used to get the group listing count
+     * @param string $searchText : This is optional search text
+     * @return number $count : This is row count
+     */
+    function groupListingCount($searchText = '')
+    {
+        $this->db->select('*');
+        $this->db->from('groups');
+        if(!empty($searchText)) {
+            $likeCriteria = "(groups.name  LIKE '%".$searchText."%')";
+            $this->db->where($likeCriteria);
+        }
+        $query = $this->db->get();
+        
+        return $query->num_rows();
+    }
+    
+    /**
+     * This function is used to get the gorup listing
+     * @param string $searchText : This is optional search text
+     * @param number $page : This is pagination offset
+     * @param number $segment : This is pagination limit
+     * @return array $result : This is result
+     */
+    function groupListing($searchText = '', $page, $segment)
+    {
+        $this->db->select('*');
+        $this->db->from('groups');
+        if(!empty($searchText)) {
+            $likeCriteria = "(groups.name  LIKE '%".$searchText."%')";
+            $this->db->where($likeCriteria);
+        }
+        $this->db->limit($page, $segment);
+        $query = $this->db->get();
+        
+        $result = $query->result();
+
+        return $result;
+    }
+
 
     public function get_bonus(){
 		$this->db->select('user_id , COUNT(*) as stars');
@@ -144,6 +185,24 @@ class User_model extends CI_Model
 
         return $query->result();
     }
+
+    /**
+     * This function is used to check whether Group name is already exist or not
+     * @param {string} $fname : This is fname     
+     * @return {mixed} $result : This is searched result
+     */
+    function checkGroupExists($groupName, $groupId = 0)
+    {
+        $this->db->select("name");
+        $this->db->from("groups");
+        $this->db->where("name", $groupName);
+        if($groupId != 0){
+            $this->db->where("id !=", $groupId);
+        }
+        $query = $this->db->get();
+
+        return $query->result();
+    }
     
     
     /**
@@ -154,6 +213,23 @@ class User_model extends CI_Model
     {
         $this->db->trans_start();
         $this->db->insert('tbl_users', $userInfo);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
+
+
+    /**
+     * This function is used to add new Group to system
+     * @return number $insert_id : This is last inserted id
+     */
+    function addNewGroup($groupInfo)
+    {
+        $this->db->trans_start();
+        $this->db->insert('groups', $groupInfo);
         
         $insert_id = $this->db->insert_id();
         
@@ -234,6 +310,19 @@ class User_model extends CI_Model
     {
         $this->db->where('userId', $userId);
         $this->db->update('tbl_users', $userInfo);
+        
+        return $this->db->affected_rows();
+    }
+
+    /**
+     * This function is used to delete the Group
+     * @param number $userId : This is group id
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteGroup($groupId)
+    {
+        $this->db->where('id', $groupId);
+        $this->db->delete('groups');
         
         return $this->db->affected_rows();
     }
@@ -362,6 +451,19 @@ class User_model extends CI_Model
     {
         $this->db->where('id', $bonusId);
         $this->db->update('bonus', $bonusInfo);
+        
+        return TRUE;
+    }
+
+    /**
+     * This function is used to update the group data 
+     * @param array $bonusInfo : This is bonus updated information
+     * @param number $userId : This is user id
+     */
+    function editGroup($groupinfo, $groupId)
+    {
+        $this->db->where('id', $groupId);
+        $this->db->update('groups', $groupinfo);
         
         return TRUE;
     }

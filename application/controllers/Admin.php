@@ -63,6 +63,27 @@ class Admin extends BaseController
         $this->loadViews("admin/users", $this->global, $data, NULL);
     }
 
+     /**
+     * This function is used to load the group list
+     */
+    function groupListing()
+    {
+        $searchText = $this->security->xss_clean($this->input->post('searchText'));
+        $data['searchText'] = $searchText;
+        
+        $this->load->library('pagination');
+        
+        $count = $this->user_model->groupListingCount($searchText);
+
+        $returns = $this->paginationCompress ( "groupListing/", $count, 100 );
+        
+        $data['groupRecords'] = $this->user_model->groupListing($searchText, $returns["page"], $returns["segment"]);
+
+        $this->global['pageTitle'] = 'DAS : Group List';
+        
+        $this->loadViews("admin/groups", $this->global, $data, NULL);
+    }
+
     /**
      * This function is used to load the add new form
      */
@@ -244,6 +265,101 @@ class Admin extends BaseController
         else { echo(json_encode(array('status'=>FALSE))); }
     }
 
+     /**
+     * This function is used to delete the Group using groupId
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteGroup()
+    {
+        $groupId = $this->input->post('groupId');        
+        
+        $result = $this->user_model->deleteGroup($groupId);
+        
+        if ($result > 0) {
+                echo(json_encode(array('status'=>TRUE)));
+            }
+        else { echo(json_encode(array('status'=>FALSE))); }
+    }
+
+    /**
+     * This function is used to edit Group
+     * @return boolean $result : TRUE / FALSE
+     */
+    function editGroup()
+    {
+        $groupId = $this->input->post('groupId');
+        $groupName = $this->input->post('groupName');
+        $groupDesc = $this->input->post('groupDesc');
+        $groupinfo = array('name'=>$groupName ,'description'=>$groupDesc);
+        $result = $this->user_model->editGroup($groupinfo , $groupId);
+        
+        if ($result == true) {
+            echo(json_encode(array('status'=>TRUE)));
+            }
+        else {
+            echo(json_encode(array('status'=>FALSE)));
+        }
+    }
+
+    /**
+     * This function is used to add new user to the system
+     */
+    function addNewGroup()
+    {
+        $data[''] = '';
+        $this->global['pageTitle'] = 'DAS : Add Group';
+        if($this->input->post()){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('groupName','Group Name','trim|required|max_length[128]');
+            $this->form_validation->set_rules('desc','Group Description','trim|required');
+            
+            if($this->form_validation->run() == FALSE)
+            {
+                $this->loadViews("admin/addNewGroup", $this->global, $data, NULL);
+            }
+            else
+            {
+                $name = $this->security->xss_clean($this->input->post('groupName'));
+                $desc = $this->security->xss_clean($this->input->post('desc'));
+                
+                $groupInfo = array('name'=>$name, 'description'=>$desc);
+
+                $result = $this->user_model->addNewGroup($groupInfo);
+                
+                if($result > 0)
+                {                
+                    $this->session->set_flashdata('success', 'Group successfully added');
+                }
+                else
+                {
+                    $this->session->set_flashdata('error', 'Group creation failed');
+                }                
+                redirect('addNewGroup');
+            }
+        }else{
+            $this->loadViews("admin/addNewGroup", $this->global, $data, NULL);
+        }
+
+    }
+
+    /**
+     * This function is used to check whether Group Name already exist or not
+     */
+    function checkGroupExists()
+    {    
+        $groupId = $this->input->post("groupId");
+        $groupName = $this->input->post("groupName");
+
+        if(empty($groupId)){
+            $result = $this->user_model->checkGroupExists($groupName);
+        } else {
+            $result = $this->user_model->checkGroupExists($groupName , $groupId);
+        }
+
+
+        if(empty($result)){ echo("true"); }
+        else { echo("false"); }
+    }
 
      /**
      * This function is used to add Bonus the user using userId
