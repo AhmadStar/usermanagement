@@ -10,7 +10,7 @@
       <div class="row">
         <div class="col-xs-12 text-right">
           <div class="form-group">
-            <a class="btn btn-primary addIp" href="#">
+            <a class="btn btn-primary addIp">
               <i class="fa fa-plus"></i> Add Ip</a>
           </div>
         </div>
@@ -66,7 +66,7 @@
                           <?php echo $record->branch ?>
                         </td>                   
                         <td class="text-center">
-                            <a class="btn btn-sm btn-danger deleteIp" href="#" data-ipid="<?php echo $record->id; ?>" title="Delete">
+                            <a class="btn btn-sm btn-danger deleteIp" data-ipid="<?php echo $record->id; ?>" title="Delete">
                               <i class="fa fa-trash"></i>
                             </a>
                         </td>

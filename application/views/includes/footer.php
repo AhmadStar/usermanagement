@@ -21,6 +21,7 @@
 <script type="text/javascript">
     var windowURL = window.location.href;
     pageURL = windowURL.substring(0, windowURL.lastIndexOf('/'));
+    // console.log(pageURL);
     var x = $('a[href="' + pageURL + '"]');
     x.addClass('active');
     x.parent().addClass('active');
@@ -32,6 +33,10 @@
     //
     /** add active class and stay opened when selected */
     var url = window.location;
+    // console.log(url.href);
+    // url.href = "dasdsadasdasdsa";
+
+    // url.href = url.href.replace(/\#/g, ' ');
 
     // for sidebar menu entirely but not cover treeview
     $('ul.sidebar-menu a').filter(function() {

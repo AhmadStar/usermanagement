@@ -128,7 +128,7 @@
                           <a class="btn btn-sm btn-primary" href="<?php echo base_url() . 'editOldTask/' . $record->id; ?>" title="Edit">
                               <i class="fa fa-pencil"></i>
                             </a>
-                            <a class="btn btn-sm btn-danger deleteTask" href="#" data-taskid="<?php echo $record->id; ?>" title="Delete">
+                            <a class="btn btn-sm btn-danger deleteTask" data-taskid="<?php echo $record->id; ?>" title="Delete">
                               <i class="fa fa-trash"></i>
                             </a>    
                         <?php } ?>                      

@@ -109,10 +109,10 @@
                                                     <a class="btn btn-sm btn-info" href="<?php echo base_url() . 'editOld/' . $record->userId; ?>" title="Edit">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
-                                                    <a class="btn btn-sm btn-danger deleteUser" href="#" data-userid="<?php echo $record->userId; ?>" title="Delete">
+                                                    <a class="btn btn-sm btn-danger deleteUser" data-userid="<?php echo $record->userId; ?>" title="Delete">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
-                                                    <a class="btn btn-sm btn-success favourite_icon addbonus" href="#" data-userid="<?php echo $record->userId; ?>" data-name="<?php echo $record->name; ?>" title="Add Bonus">
+                                                    <a class="btn btn-sm btn-success favourite_icon addbonus" data-userid="<?php echo $record->userId; ?>" data-name="<?php echo $record->name; ?>" title="Add Bonus">
                                                         <i class="fa fa-star"></i>
                                                     </a>
                                                 </td>

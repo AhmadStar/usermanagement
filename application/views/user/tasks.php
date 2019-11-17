@@ -158,7 +158,7 @@
                             <a class="btn btn-sm btn-primary" href="<?php echo base_url() . 'editOldTask/' . $record->id; ?>" title="Edit">
                               <i class="fa fa-pencil"></i>
                             </a>
-                            <a class="btn btn-sm btn-danger deleteTask" href="#" data-taskid="<?php echo $record->id; ?>" title="Delete">
+                            <a class="btn btn-sm btn-danger deleteTask" data-taskid="<?php echo $record->id; ?>" title="Delete">
                               <i class="fa fa-trash"></i>
                             </a>
                           <?php } ?>
@@ -166,10 +166,10 @@
                             <i class="fa fa-eye"></i>
                           </a>
                           <?php if ($role !== ROLE_CLIENT && $role !== ROLE_SLAES) { ?>
-                            <a class="btn btn-sm btn-success finishtask" href="#" data-taskid="<?php echo $record->id; ?>" title="End Task">
+                            <a class="btn btn-sm btn-success finishtask" data-taskid="<?php echo $record->id; ?>" title="End Task">
                             <i class="fa fa-check-circle"></i>
                           </a>
-                          <a class="btn btn-sm btn-warning " id="addstage" href="#" data-taskid="<?php echo $record->id; ?>" title="add stage">
+                          <a class="btn btn-sm btn-warning " id="addstage" data-taskid="<?php echo $record->id; ?>" title="add stage">
                             <i class="fa fa-gavel"></i>
                           </a>
                           <?php }?>

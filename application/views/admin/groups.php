@@ -67,14 +67,14 @@
                                                     <?php echo $record->description ?>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-sm btn-info editGroup" href="#" title="Edit"
+                                                    <a class="btn btn-sm btn-info editGroup" title="Edit"
                                                         data-groupname="<?php echo $record->name; ?>"
                                                         data-groupdesc="<?php echo $record->description; ?>"
                                                         data-groupid="<?php echo $record->id; ?>"
                                                     >
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
-                                                    <a class="btn btn-sm btn-danger deleteGroup" href="#" data-groupid="<?php echo $record->id; ?>" title="Delete">
+                                                    <a class="btn btn-sm btn-danger deleteGroup" data-groupid="<?php echo $record->id; ?>" title="Delete">
                                                         <i class="fa fa-trash"></i>
                                                     </a>                                                    
                                                 </td>

@@ -72,7 +72,7 @@
                                 <i class="fa fa-pencil"></i>
                             </a>
                             |
-                            <a class="btn btn-sm btn-danger" id="deleteBonus" href="#" data-bonusid="<?php echo $record->id; ?>" title="Delete">
+                            <a class="btn btn-sm btn-danger" id="deleteBonus" data-bonusid="<?php echo $record->id; ?>" title="Delete">
                                 <i class="fa fa-trash"></i>
                             </a>                            
                         </td>
