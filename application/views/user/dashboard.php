@@ -795,10 +795,6 @@
           <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-bars"></i></button>
           <ul class="dropdown-menu pull-right" role="menu">
-            <li><a href="#">Add new event</a></li>
-            <li><a href="#">Clear events</a></li>
-            <li class="divider"></li>
-            <li><a href="#">View calendar</a></li>
           </ul>
         </div>
         <button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -836,18 +832,21 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="md-form">
-                    <input type="hidden" class="form-control" id="todoid">
-                </div>
-                <div class="md-form">
-                    <input type="text" class="form-control" id="todo-text">
-                </div>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="saveTodo" class="btn btn-primary">Save changes</button>
-            </div>
+            <form role="form" id="editTodo" method="post" role="form">
+              <div class="modal-body">
+                  <div class="md-form">
+                      <input type="hidden" class="form-control" id="todoid">
+                  </div>
+                  <div class="md-form">
+                      <label for="todo-text" class="control-label">Todo text:</label>
+                      <input type="text" class="form-control" name="todoText" id="todo-text">
+                  </div>
+              </div>
+              <div class="modal-footer justify-content-center">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" id="saveTodo" class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
         </div>
     </div>
 </div>
@@ -867,15 +866,18 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="md-form">
-                    <input type="text" class="form-control" id="add-todo-text" placeholder="add todo text">
-                </div>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="addNewTodo" class="btn btn-primary">Save changes</button>
-            </div>
+            <form role="form" id="addTodo" method="post" role="form">
+              <div class="modal-body">
+                  <div class="md-form">
+                      <label for="todo-text" class="control-label">Todo text:</label>
+                      <input type="text" class="form-control" name="todoText" id="add-todo-text" placeholder="add todo text">
+                  </div>
+              </div>
+              <div class="modal-footer justify-content-center">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" id="addNewTodo" class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
         </div>
     </div>
 </div>
@@ -893,8 +895,7 @@ $(document).ready(function(){
             method:"POST",  
             data:{page:page},
             dataType: "json",
-            success:function(data){
-              // console.log(data)
+            success:function(data){              
               $('#pagination_data').html(data['todo_data']);
               $('#pagination_link').html(data['links']);
             }  

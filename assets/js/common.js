@@ -151,24 +151,42 @@ jQuery(document).ready(function(){
 			}).modal('show');
 	});
 
+	var addBonusForm = $("#addBonus");
+	
+	var validator = addBonusForm.validate({
+		
+		rules:{
+			bonusTitle :{ required : true },
+			bonusDesc : { required : true },
+		},
+		messages:{
+			bonusTitle :{ required : "This field is required" },
+			bonusDesc : { required : "This field is required" },			
+		}
+	});
+
 
 	jQuery(document).on("click", "#savebonus", function(){
 		var title = $('#bonus-title').val(),
 		userId = $('#userId').val(),
 		desc = $('#bonus-desc').val();
 		
-		hitURL = baseURL + "addbonus",
-		jQuery.ajax({
-		type : "POST",
-		dataType : "json",
-		url : hitURL,
-		data : { title : title , userId : userId , desc : desc } 
-		}).done(function(data){			
-			if(data.status = true) { alert("successfully bonus added"); }
-			else if(data.status = false) { alert("Failed add bonus"); }
-			else { alert("Access denied..!"); }
-			location.reload(true);
-		});
+		if($("#addBonus").validate().form()){
+			hitURL = baseURL + "addbonus",
+			jQuery.ajax({
+			type : "POST",
+			dataType : "json",
+			url : hitURL,
+			data : { title : title , userId : userId , desc : desc } 
+			}).done(function(data){			
+				if(data.status = true) { alert("successfully bonus added"); }
+				else if(data.status = false) { alert("Failed add bonus"); }
+				else { alert("Access denied..!"); }
+				location.reload(true);
+			});
+		}else{
+
+		}
 	});
 
 	jQuery(document).on("click", "#deleteBonus", function(){
@@ -194,6 +212,31 @@ jQuery(document).ready(function(){
 		}
 	});
 
+	var addTodoForm = $("#addTodo");
+	
+	var validator = addTodoForm.validate({
+		
+		rules:{
+			todoText :{ required : true },
+		},
+		messages:{
+			todoText :{ required : "This field is required" },
+		}
+	});
+
+	var editTodoForm = $("#editTodo");
+	
+	var validator = editTodoForm.validate({
+		
+		rules:{
+			todoText :{ required : true },
+		},
+		messages:{
+			todoText :{ required : "This field is required" },
+		}
+	});
+
+
 	jQuery(document).on("click", ".addTodo", function(){
 		$("#add_todo_modal").on("shown.bs.modal", function () {
 
@@ -201,22 +244,22 @@ jQuery(document).ready(function(){
 	});
 
 	jQuery(document).on("click", "#addNewTodo", function(){
-		var text = $('#add-todo-text').val();					
+		var text = $('#add-todo-text').val();		
 
-		console.log(text);
-
-		hitURL = baseURL + "addTodo",
-		jQuery.ajax({
-		type : "POST",
-		dataType : "json",
-		url : hitURL,
-		data : {text : text} 
-		}).done(function(data){			
-			if(data.status = true) { alert("successfully added"); }
-			else if(data.status = false) { alert("Failed add todo"); }
-			else { alert("Access denied..!"); }
-			location.reload(true);
-		});
+		if($("#addTodo").validate().form()){
+			hitURL = baseURL + "addTodo",
+			jQuery.ajax({
+			type : "POST",
+			dataType : "json",
+			url : hitURL,
+			data : {text : text} 
+			}).done(function(data){			
+				if(data.status = true) { alert("successfully added"); }
+				else if(data.status = false) { alert("Failed add todo"); }
+				else { alert("Access denied..!"); }
+				location.reload(true);
+			});
+		}
 	});
 
 	jQuery(document).on("click", ".editTodo", function(){
@@ -233,18 +276,20 @@ jQuery(document).ready(function(){
 		var text = $('#todo-text').val(),
 		todoid = $('#todoid').val();				
 
-		hitURL = baseURL + "editTodo",
-		jQuery.ajax({
-		type : "POST",
-		dataType : "json",
-		url : hitURL,
-		data : { todoid : todoid , text : text } 
-		}).done(function(data){			
-			if(data.status = true) { alert("successfully edited"); }
-			else if(data.status = false) { alert("Failed edit todo"); }
-			else { alert("Access denied..!"); }
-			location.reload(true);
-		});
+		if($("#editTodo").validate().form()){
+			hitURL = baseURL + "editTodo",
+			jQuery.ajax({
+			type : "POST",
+			dataType : "json",
+			url : hitURL,
+			data : { todoid : todoid , text : text } 
+			}).done(function(data){			
+				if(data.status = true) { alert("successfully edited"); }
+				else if(data.status = false) { alert("Failed edit todo"); }
+				else { alert("Access denied..!"); }
+				location.reload(true);
+			});
+	}
 	});
 
 	jQuery(document).on("click", ".deleteTodo", function(){

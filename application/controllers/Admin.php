@@ -278,11 +278,11 @@ class Admin extends BaseController
         if(empty($result)){
             $result = $this->user_model->deleteGroup($groupId);
             if ($result > 0) {
-                echo(json_encode(array('status'=>TRUE)));
-            }else { echo(json_encode(array('status'=>FALSE))); }
+                echo(json_encode(array('result'=>'TRUE')));
+            }else { echo(json_encode(array('result'=>'FALSE'))); }
 
         }else{
-            echo(json_encode(array('status'=>'cant')));
+            echo(json_encode(array('result'=>'Error')));
         }
 
         

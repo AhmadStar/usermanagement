@@ -145,17 +145,21 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="md-form">
-                    <input type="hidden" class="form-control" id="userId">
+            <form role="form" id="addBonus" method="post" role="form">
+                <div class="modal-body">
+                    <div class="md-form">
+                        <input type="hidden" class="form-control" id="userId">
+                    </div>
+                    <div class="md-form">
+                        <label for="bonus-title" class="control-label">Title:</label>
+                        <input type="text" class="form-control" name="bonusTitle" id="bonus-title" placeholder="Bonus Title">
+                    </div>
+                    <div class="md-form">
+                        <label for="bonus-desc" class="control-label">Description:</label>
+                        <textarea type="text" name="bonusDesc" id="bonus-desc" class="form-control md-textarea" placeholder="Description" rows="3"></textarea>
+                    </div>
                 </div>
-                <div class="md-form">
-                    <input type="text" class="form-control" id="bonus-title" placeholder="Bonus Title">
-                </div>
-                <div class="md-form">
-                    <textarea type="text" id="bonus-desc" class="form-control md-textarea" placeholder="Description" rows="3"></textarea>
-                </div>
-            </div>
+            </form>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" id="savebonus" class="btn btn-primary">Save changes</button>

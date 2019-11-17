@@ -1,7 +1,7 @@
 /**
- * File : addUser.js
+ * File : addGroup.js
  * 
- * This file contain the validation of add user form
+ * This file contain the validation of add Group form
  * 
  * Using validation plugin : jquery.validate.js
  * 
@@ -55,12 +55,12 @@ $(document).ready(function(){
 			data : { groupId : groupId } 
 			}).done(function(data){
 				console.log(data)
-				// if(data.status = true) { 
-				// 	alert("User successfully deleted"); 
-				// 	currentRow.parents('tr').remove();					
-				// }
-				// else if(data.status = false) { alert("User deletion failed"); }				
-				// else if(data.status = 'cant') { alert("can't delete group not empty"); }	
+				if(data.result == 'TRUE') { 
+					alert("Group successfully deleted"); 
+					currentRow.parents('tr').remove();					
+				}else if(data.result == 'Error') { 
+					alert("Group Not empty, u can't delete it."); 
+				}else if(data.result == 'FALSE') { alert("Group deletion failed"); }				
 			});
 		}
 	});

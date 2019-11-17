@@ -45,10 +45,10 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th>id</th>
-                                        <th>name</th>
-                                        <th>desc</th>
-                                        <th>actions</th>
+                                        <!-- <th>id</th> -->
+                                        <th>Group Name</th>
+                                        <th>Group Description</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,9 +57,9 @@
                                         foreach ($groupRecords as $record) {
                                             ?>
                                             <tr>
-                                                <td class="text-center">
+                                                <!-- <td class="text-center">
                                                     <?php echo $record->id ?>
-                                                </td>
+                                                </td> -->
                                                 <td>
                                                     <?php echo $record->name ?>
                                                 </td>
@@ -114,9 +114,11 @@
                         <input type="hidden" class="form-control" name="groupId" id="groupId">
                     </div>
                     <div class="md-form">
+                        <label for="group-name" class="control-label">Group Name:</label>
                         <input type="text" class="form-control" name="groupName"  id="groupName">
                     </div>
                     <div class="md-form">
+                        <label for="group-Desc" class="control-label">Group Description:</label>
                         <textarea type="text" id="groupDesc" name="groupDesc"  class="form-control md-textarea" placeholder="Description" rows="3"></textarea>
                     </div>
                 </div>
