@@ -102,12 +102,15 @@ class Login extends BaseController
                 foreach ($result as $res)
                 {
                     $lastLogin = $this->login_model->lastLoginInfo($res->userId);
-                    
+                    $ipList = $this->login_model->ipAddresses($res->userId);
+                    $ipValues = array();
+                    foreach($ipList as $record)
+                        array_push($ipValues , $record['ip']);
                     $process = 'Login';
                     $processFunction = 'Login/loginMe';
 
                     // if work type == 1 check if it login from the office                     
-                    if($res->workType == 1 && $_SERVER['REMOTE_ADDR'] != '212.156.244.42'){
+                    if($res->workType == OFFICE_WORK && in_array($_SERVER['REMOTE_ADDR'] , $ipValues)){
                         $this->session->set_flashdata('error', 'you should login from office only');
                         redirect('/login');
                     }

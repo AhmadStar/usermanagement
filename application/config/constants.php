@@ -97,6 +97,10 @@ define('GROUP_WEB_DESIGN',                            '1');
 define('GROUP_WEB_DEVELOPMENT',                         	'2');
 define('GROUP_GRAPHIC_DESIGN',                         '3');
 
+
+define('OFFICE_WORK',                         '1');
+define('REMOTE',                         '2');
+
 define('SEGMENT',								2);
 
 /************************** EMAIL CONSTANTS *****************************/

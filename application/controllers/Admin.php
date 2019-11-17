@@ -388,6 +388,42 @@ class Admin extends BaseController
     }
 
     /**
+     * This function is used to add Ip.
+     */
+    function addIp()
+    {
+        $ip = $this->input->post('ip');
+        $branch = $this->input->post('branch');
+
+        $ipInfo = array( 'ip' => $ip ,
+                           'branch' => $branch);
+        
+        $result = $this->user_model->saveIp($ipInfo);
+        
+        if($result > 0 ){            
+            echo(json_encode(array('status'=>TRUE)));
+        }else{
+            echo(json_encode(array('status'=>FALSE)));
+        }
+    }
+
+    /**
+     * This function is used to delete ip
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteIp()
+    {
+        $ipid = $this->input->post('ipid');        
+        
+        $result = $this->user_model->deleteIp($ipid);
+        
+        if ($result > 0) {
+                echo(json_encode(array('status'=>TRUE)));
+            }
+        else { echo(json_encode(array('status'=>FALSE))); }
+    }
+
+    /**
      * This function used to show specific user Bonus
      * @param number $userId : This is user id
      */
@@ -400,6 +436,19 @@ class Admin extends BaseController
         $this->global['pageTitle'] = 'DAS : User Bonus';
         
         $this->loadViews("user/userBonus", $this->global, $data, NULL);      
+    }
+
+    /**
+     * This function is used to open the tasks page
+     */
+    function companyIpList()
+    {
+        $data['ipRecords'] = $this->user_model->getIpList();
+                
+        $this->global['pageTitle'] = 'DAS : Ip List';
+        
+        
+        $this->loadViews("admin/companyIpList", $this->global, $data, NULL);
     }
 
     /**

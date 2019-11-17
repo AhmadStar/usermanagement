@@ -356,6 +356,19 @@ class User_model extends CI_Model
     }
 
     /**
+     * This function is used to delete ip address 
+     * @param number $todoid : This is ip id
+     * @return boolean $result : TRUE / FALSE
+     */
+    function deleteIp($ipid)
+    {
+        $this->db->where('id', $ipid);
+        $this->db->delete('ip_list');
+        
+        return $this->db->affected_rows();
+    }
+
+    /**
      * This function is used to delete log record
      * @param number $logid : This is log record id
      * @return boolean $result : TRUE / FALSE
@@ -794,6 +807,18 @@ class User_model extends CI_Model
         $this->db->where('TaskTbl.statusId', 1);
         if($group != '')
             $this->db->where('group_id', $group);
+        $query = $this->db->get();
+        $result = $query->result();        
+        return $result;
+    }
+
+    /**
+     * This function is used to get tasks
+     */
+    function getIpList()
+    {
+        $this->db->select('*');
+        $this->db->from('ip_list');
         $query = $this->db->get();
         $result = $query->result();        
         return $result;
@@ -1284,6 +1309,21 @@ class User_model extends CI_Model
     {
         $this->db->trans_start();
         $this->db->insert('todo', $todoInfo);
+        
+        $insert_id = $this->db->insert_id();
+        
+        $this->db->trans_complete();
+        
+        return $insert_id;
+    }
+
+    /**
+     * This function is used to add user todo item.
+     */
+    function saveIp($ipInfo)
+    {
+        $this->db->trans_start();
+        $this->db->insert('ip_list', $ipInfo);
         
         $insert_id = $this->db->insert_id();
         

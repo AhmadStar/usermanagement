@@ -156,6 +156,19 @@ class Login_model extends CI_Model
 
         return $query->row();
     }
+
+    /**
+     * This function is used to get company ap addresses     
+     * @return number $result : This is query result
+     */
+    function ipAddresses()
+    {
+        $this->db->select('ip');
+        $this->db->from('ip_list');        
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
 }
 
 ?>

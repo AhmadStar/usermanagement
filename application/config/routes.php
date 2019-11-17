@@ -45,6 +45,9 @@ $route['checkGroupExists'] = "admin/checkGroupExists";
 $route['maintainUsersLogs'] = "admin/maintainUsersLogs";
 $route['usersLogs'] = "admin/usersLogs";
 $route['deleteLogRecord'] = "admin/deleteLogRecord";
+$route['companyIpList'] = "admin/companyIpList";
+$route['addIp'] = "admin/addIp";
+$route['deleteIp'] = "admin/deleteIp";
 
 /*********** MANAGER CONTROLLER ROUTES *******************/
 $route['addNewTask'] = "manager/addNewTask";

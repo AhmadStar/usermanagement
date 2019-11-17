@@ -527,6 +527,12 @@ $label = array('' , 'danger','warning','info');
                     <i class="fa fa-archive"></i>
                     <span>Log History Backup</span>
                   </a>
+                </li>  
+                <li class="treeview">
+                  <a href="<?php echo base_url(); ?>companyIpList">
+                    <i class="fa fa-archive"></i>
+                    <span>Company Ip List</span>
+                  </a>
                 </li>              
             </ul>
           </li>
